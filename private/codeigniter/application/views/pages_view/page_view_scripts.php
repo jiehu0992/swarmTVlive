@@ -20,12 +20,6 @@
 		$('#page_info_form_triger').click(function(){
 			$('#page_info_form').toggleClass('hidden');
 		});
-		// animate color of page_info_trigger
-		$('#page_info_form_triger').hover(function(){
-			$(this).animate({ 'background-color': '#666' });
-		}, function(){
-			$(this).animate({ 'background-color': '#333' });
-		});
 		
 		// Work around for linking with special chars
 		$('.text-content a').click(function(e){

@@ -159,12 +159,12 @@ body,html{
 a#main_home_button{
 	display:block;
 	height:30px;
-	width:100px;
+	width:160px;
 	position:fixed;
 	left:20px;
 	bottom:20px;
-	background-image:url(../img/home.png);
-	background-position:0px -75px;
+	background-image:url(../img/swarmLogo.png);
+	background-position:0px -70px;
 	text-align:center;
 	padding-top:45px;
 	color:#ccc;
@@ -179,7 +179,6 @@ a#main_home_button:hover{
 	font-size:15px;
 	padding:5px;
 	margin:0px;
-	/*border: 1px red solid;*/
 }
 #page_info_form_wrap{
 	width:300px;
@@ -187,11 +186,11 @@ a#main_home_button:hover{
 	left:10px;
 	top:10px;
 	z-index:2;
-	background-color:#999;
-	border:1px #fff solid;
+	background-color:transparent;
 }
 #page_info_form_triger{
-	background-color:#333;
+	padding:10px;
+	background-color:transparent;
 	width:100%;
 }
 #page_info_form{
@@ -201,7 +200,14 @@ a#main_home_button:hover{
 	margin:0px;
 	padding:0px;
 }
+#page_info_form_triger:hover {
+	cursor:hand; cursor:pointer;
+	border-width:1px;
+	border-color:#ccc;
+	border-style:dashed;
+}
 #page_description{
+	color:#999;
 	margin:0px;
 	padding:0px;
 }
