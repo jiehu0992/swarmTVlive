@@ -22,6 +22,21 @@ textarea {
     color: #222;
 }
 
+A:link {color:#66c; font-weight:bold; text-decoration:none;}
+
+A:visited {color:#339; font-weight:bold; text-decoration:none;}
+
+A:hover {color:#99f; font-weight:bold; text-decoration:none;}
+
+A:active {text-decoration:none;}
+
+a.navbar:link {color:#66c; text-decoration:none; font-weight: bold;}
+
+a.navbar:visited {color:#339; text-decoration:none; font-weight: bold;}
+
+a.navbar:hover {color:#99f; text-decoration:none; font-weight:bold;}
+
+
 body {
 	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
     font-size: 1em;
@@ -40,6 +55,15 @@ body {
 	z-index:1;
 	color:#ccc;
 	padding:2em;
+}
+
+
+div.element:hover {
+	cursor:hand; cursor:pointer;
+	border-width:1px;
+	border-color:#ccc;
+	border-radius:10px;
+	border-style:dashed;
 }
 
 /*
