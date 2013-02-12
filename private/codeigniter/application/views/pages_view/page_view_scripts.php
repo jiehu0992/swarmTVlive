@@ -23,11 +23,14 @@
 		
 		// Work around for linking with special chars
 		$('.text-content a').click(function(e){
-			e.preventDefault();
 			
 			var location = $(this).attr('href');
 			
-			window.location.href = base_url + "index.php/pages/view/" +location;
+			if(location.indexOf('http://') > 0)
+			{
+				e.preventDefault();
+				window.location.href = base_url + "index.php/pages/view/" +location;
+			}
 		});
 		
 		// Ajax submit for updating page info 
@@ -128,15 +131,13 @@
 		$('#submit_element').click(function(e){
 			e.preventDefault();
 			
+			// get all the form values
 			var element_file = $('#element_file').get(0).files[0];
 			var element_description = $('#element_description').val();
 			var pages_id = $('input[name="pages_id"]').val();
 			var x = $('input[name="x"]').val();
 			var y = $('input[name="y"]').val();
 			 
-			var linkString = checkForLinks(element_description);
-			console.log(linkString);
-			
 			// AJAX to server
 			var uri = base_url + "index.php/elements/add";
 			var xhr = new XMLHttpRequest();
@@ -168,7 +169,7 @@
 			fd.append('pages_id', pages_id);
 			fd.append('x', x);
 			fd.append('y', y);
-			if (linkString != null) fd.append('linkPageIds', linkString);
+			
 			// Initiate a multipart/form-data upload
 			xhr.send(fd);
 			
@@ -342,7 +343,7 @@
 	{
 		//console.log( page_elements_json[index].description);
 		// display the content not the description
-		$(elm).append( '<div class="text-content">' + page_elements_json[index].contents + '</span>'); 
+		$(elm).append( '<div class="text-content">' + htmlDecode(page_elements_json[index].contents) + '</span>'); 
 	}
 	
 	// ----------------------------------------------- IMAGE
@@ -403,34 +404,14 @@
 		});
 	}
 	
+	// 
 	function htmlDecode(input){
 	  var e = document.createElement('div');
 	  e.innerHTML = input;
 	  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 	}
 	
-	function checkForLinks(text)
-	{
-		var linkRegEx = /[a-zA-Z0-9_ ]+(?=\]\])/g;
-		
-		// check for matches
-		var matches = text.match( linkRegEx );
-		//console.log(matches);
-		var matchString = "";
-		
-		if (matches != null)
-		{
-			for (var i = 0; i < matches.length; i++)
-			{
-				matchString+= "-" + matches[i];
-			}
-			return matchString;
-		}else
-		{
-			return null;
-		}
-	}
-	
+	// create the display content with links
 	function processShortCodes(string){
 
 		while(string.indexOf('[[') > 0)

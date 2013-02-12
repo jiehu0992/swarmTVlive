@@ -93,7 +93,7 @@ class Links_model extends CI_Model {
 	}
 	
 	// one function to encapsulate the 3 steps to processing links
-	// later on consider adding delete all links from element id function
+	// 
 	function process_links($string, $pages_title, $elements_id)
 	{
 		// break up the parts of the description
