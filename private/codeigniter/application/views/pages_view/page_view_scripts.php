@@ -355,13 +355,29 @@
 	// ----------------------------------------------- AUDIO
 	function initAudio(elm, index)
 	{
-		var audio_element = $('<audio controls><source src="' + base_url + 'assets/audio/' + page_elements_json[index].filename + '" type="audio/mpeg"></audio>');
+		var filename_NoExt = page_elements_json[index].filename.split('.');
+		var audio_html = '<audio controls preload="none" style="width:320px">';
+		audio_html = audio_html + '<source src="' + base_url + 'assets/audio/' + filename_NoExt[0] + '.mp3" type="audio/mpeg">';
+		audio_html = audio_html + '<source src="' + base_url + 'assets/audio/' + filename_NoExt[0] + '.oga" type="audio/ogg">';
+		audio_html = audio_html + '</audio>';	
+		audio_html = audio_html + '<p><strong>Download Audio: </strong><a href="' + base_url + 'assets/audio/' + filename_NoExt[0] + '.mp3">MP3</a></p>';
+		
+		var audio_element = $(audio_html);
 		$(elm).append(audio_element);
 	}
-	// ----------------------------------------------- MOVIE
+	// ----------------------------------------------- VIDEO
 	function initVideo(elm, index)
 	{
-		var video_element = $('<video width="100%" height="100%" controls><source src="' + base_url + 'assets/video/' + page_elements_json[index].filename + '" type="video/mp4"></video>');
+		var filename_NoExt = page_elements_json[index].filename.split('.');
+		var video_html = '<video width="100%" height="100%" controls preload="auto">';
+		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4" type="video/mp4">';
+		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.webm" type="video/webm">';
+		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.ogv" type="video/ogv">';
+		video_html = video_html + '<object width="100%" height="100%"> <param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=http://www.ucfmediacentre.co.uk/swarmtv/assets/video/' + filename_NoExt[0] + '.mp4"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="100%" height="100%" flashvars="src=http://www.ucfmediacentre.co.uk/swarmtv/assets/video/' + filename_NoExt[0] + '.mp4"></embed></object>';
+		video_html = video_html + '</video>';
+		video_html = video_html + '<p><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';
+		var video_element = $(video_html);
+		
 		$(elm).append(video_element);
 	}
 	
