@@ -341,9 +341,9 @@
 	// ----------------------------------------------- TEXT
 	function initText(elm, index)
 	{
-		//console.log( page_elements_json[index].description);
+		console.log( page_elements_json[index].contents);
 		// display the content not the description
-		$(elm).append( '<div class="text-content">' + htmlDecode(page_elements_json[index].contents) + '</span>'); 
+		$(elm).append( '<div class="text-content">' + page_elements_json[index].contents + '</span>'); 
 	}
 	
 	// ----------------------------------------------- IMAGE
