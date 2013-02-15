@@ -1,5 +1,5 @@
-# humanstxt.org/
-# The humans responsible & technology colophon
+# swarmtv.org/
+# Collaborative, open & Non-hierarchical thinking tool
 
 # TEAM
 
@@ -9,7 +9,7 @@
 
     <name>
 
-# TECHNOLOGY COLOPHON
+# SWARM TV
 
     HTML5, CSS3
     jQuery, Modernizr
