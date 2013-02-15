@@ -13,7 +13,7 @@
 		padding:0px;
 		overflow:hidden;
 		background-image:url(../css/img/default_background.jpg);
-		background-color:#000033;
+		background-color:#000022;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
