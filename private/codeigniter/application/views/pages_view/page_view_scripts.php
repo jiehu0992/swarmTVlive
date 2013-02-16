@@ -372,7 +372,7 @@
 		var video_html = '<video width="100%" height="100%" controls preload="auto">';
 		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4" type="video/mp4">';
 		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.webm" type="video/webm">';
-		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.ogv" type="video/ogv">';
+		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.ogv" type="video/ogg">';
 		video_html = video_html + '<object width="100%" height="100%"> <param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=http://www.ucfmediacentre.co.uk/swarmtv/assets/video/' + filename_NoExt[0] + '.mp4"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="100%" height="100%" flashvars="src=http://www.ucfmediacentre.co.uk/swarmtv/assets/video/' + filename_NoExt[0] + '.mp4"></embed></object>';
 		video_html = video_html + '</video>';
 		video_html = video_html + '<p><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';
