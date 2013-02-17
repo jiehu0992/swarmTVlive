@@ -234,7 +234,7 @@ class Elements_model extends CI_Model {
 		//create array to insert into updates table
 		$updates_data = array(
 		   'title' => 'New '.$this->data['type'].' was created' ,
-		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/pages/view/'.$pages_title ,
+		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/'.$pages_title ,
 		   'description' => json_encode($this->data) ,
 		   'elements_id' => $element_id ,
 		   'pages_id' => $this->data['pages_id']
