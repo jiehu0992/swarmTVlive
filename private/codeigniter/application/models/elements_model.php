@@ -125,7 +125,7 @@ class Elements_model extends CI_Model {
 	{	 
 		// Consider creating a folder every new month so that elements are easier to find? 
 		// construct the location from the data
-		$folder_from_mime_type = $this->excepted_mime_types[$this->current_mime_type_index][1];  // image / audio / movie folder
+		$folder_from_mime_type = $this->excepted_mime_types[$this->current_mime_type_index][1];  // image / audio / video folder
 		$uploads_dir = base_url() . 'assets/' . $folder_from_mime_type . '/';
 		
 		$extension = pathinfo($_FILES['file']['name'], PATHINFO_EXTENSION);
@@ -193,7 +193,7 @@ class Elements_model extends CI_Model {
 			$x = $post_data['x'];
 			$y = $post_data['y'];
 			
-			echo $x . ' ' . $y;
+			//echo $x . ' ' . $y;
 			// check x and y are integers
 			if (filter_var($x, FILTER_VALIDATE_INT) && filter_var($x, FILTER_VALIDATE_INT))
 			{
@@ -224,27 +224,13 @@ class Elements_model extends CI_Model {
 		} 
 		
 		//save the new element id 
-		$element_id = $this->db->insert_id();
-		
-		//get page title
-		$this->load->model('Pages_model');
-		$pages_title = $this->Pages_model->get_title($this->data['pages_id']);
-		$this->data['id'] = $element_id;
-		
-		//create array to insert into updates table
-		$updates_data = array(
-		   'title' => 'New '.$this->data['type'].' was created' ,
-		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/'.$pages_title ,
-		   'description' => json_encode($this->data) ,
-		   'elements_id' => $element_id ,
-		   'pages_id' => $this->data['pages_id']
-		);
-		
-		//insert new record into into updates table
-		$this->db->insert('updates', $updates_data); 
+		$elements_id = $this->db->insert_id();
+		$update_elements_id = $elements_id;
+		$update_title = 'Created ';
+		$this->create_update($update_title, $update_elements_id);
 		
 		//having saved new update, return new element id from elements table
-   		return $element_id;
+   		return $elements_id;
 	}
 	
 	function update_description($id, $description)
@@ -253,6 +239,28 @@ class Elements_model extends CI_Model {
 
 		$this->db->where('id', $id);
 		$this->db->update('elements', $data); 
+		
+	}
+	
+	function create_update($title, $elements_id)
+	{
+		//get element data from elements_id provided
+		$this->load->model('Elements_model');
+		$element = $this->get_element_by_id($elements_id);
+		$this->load->model('Pages_model');
+		$pages_title = $this->Pages_model->get_title($element->pages_id);
+		
+		//create array to insert into updates table
+		$updates_data = array(
+		   'title' => $title.$element->type ,
+		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/'.$pages_title ,
+		   'description' => json_encode($element) ,
+		   'elements_id' => $elements_id ,
+		   'pages_id' => $element->pages_id
+		);
+		
+		//insert new record into into updates table
+		$this->db->insert('updates', $updates_data); 
 	}
 	
 	function update_contents($id, $contents)
@@ -260,7 +268,13 @@ class Elements_model extends CI_Model {
 		$data = array( 'contents' => $contents);
 
 		$this->db->where('id', $id);
-		$this->db->update('elements', $data); 
+		$this->db->update('elements', $data);
+		
+		//create new record for updates table
+		$update_elements_id = $id;
+		$update_title = 'Revised ';
+		$this->create_update($update_title, $update_elements_id);
+		
 	}
 	
 	// clean up your mess mr parker... no file left behind
@@ -271,10 +285,10 @@ class Elements_model extends CI_Model {
 	
 	// 
 	public function update_element()
-    {
-    	// get the post data
-    	$post_data = $this->input->post();
-    	print_r($post_data);
+	{
+		// get the post data
+		$post_data = $this->input->post();
+		//print_r($post_data);
    		$id = $this->input->post('id');
 
 		if ($this->input->post('contents'))
@@ -293,7 +307,13 @@ class Elements_model extends CI_Model {
 		
 		$this->db->where('id', $id);
 		
-		$this->db->update('elements', $post_data); 
+		$this->db->update('elements', $post_data);
+		
+		//create new record for updates table
+		$update_elements_id = $id;
+		$update_title = 'Revised ';
+		$this->create_update($update_title, $update_elements_id);
+		
 		return $this->db->affected_rows();
    	}
    
@@ -327,17 +347,23 @@ class Elements_model extends CI_Model {
 	public function delete($id)
 	{
 		$element = $this->get_element_by_id($id);
+		
 		// delete all links for this element
 		$this->load->model('Links_model');
 		$this->Links_model->delete_links_by_element_id($id);
 		
 		// create a new element in the deleted_elements **** make sure to add the old ID field
-		unlink($element->id);
+		//unlink($element->id);?? What does this do ??
 		$this->db->insert('deleted_elements', $element);
 		
-		// delete element
-		$this->db->delete('elements', array('id' => $id)); 
+		//create new record for updates table before it is deleted
+		$update_elements_id = $id;
+		$update_title = 'Deleted ';
+		$this->create_update($update_title, $update_elements_id);
 		
+		// delete element
+		$this->db->delete('elements', array('id' => $id));
+				
 		
 	}
 }

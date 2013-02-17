@@ -82,10 +82,7 @@
 				$(this).draggable({ disabled: true });
 				
 				// listen for when the user shifts focus out of the box
-				$(this).bind('focusout', updateTextElementContent);
-				
-				// callback for focus out
-				function updateTextElementContent()
+				$(this).bind('focusout', function(updateTextElementContent)
 				{
 					$(this).find('.delete_button').fadeOut();
 					// remove the event
@@ -119,11 +116,10 @@
 					var new_contents = $(content_container).html();
 					// send to database
 					updateElement(link_id, 'text-content', new_contents);
-					//console.log(processShortCodes(new_contents));
 					// update the element with the links
 					$(content_container).html(processShortCodes(new_contents));
 					
-				}
+				});
 			}
 		});
 		
@@ -341,7 +337,6 @@
 	// ----------------------------------------------- TEXT
 	function initText(elm, index)
 	{
-		console.log( page_elements_json[index].contents);
 		// display the content not the description
 		$(elm).append( '<div class="text-content">' + page_elements_json[index].contents + '</span>'); 
 	}
