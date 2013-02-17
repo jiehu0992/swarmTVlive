@@ -172,6 +172,7 @@ class Elements_model extends CI_Model {
 			$contents = htmlspecialchars($contents, ENT_QUOTES);
 			
 			$this->data['contents'] = $contents;
+			$this->data['type'] = 'text';
 		}
 		
 		// check pages_id
@@ -221,7 +222,29 @@ class Elements_model extends CI_Model {
 			return false;
 			exit;
 		} 
-   		return $this->db->insert_id();
+		
+		//save the new element id 
+		$element_id = $this->db->insert_id();
+		
+		//get page title
+		$this->load->model('Pages_model');
+		$pages_title = $this->Pages_model->get_title($this->data['pages_id']);
+		$this->data['id'] = $element_id;
+		
+		//create array to insert into updates table
+		$updates_data = array(
+		   'title' => 'New '.$this->data['type'].' was created' ,
+		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/pages/view/'.$pages_title ,
+		   'description' => json_encode($this->data) ,
+		   'elements_id' => $element_id ,
+		   'pages_id' => $this->data['pages_id']
+		);
+		
+		//insert new record into into updates table
+		$this->db->insert('updates', $updates_data); 
+		
+		//having saved new update, return new element id from elements table
+   		return $element_id;
 	}
 	
 	function update_description($id, $description)
