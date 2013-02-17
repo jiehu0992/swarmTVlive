@@ -9,8 +9,8 @@
 /* ==========================================================================
    Base styles: opinionated defaults
    ========================================================================== */
-* {
-     -moz-user-select: none; // mozilla browsers
+ {
+     /*-moz-user-select: none; // mozilla browsers*/
      -khtml-user-select: none; // webkit browsers
 }
 

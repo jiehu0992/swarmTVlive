@@ -338,7 +338,7 @@
 	function initText(elm, index)
 	{
 		// display the content not the description
-		$(elm).append( '<div class="text-content">' + page_elements_json[index].contents + '</span>'); 
+		$(elm).append('<div class="text-content">' + page_elements_json[index].contents + '</div>');
 	}
 	
 	// ----------------------------------------------- IMAGE

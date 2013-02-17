@@ -21,7 +21,7 @@
         <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>-->
         <script src="<?php echo base_url(); ?>js/vendor/jquery-1.8.3.min.js"></script>
         <script type="text/javascript" src="<?php echo base_url(); ?>libraries/jquery-ui-1.9.2.custom/js/jquery-ui-1.9.2.custom.min.js"></script>
-		<script src="<?php echo base_url(); ?>js/vendor/jquery.ui.touch-punch.min.js"></script>
+	<script src="<?php echo base_url(); ?>js/vendor/jquery.ui.touch-punch.min.js"></script>
         <script src="<?php echo base_url(); ?>js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
