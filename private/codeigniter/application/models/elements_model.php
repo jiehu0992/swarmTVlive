@@ -247,6 +247,27 @@ class Elements_model extends CI_Model {
 		//get element data from elements_id provided
 		$this->load->model('Elements_model');
 		$element = $this->get_element_by_id($elements_id);
+		switch ($element->type) {
+                    case 'text':
+                        //set description as the element displayed and then json array
+                        //restore links in content
+                        $this->load->model('Links_model');
+                        // break up the parts of the contents
+                        $break_apart_contents = $this->Links_model->parse_string_for_links($element->contents);
+                        // piece the content back together with the html links embedded
+                        $processed_contents = $this->Links_model->insert_links($break_apart_contents);
+                        $description = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div><br /><br />'.json_encode($element);
+                        break;
+                    case 'image':
+                        $description = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="100%" height="100%" src="http://ucfmediacentre.co.uk/swarmtv/assets/image/'.$element->filename.'"></div><br /><br />'.json_encode($element);
+                        break;
+                    case 'audio':
+                        //;
+                        break;
+                    case 'video':
+                        //;
+                        break;
+		}
 		$this->load->model('Pages_model');
 		$pages_title = $this->Pages_model->get_title($element->pages_id);
 		
@@ -254,7 +275,7 @@ class Elements_model extends CI_Model {
 		$updates_data = array(
 		   'title' => $title.$element->type ,
 		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/'.$pages_title ,
-		   'description' => json_encode($element) ,
+		   'description' => $description ,
 		   'elements_id' => $elements_id ,
 		   'pages_id' => $element->pages_id
 		);
