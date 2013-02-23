@@ -5,16 +5,13 @@
 	  <description><?php echo $page_description; ?></description>  
 	  <dc:language><?php echo $page_language; ?></dc:language>  
 	  <dc:creator><?php echo $creator_email; ?></dc:creator>  
-	  <ttl>0</ttl>  
-	  <admin:generatoragent rdf:resource="http://www.codeigniter.com/">
-	       <?php foreach($updates->result() as $update): ?>  
-	       <item>  
-		    <title><?php echo $update->summary . ' on page: '. $update->page ?></title>
-		    <link><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->page ?></link>   
-		    <pubDate><?php echo $update->pubDate; ?></pubDate>
-		    <description><[CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
-	       </item>  
-	       <?php endforeach; ?>  
-	  </admin:generatoragent>
+	  <?php foreach($updates->result() as $update): ?>  
+	  <item>  
+	       <title><?php echo $update->summary . ' on page: '. $update->page ?></title>
+	       <link><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->page ?></link>   
+	       <pubDate><?php echo $update->pubDate; ?></pubDate>
+	       <description><[CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
+	  </item>  
+	  <?php endforeach; ?>
      </channel>  
 </rss>  
