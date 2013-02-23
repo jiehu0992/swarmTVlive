@@ -18,4 +18,4 @@ www/*/
 !www/swarmtv
 private/codeigniter/application/config/database.php
 private/codeigniter/application/config/config.php
-www/swarmtv/libraries/arbor/.DS_Store
+.DS_Store
