@@ -9,7 +9,7 @@
 	  <?php foreach($updates->result() as $update): ?>  
 	  <item>  
 	       <title><?php echo ucfirst($update->summary) . ' on page: '. $update->page ?></title>
-	       <guid><?php echo 'Element ' . $update->element_id ?></guid>
+	       <guid><?php echo 'Element ' . $update->elements_id ?></guid>
 	       <link><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->page ?></link>   
 	       <pubDate><?php echo date('r', strtotime($update->pubDate)); ?></pubDate>
 	       <description><![CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
