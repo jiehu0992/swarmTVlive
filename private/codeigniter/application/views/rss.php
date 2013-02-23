@@ -9,8 +9,8 @@
 	  <item>  
 	       <title><?php echo $update->summary . ' on page: '. $update->page ?></title>
 	       <link><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->page ?></link>   
-	       <pubDate><?php echo $update->pubDate; ?></pubDate>
-	       <description><[CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
+	       <pubDate><?php echo gmdate(DATE_RFC822, strtotime($update->pubDate)); ?></pubDate>
+	       <description><![CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
 	  </item>  
 	  <?php endforeach; ?>
      </channel>  
