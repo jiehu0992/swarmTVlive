@@ -226,8 +226,8 @@ class Elements_model extends CI_Model {
 		//save the new element id 
 		$elements_id = $this->db->insert_id();
 		$update_elements_id = $elements_id;
-		$update_title = 'Created ';
-		$this->create_update($update_title, $update_elements_id);
+		$update_action = 'Created ';
+		$this->create_update($update_action, $update_elements_id);
 		
 		//having saved new update, return new element id from elements table
    		return $elements_id;
@@ -242,7 +242,7 @@ class Elements_model extends CI_Model {
 		
 	}
 	
-	function create_update($title, $elements_id)
+	function create_update($action, $elements_id)
 	{
 		//get element data from elements_id provided
 		$this->load->model('Elements_model');
@@ -256,10 +256,12 @@ class Elements_model extends CI_Model {
                         $break_apart_contents = $this->Links_model->parse_string_for_links($element->contents);
                         // piece the content back together with the html links embedded
                         $processed_contents = $this->Links_model->insert_links($break_apart_contents);
-                        $description = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div><br /><br />'.json_encode($element);
+                        $elementInHtml = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div>';
+                        $jsonArray = json_encode($element);
                         break;
                     case 'image':
-                        $description = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="100%" height="100%" src="http://ucfmediacentre.co.uk/swarmtv/assets/image/'.$element->filename.'"></div><br /><br />'.json_encode($element);
+                        $elementInHtml = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="100%" height="100%" src="http://ucfmediacentre.co.uk/swarmtv/assets/image/'.$element->filename.'"></div>';
+                        $jasonArray = json_encode($element);
                         break;
                     case 'audio':
                         //;
@@ -273,9 +275,10 @@ class Elements_model extends CI_Model {
 		
 		//create array to insert into updates table
 		$updates_data = array(
-		   'title' => $title.$element->type ,
-		   'link' => 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/'.$pages_title ,
-		   'description' => $description ,
+		   'page' => $pages_title ,
+                   'summary' => $action . $element->type ,
+                   'elementInHtml' => $elementInHtml ,
+		   'jsonArray' => $jsonArray ,
 		   'elements_id' => $elements_id ,
 		   'pages_id' => $element->pages_id
 		);
@@ -293,8 +296,8 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table
 		$update_elements_id = $id;
-		$update_title = 'Revised ';
-		$this->create_update($update_title, $update_elements_id);
+		$update_action = 'Revised ';
+		$this->create_update($update_action, $update_elements_id);
 		
 	}
 	
@@ -332,8 +335,8 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table
 		$update_elements_id = $id;
-		$update_title = 'Revised ';
-		$this->create_update($update_title, $update_elements_id);
+		$update_action = 'Revised ';
+		$this->create_update($update_action, $update_elements_id);
 		
 		return $this->db->affected_rows();
    	}
@@ -379,8 +382,8 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table before it is deleted
 		$update_elements_id = $id;
-		$update_title = 'Deleted ';
-		$this->create_update($update_title, $update_elements_id);
+		$update_action = 'Deleted ';
+		$this->create_update($update_action, $update_elements_id);
 		
 		// delete element
 		$this->db->delete('elements', array('id' => $id));
