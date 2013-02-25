@@ -9,10 +9,11 @@
 	  <atom:link href="http://ucfmediacentre.co.uk/swarmtv/index.php/feed" rel="self" type="application/rss+xml" />  
 	  <?php foreach($updates->result() as $update): ?>  
 	  <item>  
-	       <title><?php echo ucfirst($update->summary) . ' on page: '. $update->page ?></title>
-	       <guid><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->id ?></guid>
+	       <title><?php echo date('D, j M', strtotime($update->pubDate)) . ' - ' . ucfirst($update->summary) . ' on page: '. $update->page ?></title>
+	       <guid><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/update/view/' . $update->id ?></guid>
 	       <link><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->page ?></link>   
 	       <pubDate><?php echo date('r', strtotime($update->pubDate)); ?></pubDate>
+	       <content:encoded><![CDATA[<?php echo $update->elementInHtml ?>]]></content:encoded>
 	       <description><![CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
 	  </item>  
 	  <?php endforeach; ?>

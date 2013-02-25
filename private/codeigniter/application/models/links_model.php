@@ -125,7 +125,7 @@ class Links_model extends CI_Model {
 			$link = $this->get_link_by_id($link_id);
 			
 			// construct: <a href="<page_title>"><page_title></a>
-			$html_link = '<a id="link-' . $link->id . '" href="' . $link->pagesTitle . '">' . $link->pagesTitle . '</a>';
+			$html_link = '<a id="link-' . $link->id . '" href="http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $link->pagesTitle . '">' . $link->pagesTitle . '</a>';
 			
 			// construct the parts to make the full content
 			$content = $content . $html_link . $link_info['parts'][$i+1];

@@ -278,7 +278,7 @@ class Elements_model extends CI_Model {
 		   'page' => $pages_title ,
                    'summary' => $action . $element->type ,
                    'elementInHtml' => $elementInHtml ,
-		   'jsonArray' => $jsonArray ,
+		   'jsonArray' => json_encode($element) ,
 		   'elements_id' => $elements_id ,
 		   'pages_id' => $element->pages_id
 		);
