@@ -12,20 +12,30 @@ class Swarmtv extends CI_Controller {
 	{
 		$this->load->model('Links_model');
 		$this->load->model('Pages_model');
+		$filter = $this->input->get('filter');
 		
-		// get all pages
-		$pages = $this->Pages_model->get_all_pages();
+		// get filtered pages
+		$pages = $this->Pages_model->get_filtered_pages($filter);
+		
 		
 		for ($i = 0; $i < sizeof($pages); $i++)
 		{
-			//print_r($pages[$i]);
 			$linked_pages = $this->Links_model->return_links_for_page($pages[$i]['title']);
-			$pages[$i]['link_tree'] = $linked_pages;
+			$filtered_linked_pages = array();
+			for ($j = 0; $j < sizeof($linked_pages); $j++) {
+			  if (strpos($linked_pages[$j]['pagesTitle'], $filter)>0){
+				$filtered_linked_pages[] = $linked_pages[$j];
+			  }
+			}
+			$pages[$i]['link_tree'] = $filtered_linked_pages;
+			//$pages[$i]['link_tree'] = $linked_pages;
 		}
+		
 		
 		$pages = json_encode($pages);
 		
 		$data['links'] = $pages;
+		$data['filter'] = $filter;
 		
 		$this->load->view('swarm_home', $data);
 	}

@@ -10,7 +10,7 @@ class Feed extends CI_Controller {
     {  
 	parent::Controller();  
 	$this->load->helper('xml');  
-	$this->load->helper('text');  
+	$this->load->helper('text');
 	$this->load->model('updates_model', 'updates');  
     }
     
@@ -19,11 +19,12 @@ class Feed extends CI_Controller {
 	 
 	$this->load->helper('xml');  
 	$this->load->helper('text');  
+	$this->load->helper('url');
 	$this->load->model('updates_model', 'updates');
 	
 	$data['feed_name'] = 'ucfmediacentre.co.uk/swarmtv';  
 	$data['encoding'] = 'utf-8';  
-	$data['feed_url'] = 'http://www.ucfmediacentre.co.uk/swarmtv/feed';  
+	$data['feed_url'] = 'http://www.ucfmediacentre.co.uk/swarmtv/index.php/feed';  
 	$data['page_description'] = 'Swarm TV Recent Changes';  
 	$data['page_language'] = 'en-en';  
 	$data['creator_email'] = 'ucfmediacentre.co.uk@gmail.com';  
