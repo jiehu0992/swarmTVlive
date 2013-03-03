@@ -30,7 +30,7 @@ class Pages_model extends CI_Model {
 		$listview = '';
 		foreach ($query->result() as $row)
 		{
-    		$listview = $listview . '<a href="' . site_url("pages/view/" . $row->title ) . '">' . $row->title . '</a><br />';
+    		$listview = $listview . '<a href="' . base_url("pages/view/" . $row->title ) . '">' . $row->title . '</a><br />';
 		}
 		return $listview;
     }
@@ -38,10 +38,26 @@ class Pages_model extends CI_Model {
    function get_page($page_name)
    {
    		$result = $this->db->get_where('pages', array('title' =>$page_name), 1);
+		
+		if ($result->num_rows() > 0)
+		{ 
+   			return $result->row();
+   		}else
+   		{
+   			return false;
+   		}
+   }
+   
+   function get_filtered_pages($string)
+   {
+   		$this->db->select('*');
+   		$this->db->from('pages');
+   		$this->db->like('title', $string);
+   		$result = $this->db->get();
    		
    		if ($result->num_rows() > 0)
 		{ 
-   			return $result->row();
+   			return $result->result_array();
    		}else
    		{
    			return false;

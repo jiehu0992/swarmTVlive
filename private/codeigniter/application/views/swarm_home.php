@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>SwarmTv</title>
+	<title>swarm tv</title>
 	
 	<script src="<?php echo base_url(); ?>js/vendor/jquery-1.8.3.min.js"></script>
 
@@ -12,12 +12,16 @@
 		height:100%;
 		padding:0px;
 		overflow:hidden;
-		background-image:url(../css/img/default_background.jpg);
+		background-image:url(../../img/default_background.jpg);
 		background-color:#000022;
 		-webkit-background-size: cover;
 		-moz-background-size: cover;
 		-o-background-size: cover;
 		background-size: cover;
+		color: #ccc;
+		font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+		font-size: 1em	
+}
 	}
 	
 	#the-swarm{
@@ -25,10 +29,22 @@
 		height:100%;
 		margin:0px;
 		padding:0px;
+		
+	}
+	#the-swarm.linkable{
+		cursor:pointer;
 	}
 	</style>
 </head>
 <body>
+	<div>
+		<form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form" >
+			<input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
+			<input type="submit" value="Filter">
+		</form>
+		<!--<?php echo $links; ?>-->
+	</div>
+	
 	<canvas id="the-swarm"></canvas>
 
 	<img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;"/>
@@ -73,7 +89,7 @@
         particleSystem.screenPadding(80) // leave an extra 80px of whitespace per side
         
         // set up some event handlers to allow for node-dragging
-        that.initMouseHandling()
+        that._initMouseHandling()
       },
       
       redraw:function(){
@@ -96,7 +112,7 @@
 		  //console.log(edge);	
 			
           // draw a line from pt1 to pt2
-          ctx.strokeStyle = "orange";
+          ctx.strokeStyle = "silver";
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.moveTo(pt1.x, pt1.y);
@@ -114,38 +130,69 @@
 
           // draw a rectangle centered at pt
           var w = 10
-          ctx.fillStyle = "orange";
+          ctx.fillStyle = "white";
           ctx.fillRect(pt.x-w/2, pt.y-w/2, w,w);
-          ctx.font = '20px Calibri';
-           ctx.fillStyle = "white";
-          ctx.fillText(node.name, pt.x, pt.y);
+          ctx.font = '15px Calibri';
+           ctx.fillStyle = "#fc0";
+          ctx.fillText(node.name, pt.x+10, pt.y-10);
         })    			
       },
       
-      initMouseHandling:function(){
+      _initMouseHandling:function(){
         // no-nonsense drag and drop (thanks springy.js)
+        selected = null;	
+        nearest = null;
         var dragged = null;
 
         // set up a handler object that will initially listen for mousedowns then
         // for moves and mouseups while dragging
         var handler = {
+          moved:function(e){
+            var pos = $(canvas).offset();
+            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
+            nearest = particleSystem.nearest(_mouseP);
+
+            if (!nearest.node) return false
+
+            
+              selected = (nearest.distance < 50) ? nearest : null
+              if (selected){
+                 dom.addClass('linkable')
+                 window.status = selected.node.data.link.replace(/^\//,"http://"+window.location.host+"/").replace(/^#/,'')
+              }
+              else{
+                 dom.removeClass('linkable')
+                 window.status = ''
+              }
+            
+            return false
+          },
+          
           clicked:function(e){
             var pos = $(canvas).offset();
             _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
-            dragged = particleSystem.nearest(_mouseP);
+            nearest = dragged = particleSystem.nearest(_mouseP);
+
+		var link = nearest.node.name;
+		
+        window.location.href = '../pages/view/' + link;
+		
+		
+
 
             if (dragged && dragged.node !== null){
               // while we're dragging, don't let physics move the node
               dragged.node.fixed = true
             }
 
-            $(canvas).bind('mousemove', handler.dragged)
-            $(window).bind('mouseup', handler.dropped)
-			console.log(dragged);
-			window.location.href = '../pages/view/' + dragged.node.name;
+		$(canvas).unbind('mousemove', handler.moved);
+		$(canvas).bind('mousemove', handler.dragged)
+		$(window).bind('mouseup', handler.dropped)
+			//console.log(dragged);
+			//window.location.href = '../pages/view/' + dragged.node.name;
             return false
-          },
-          dragged:function(e){
+          }//,
+          /*dragged:function(e){
             var pos = $(canvas).offset();
             var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
 
@@ -166,7 +213,7 @@
             $(window).unbind('mouseup', handler.dropped)
             _mouseP = null
             return false
-          }
+          }*/
         }
         
         // start listening
