@@ -21,14 +21,18 @@ class Swarmtv extends CI_Controller {
 		for ($i = 0; $i < sizeof($pages); $i++)
 		{
 			$linked_pages = $this->Links_model->return_links_for_page($pages[$i]['title']);
-			$filtered_linked_pages = array();
+			/*$filtered_linked_pages = array();
 			for ($j = 0; $j < sizeof($linked_pages); $j++) {
-			  if (strpos($linked_pages[$j]['pagesTitle'], $filter)>0){
+			  if ($filter ==""){
 				$filtered_linked_pages[] = $linked_pages[$j];
+			  } else {
+				if (strpos($linked_pages[$j]['pagesTitle'], $filter)>0){
+				  $filtered_linked_pages[] = $linked_pages[$j];
+				}
 			  }
 			}
-			$pages[$i]['link_tree'] = $filtered_linked_pages;
-			//$pages[$i]['link_tree'] = $linked_pages;
+			$pages[$i]['link_tree'] = $filtered_linked_pages;*/
+			$pages[$i]['link_tree'] = $linked_pages;
 		}
 		
 		
