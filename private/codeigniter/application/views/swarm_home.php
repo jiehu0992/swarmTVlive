@@ -45,7 +45,7 @@
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor.js"></script>
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-tween.js"></script>
-        <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-graphics0.js"></script>
+        <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-graphics.js"></script>
         <script type="text/javascript">
             (function ($) {
 
