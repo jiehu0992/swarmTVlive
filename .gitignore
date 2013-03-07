@@ -4,6 +4,7 @@ crash
 dbinfo.php
 games/
 lib/
+!www/swarmtv/libraries/arbor/lib/
 local/
 lock
 log/
