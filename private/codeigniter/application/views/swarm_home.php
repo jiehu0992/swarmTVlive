@@ -1,254 +1,275 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<title>swarm tv</title>
-	
-	<script src="<?php echo base_url(); ?>js/vendor/jquery-1.8.3.min.js"></script>
-
-	<style type="text/css">
-	html, body{
-		width:100%;
-		height:100%;
-		padding:0px;
-		overflow:hidden;
-		background-image:url(../../img/default_background.jpg);
-		background-color:#000022;
-		-webkit-background-size: cover;
-		-moz-background-size: cover;
-		-o-background-size: cover;
-		background-size: cover;
-		color: #ccc;
-		font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
-		font-size: 1em	
-}
-	}
-	
-	#the-swarm{
-		width:100%:
-		height:100%;
-		margin:0px;
-		padding:0px;
-		
-	}
-	#the-swarm.linkable{
-		cursor:pointer;
-	}
-	</style>
-</head>
-<body>
-	<div>
-		<form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form" >
-			<input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
-			<input type="submit" value="Filter">
-		</form>
-		<!--<?php echo $links; ?>-->
-	</div>
-	
-	<canvas id="the-swarm"></canvas>
-
-	<img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;"/>
-	
-	<script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor.js"></script>
-	<script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-tween.js"></script>
-	
-	<script type="text/javascript">
-	//
-	//  main.js
-	//
-	//  A project template for using arbor.js
-	//
-
-(function($){
-
-	var links = <?php echo $links;?>;
-	var img=document.getElementById("bg");
-
-  	var Renderer = function(canvas){
-    var canvas = $(canvas).get(0);
-    canvas.width  = window.innerWidth;
-	canvas.height = window.innerHeight;
     
-    var ctx = canvas.getContext("2d");
-    var particleSystem
-
-    var that = {
-      init:function(system){
-        //
-        // the particle system will call the init function once, right before the
-        // first frame is to be drawn. it's a good place to set up the canvas and
-        // to pass the canvas size to the particle system
-        //
-        // save a reference to the particle system for use in the .redraw() loop
-        particleSystem = system
-
-        // inform the system of the screen dimensions so it can map coords for us.
-        // if the canvas is ever resized, screenSize should be called again with
-        // the new dimensions
-        particleSystem.screenSize(canvas.width, canvas.height) 
-        particleSystem.screenPadding(80) // leave an extra 80px of whitespace per side
-        
-        // set up some event handlers to allow for node-dragging
-        that._initMouseHandling()
-      },
-      
-      redraw:function(){
-        // 
-        // redraw will be called repeatedly during the run whenever the node positions
-        // change. the new positions for the nodes can be accessed by looking at the
-        // .p attribute of a given node. however the p.x & p.y values are in the coordinates
-        // of the particle system rather than the screen. you can either map them to
-        // the screen yourself, or use the convenience iterators .eachNode (and .eachEdge)
-        // which allow you to step through the actual node objects but also pass an
-        // x,y point in the screen's coordinate system
-        // 
-        //ctx.fillStyle = "white"
-        ctx.drawImage(img,0,0,canvas.width, canvas.height);
-        
-        particleSystem.eachEdge(function(edge, pt1, pt2){
-          // edge: {source:Node, target:Node, length:#, data:{}}
-          // pt1:  {x:#, y:#}  source position in screen coords
-          // pt2:  {x:#, y:#}  target position in screen coords
-		  //console.log(edge);	
-			
-          // draw a line from pt1 to pt2
-          ctx.strokeStyle = "silver";
-          ctx.lineWidth = 1;
-          ctx.beginPath();
-          ctx.moveTo(pt1.x, pt1.y);
-          ctx.lineTo(pt2.x, pt2.y);
-          ctx.stroke();
-          
-          //console.log(edge);
-          //ctx.fillStyle = "orange";
-          //ctx.fillText(edge._id, pt1.x, pt1.y);
-        })
-
-        particleSystem.eachNode(function(node, pt){
-          // node: {mass:#, p:{x,y}, name:"", data:{}}
-          // pt:   {x:#, y:#}  node position in screen coords
-
-          // draw a rectangle centered at pt
-          var w = 10
-          ctx.fillStyle = "white";
-          ctx.fillRect(pt.x-w/2, pt.y-w/2, w,w);
-          ctx.font = '15px Calibri';
-           ctx.fillStyle = "#fc0";
-          ctx.fillText(node.name, pt.x+10, pt.y-10);
-        })    			
-      },
-      
-      _initMouseHandling:function(){
-        // no-nonsense drag and drop (thanks springy.js)
-        selected = null;	
-        nearest = null;
-        var dragged = null;
-
-        // set up a handler object that will initially listen for mousedowns then
-        // for moves and mouseups while dragging
-        var handler = {
-          moved:function(e){
-            var pos = $(canvas).offset();
-            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
-            nearest = particleSystem.nearest(_mouseP);
-
-            if (!nearest.node) return false
-
-            
-              selected = (nearest.distance < 50) ? nearest : null
-              if (selected){
-                 dom.addClass('linkable')
-                 window.status = selected.node.data.link.replace(/^\//,"http://"+window.location.host+"/").replace(/^#/,'')
-              }
-              else{
-                 dom.removeClass('linkable')
-                 window.status = ''
-              }
-            
-            return false
-          },
-          
-          clicked:function(e){
-            var pos = $(canvas).offset();
-            _mouseP = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
-            nearest = dragged = particleSystem.nearest(_mouseP);
-
-		var link = nearest.node.name;
-		
-        window.location.href = '../pages/view/' + link;
-		
-		
-
-
-            if (dragged && dragged.node !== null){
-              // while we're dragging, don't let physics move the node
-              dragged.node.fixed = true
+    <head>
+        <meta charset="utf-8">
+        <title>swarm tv</title>
+        <script src="<?php echo base_url(); ?>js/vendor/jquery-1.8.3.min.js"></script>
+        <style type="text/css">
+            html, body {
+                width:100%;
+                height:100%;
+                padding:0px;
+                overflow:hidden;
+                background-color:#000022;
+                -webkit-background-size: cover;
+                -moz-background-size: cover;
+                -o-background-size: cover;
+                background-size: cover;
+                color: #ccc;
+                font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+                font-size: 1em
             }
-
-		$(canvas).unbind('mousemove', handler.moved);
-		$(canvas).bind('mousemove', handler.dragged)
-		$(window).bind('mouseup', handler.dropped)
-			//console.log(dragged);
-			//window.location.href = '../pages/view/' + dragged.node.name;
-            return false
-          }//,
-          /*dragged:function(e){
-            var pos = $(canvas).offset();
-            var s = arbor.Point(e.pageX-pos.left, e.pageY-pos.top)
-
-            if (dragged && dragged.node !== null){
-              var p = particleSystem.fromScreen(s)
-              dragged.node.p = p
-            }
-
-            return false
-          },
-
-          dropped:function(e){
-            if (dragged===null || dragged.node===undefined) return
-            if (dragged.node !== null) dragged.node.fixed = false
-            dragged.node.tempMass = 1000
-            dragged = null
-            $(canvas).unbind('mousemove', handler.dragged)
-            $(window).unbind('mouseup', handler.dropped)
-            _mouseP = null
-            return false
-          }*/
         }
-        
-        // start listening
-        $(canvas).mousedown(handler.clicked);
+        #the-swarm {}
+		
+        #the-swarm.linkable {
+            cursor:pointer;
+        }
+        #arbor {
+            position:absolute;
+            min-height:100%;
+            min-width:100%;
+        }
+        </style>
+    </head>
+    
+    <body>
+        <div>
+            <form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
+                <input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
+                <input type="submit" value="Filter">
+            </form>
+        </div>
+        <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="428"></canvas>
+        <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
+        <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor.js"></script>
+        <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-tween.js"></script>
+        <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-graphics0.js"></script>
+        <script type="text/javascript">
+            (function ($) {
 
-      },
-      
-    }
-    return that
-  }    
+                var Renderer = function (elt) {
+                    var dom = $(elt)
+                    var canvas = dom.get(0)
+                    var ctx = canvas.getContext("2d");
+                    var gfx = arbor.Graphics(canvas)
+                    var sys = null;
+                    var img = document.getElementById("bg"); //from Al's coding
 
-  $(document).ready(function(){
-  
-    var sys = arbor.ParticleSystem(1000, 600, 0.5) // create the system with sensible repulsion/stiffness/friction
-    sys.parameters({gravity:true}) // use center-gravity to make the graph settle nicely (ymmv)
-    sys.renderer = Renderer("#the-swarm") // our newly created renderer will have its .init() method called shortly by sys...
+                    var selected = null,
+                        nearest = null,
+                        _mouseP = null;
 
-	for (var i = 0; i < links.length; i++)
-	{
-		if (links[i].link_tree.length > 0)
-		{
-			for (var m = 0; m < links[i].link_tree.length; m++)
-			{
-				var edge = sys.addEdge( links[i].title , links[i].link_tree[m].pagesTitle);
-			}
-		}else
-		{
-			sys.addNode(links[i].title, {alone:true, mass:.25})
-		}
-	 }
-  })
 
-	
+                    var that = {
+                        init: function (pSystem) {
+                            sys = pSystem
+                            sys.screen({
+                                size: {
+                                    width: dom.width(),
+                                    height: dom.height()
+                                },
+                                padding: [36, 150, 36, 150]
+                            })
 
-})(this.jQuery)
-	</script>
-</body>
+                            $(window).resize(that.resize)
+                            that.resize()
+                            that._initMouseHandling()
+
+                        },
+                        resize: function () {
+                            canvas.width = $(window).width()
+                            canvas.height = $(window).height()
+                            sys.screen({
+                                size: {
+                                    width: canvas.width - 50,
+                                    height: canvas.height - 50
+                                }
+                            })
+                            that.redraw()
+                        },
+                        redraw: function () {
+                            gfx.clear()
+                            ctx.drawImage(img, 0, 0, canvas.width, canvas.height); //from Al's code
+                            sys.eachEdge(function (edge, p1, p2) {
+                                gfx.line(p1, p2, {
+                                    stroke: "silver",
+                                    width: 2
+                                });
+                            })
+                            sys.eachNode(function (node, pt) {
+                                var w = Math.max(20, 20 + gfx.textWidth(node.name))
+                                gfx.rect(pt.x - w / 2, pt.y - 8, w, 20, 4, {
+                                    fill: '#000022',
+                                    width: 2,
+									stroke: node.data.stroke
+                                });
+                                //gfx.rect(pt.x-w/2, pt.y-8, w, 20, 4, {});
+                                //gfx.text(node.name, pt.x, pt.y+5, {color:"orange", align:"center", font:"Arial", size:12});
+                                gfx.text(node.name, pt.x, pt.y + 7, {
+                                    color: "orange",
+                                    align: "center",
+                                    font: "Arial",
+                                    size: 12
+                                });
+                            })
+                        },
+
+
+                        _initMouseHandling: function () {
+                            // no-nonsense drag and drop (thanks springy.js)
+                            selected = null;
+                            nearest = null;
+                            var dragged = null;
+                            var oldmass = 1
+
+                            var _section = null
+
+                            var handler = {
+                                moved: function (e) {
+                                    var pos = $(canvas).offset();
+                                    _mouseP = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
+                                    nearest = sys.nearest(_mouseP);
+
+                                    if (!nearest.node) return false
+
+                                    if (nearest.node.data.shape != 'dot') {
+                                        selected = (nearest.distance < 50) ? nearest : null
+                                        if (selected) {
+                                            dom.addClass('linkable')
+                                            window.status = selected.node.data.link.replace(/^\//, "http://" + window.location.host + "/").replace(/^#/, '')
+                                        } else {
+                                            dom.removeClass('linkable')
+                                            window.status = ''
+                                        }
+                                    }
+
+                                    return false
+                                },
+                                clicked: function (e) {
+                                    var pos = $(canvas).offset();
+                                    _mouseP = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
+                                    nearest = dragged = sys.nearest(_mouseP);
+
+                                    if (nearest && selected && nearest.node === selected.node) {
+                                        var link = selected.node.data.link
+                                        if (link.match(/^#/)) {
+                                            $(that).trigger({
+                                                type: "navigate",
+                                                path: link.substr(1)
+                                            })
+                                        } else {
+                                            window.location = link
+                                        }
+                                        return false
+                                    }
+
+
+                                    if (dragged && dragged.node !== null) dragged.node.fixed = true
+
+                                    $(canvas).unbind('mousemove', handler.moved);
+                                    $(canvas).bind('mousemove', handler.dragged)
+                                    $(window).bind('mouseup', handler.dropped)
+
+                                    return false
+                                },
+                                dragged: function (e) {
+                                    var old_nearest = nearest && nearest.node._id
+                                    var pos = $(canvas).offset();
+                                    var s = arbor.Point(e.pageX - pos.left, e.pageY - pos.top)
+
+                                    if (!nearest) return
+                                    if (dragged !== null && dragged.node !== null) {
+                                        var p = sys.fromScreen(s)
+                                        dragged.node.p = p
+                                    }
+
+                                    return false
+                                },
+
+                                dropped: function (e) {
+                                    if (dragged === null || dragged.node === undefined) return
+                                    if (dragged.node !== null) dragged.node.fixed = false
+                                    dragged.node.tempMass = 1000
+                                    dragged = null;
+                                    // selected = null
+                                    $(canvas).unbind('mousemove', handler.dragged)
+                                    $(window).unbind('mouseup', handler.dropped)
+                                    $(canvas).bind('mousemove', handler.moved);
+                                    _mouseP = null
+                                    return false
+                                }
+
+
+                            }
+
+                            $(canvas).mousedown(handler.clicked);
+                            $(canvas).mousemove(handler.moved);
+
+                        }
+                    }
+
+                    return that
+                }
+
+                $(document).ready(function () {
+
+                    var links = <?php echo $links; ?> ;
+					//console.log(links);
+					var strokeColour
+					var UIstring = '';
+					var edgeString = '';
+					var nodeString = '';
+					//iterate through the list of pages found
+					for (var i = 0; i < links.length; i++) {
+						strokeColour = '';
+						//check to see if any matches have links
+						if (links[i].link_tree.length > 0) {
+							//create a string to represent each node from which the edge is to be drawn
+							edgeString = edgeString + '"' + links[i].title + '":{';
+							//search through all the links tree for the page to create the connections
+							for (var m = 0; m < links[i].link_tree.length; m++) {
+								edgeString = edgeString + '"' + links[i].link_tree[m].pagesTitle + '":{},'
+							}
+							//take off end comma
+							edgeString = edgeString.substr(0,edgeString.length-1);
+							edgeString = edgeString + '},';
+							//check to see if this node should be a hub, if so, give it a white border
+							if (links[i].link_tree.length > 2) {
+								strokeColour = "white";
+							}
+						}
+						//build up the node string with title, link and stroke colour ('' will make it transparent)
+						nodeString = nodeString + '"' + links[i].title;
+						nodeString = nodeString + '":{"link":"<?php echo base_url(); ?>index.php/pages/view/' + links[i].title + '", ';
+						nodeString = nodeString + '"stroke":"' + strokeColour + '"},';
+					}
+					//take off the end comas
+					nodeString = nodeString.substr(0,nodeString.length-1);
+					edgeString = edgeString.substr(0,edgeString.length-1);
+					//construct the UIstring
+					UIstring = '{"nodes":{';
+					UIstring = UIstring + nodeString;
+					UIstring = UIstring + '}, "edges":{';
+					UIstring = UIstring + edgeString;
+					UIstring = UIstring + '}}';
+					var theUI = jQuery.parseJSON(UIstring);
+
+
+                    var sys = arbor.ParticleSystem();
+                    sys.parameters({
+                        stiffness: 900,
+                        repulsion: 2000,
+                        gravity: true,
+                        dt: 0.015
+                    })
+                    sys.renderer = Renderer("#the-swarm");
+                    sys.graft(theUI);
+
+                })
+            })(this.jQuery)
+        </script>
+    </body>
+
 </html>
