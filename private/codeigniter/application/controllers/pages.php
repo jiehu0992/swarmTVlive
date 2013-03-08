@@ -19,7 +19,7 @@ class Pages extends CI_Controller {
 		
 		// get the page information
 		$this->load->model('Pages_model');
-		$page_details= $this->Pages_model->get_page($page_title);
+		$page_details= $this->Pages_model->get_page(URLdecode($page_title));
 		$data['page_info'] = $page_details;
 		
 		if($page_details) 

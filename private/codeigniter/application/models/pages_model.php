@@ -92,7 +92,7 @@ class Pages_model extends CI_Model {
    {
    		//$row = array('pages'=>'title','$page_title');
    		$data = array(
-   			'title' => $page_title
+   			'title' => URLdecode($page_title)
    			);
 
 		$this->db->insert('pages', $data); 

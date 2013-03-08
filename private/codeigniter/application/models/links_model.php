@@ -22,7 +22,7 @@ class Links_model extends CI_Model {
 		$cursor = 0;							// cursor to keep track of the substring start position
 		$parts = array();						// to store the parts either side of the links
 			
-		// excute the regex and populate $links array storing the offset with the match
+		// execute the regex on string and populate $links array storing the offset with the match
 		preg_match_all ( $pattern, $string, $links, PREG_OFFSET_CAPTURE );
 	
 		// loop through each link saving the string to the right of it to the parts array

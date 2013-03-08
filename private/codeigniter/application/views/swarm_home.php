@@ -254,7 +254,7 @@
 					UIstring = UIstring + '}, "edges":{';
 					UIstring = UIstring + edgeString;
 					UIstring = UIstring + '}}';
-					var theUI = jQuery.parseJSON(UIstring);
+					var theUI = $.parseJSON(UIstring);
 
 
                     var sys = arbor.ParticleSystem();
