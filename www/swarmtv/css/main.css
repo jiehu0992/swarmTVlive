@@ -22,20 +22,150 @@ textarea {
     color: #222;
 }
 
-A:link {color:#c90; font-weight:bold; text-decoration:none;}
+A:link {
+  color:#c90;
+  font-weight:bold;
+  text-decoration:none;
+}
 
-A:visited {color:#960; font-weight:bold; text-decoration:none;}
+A:visited {
+  color:#960;
+  font-weight:bold;
+  text-decoration:none;
+}
 
-A:hover {color:#fc3; font-weight:bold; text-decoration:none;}
+A:hover {
+  color:#fc3;
+  font-weight:bold;text-decoration:none;
+}
 
-A:active {text-decoration:none;}
+A:active {
+  text-decoration:none;
+}
 
-a.navbar:link {color:#c90; text-decoration:none; font-weight: bold;}
+a.navbar:link {
+  color:#c90;
+  text-decoration:none;
+  font-weight: bold;
+}
 
-a.navbar:visited {color:#960; text-decoration:none; font-weight: bold;}
+a.navbar:visited {
+  color:#960;
+  text-decoration:none;font-weight: bold;
+}
 
-a.navbar:hover {color:#fc3; text-decoration:none; font-weight:bold;}
+a.navbar:hover {
+  color:#fc3;
+  text-decoration:none;
+  font-weight:bold;
+}
 
+a#main_home_button{
+	display:block;
+	height:30px;
+	width:160px;
+	position:fixed;
+	left:20px;
+	bottom:20px;
+	background-image:url(../img/swarmLogo.png);
+	background-position:0px -70px;
+	text-align:center;
+	padding-top:45px;
+	color:#ccc;
+	text-decoration:none;
+}
+
+a#main_home_button:hover{
+	background-position:0px 0px;
+	color:#fff;
+}
+
+#add_element_form{
+	width:465px;
+	color:#006; 
+	background-color:#e0e0f0; 
+	padding:20px;      
+	border: 6px solid #006;  
+	-moz-border-radius:15px;  
+	-webkit-border-radius:15px;  
+	border-radius:15px;  
+	position:relative;
+	display:table-cell;
+	vertical-align:top;
+} 
+      
+#add_element_form h2 { 
+	font-size:30px; 
+	font-weight:bold;    
+    margin-top:0px;  
+	vertical-align:top;
+}
+
+#add_element_form input {    
+    font-size:13px;
+	border: #006;  
+	background-color: #f8f8ff; 
+}
+
+#add_element_form label {  
+	display:block;  
+}
+
+#add_element_form textarea {  
+        width:450px;  
+        font-size:15px;   
+        margin-bottom:10px;  
+        padding:4px;   
+        height:150px;  
+        resize: vertical;
+}
+
+#add_element_form textarea:focus {  
+	border: 1px solid #006;  
+	background-color: #f8f8ff;  
+}  
+
+#add_element_form label{ 
+        font-size:15px; 
+}
+ 
+#add_element_form #submit_element {  
+	width: 70px;
+	height: 25px;  
+	font-weight:bold; 
+	color:#ccc;  
+	border:none;  
+	display:block;  
+	float:right; 
+	margin-right:6px;  
+	background-color:#006;   
+	-moz-border-radius:8px;  
+	-webkit-border-radius:8px;  
+	border-radius:8px;  
+}  
+      
+#add_element_form #submit_element:hover {  
+	color: #fff;  
+}  
+  
+#add_element_form #submit_element:active {  
+	position:relative;  
+	top:1px;  
+}
+  
+	
+/*
+ *	pages_view
+ */
+#background{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+	z-index:1;
+	color:#ffffff;
+}
 
 body {
 	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
@@ -57,83 +187,6 @@ body {
 	padding:2em;
 }
 
-
-div.element:hover {
-	cursor:hand; cursor:pointer;
-	border-width:1px;
-	border-color:#ccc;
-	border-radius:10px;
-	border-style:dashed;
-}
-
-/*
- * Remove text-shadow in selection highlight: h5bp.com/i
- * These selection declarations have to be separate.
- * Customize the background color to match your design.
- */
-
-::-moz-selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-
-::selection {
-    background: #b3d4fc;
-    text-shadow: none;
-}
-
-/*
- * A better looking default horizontal rule
- */
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
-    margin: 1em 0;
-    padding: 0;
-}
-
-/*
- * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
- */
-
-img {
-    vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-    resize: vertical;
-}
-
-/* ==========================================================================
-   Chrome Frame prompt
-   ========================================================================== */
-
-.chromeframe {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
@@ -146,91 +199,16 @@ body,html{
 	color:#fff;
 }
 
-/*
- *	pages_view
- */
-#background{
-	position:absolute;
-	left:0px;
-	top:0px;
-	width:100%;
-	height:100%;
-	z-index:1;
-	color:#ffffff;
+/* ==========================================================================
+   Chrome Frame prompt
+   ========================================================================== */
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
 }
-a#main_home_button{
-	display:block;
-	height:30px;
-	width:160px;
-	position:fixed;
-	left:20px;
-	bottom:20px;
-	background-image:url(../img/swarmLogo.png);
-	background-position:0px -70px;
-	text-align:center;
-	padding-top:45px;
-	color:#ccc;
-	text-decoration:none;
-}
-a#main_home_button:hover{
-	background-position:0px 0px;
-	color:#fff;
-}
-.element{
-	position:relative;
-	font-size:15px;
-	padding:5px;
-	margin:0px;
-}
-#page_info_form_wrap{
-	width:300px;
-	position:absolute;
-	left:10px;
-	top:10px;
-	z-index:2;
-	background-color:transparent;
-}
-#page_info_form_triger{
-	padding:10px;
-	background-color:transparent;
-	width:100%;
-}
-#page_info_form{
-	margin:20px 10px 30px 10px;
-}
-#page_title{
-	margin:0px;
-	padding:0px;
-}
-#page_info_form_triger:hover {
-	cursor:hand; cursor:pointer;
-	border-width:1px;
-	border-color:#ccc;
-	border-style:dashed;
-}
-#page_description{
-	color:#999;
-	margin:0px;
-	padding:0px;
-}
-#add_element_form{
-	width:400px;
-}
-#element_file_info{
-	text-align:center;
-	width:100%;
-	height:140px;
-}
-textarea#element_description{
-	width:95%;
-	margin:auto;
-	height:100px;
-}
-.element_box{
-	padding:10px;
-	position:absolute;	
-	color:#fff !important;
-}
+
 .delete_button{
 	width:20px;
 	height:20px;
@@ -245,14 +223,194 @@ textarea#element_description{
 	background-position:0px 0px;
 }
 
+div.element:hover {
+	cursor:hand; cursor:pointer;
+	border-width:1px;
+	border-color:#ccc;
+	border-radius:10px;
+	border-style:dashed;
+}
+
+.element{
+	position:relative;
+	font-size:15px;
+	padding:5px;
+	margin:0px;
+}
+
+.element_box{
+	padding:10px;
+	position:absolute;	
+	color:#fff !important;
+}
+
+#element_file_info{
+	text-align:center;
+	width:100%;
+	height:10px;
+}
+
+/*
+ * Remove default fieldset styles.
+ */
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
+ */
+img {
+    vertical-align: middle;
+}
+
+/*
+ * Remove text-shadow in selection highlight: h5bp.com/i
+ * These selection declarations have to be separate.
+ * Customize the background color to match your design.
+ */
+::-moz-selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+#page_description{
+	color:#999;
+	margin:0px;
+	padding:0px;
+}
+
+#page_info_form{
+	margin:20px 10px 30px 10px;
+}
+
+#page_info_form_triger{
+	padding:10px;
+	background-color:transparent;
+	width:100%;
+}
+
+#page_info_form_triger:hover {
+	cursor:hand; cursor:pointer;
+	border-width:1px;
+	border-color:#ccc;
+	border-style:dashed;
+}
+
+#page_info_form_wrap{
+	width:300px;
+	position:absolute;
+	left:10px;
+	top:10px;
+	z-index:2;
+	background-color:transparent;
+}
+
+#page_title{
+	margin:0px;
+	padding:0px;
+}
+
+#submit_element{
+  float:right;
+}
+
+::selection {
+    background: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * Allow only vertical resizing of textareas.
+ */
+textarea {
+    resize: vertical;
+}
+
+textarea#element_description{
+	width:98%;
+	margin:auto;
+	height:100px;
+	float:right;
+}
+
+.top-align{ 
+	display: inline-block;
+    vertical-align: top;
+}
+
 /* ==========================================================================
    Helper classes
    ========================================================================== */
 
 /*
+ * For IE 6/7 only
+ * Include this rule to trigger hasLayout and contain floats.
+ */
+.clearfix {
+    *zoom: 1;
+}
+
+/*
+ * Clearfix: contain floats
+ *
+ * For modern browsers
+ * 1. The space content is one way to avoid an Opera bug when the
+ *    `contenteditable` attribute is included anywhere else in the document.
+ *    Otherwise it causes space to appear at the top and bottom of elements
+ *    that receive the `clearfix` class.
+ * 2. The use of `table` rather than `block` is only necessary if using
+ *    `:before` to contain the top-margins of child elements.
+ */
+.clearfix:before,
+.clearfix:after {
+    element: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+.hidden {
+    display: none !important;
+    visibility: hidden;
+    -webkit-user-select: none; /* Chrome/Safari */        
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* IE10+ */
+
+	/* Rules below not implemented in browsers yet */
+	-o-user-select: none;
+	user-select: none;
+}
+
+/*
+ * Hide visually and from screenreaders, but maintain layout
+ */
+.invisible {
+    visibility: hidden;
+}
+
+/*
  * Image replacement
  */
-
 .ir {
     background-color: transparent;
     border: 0;
@@ -269,25 +427,8 @@ textarea#element_description{
 }
 
 /*
- * Hide from both screenreaders and browsers: h5bp.com/u
- */
-
-.hidden {
-    display: none !important;
-    visibility: hidden;
-    -webkit-user-select: none; /* Chrome/Safari */        
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+ */
-
-	/* Rules below not implemented in browsers yet */
-	-o-user-select: none;
-	user-select: none;
-}
-
-/*
  * Hide only visually, but have it available for screenreaders: h5bp.com/v
  */
-
 .visuallyhidden {
     border: 0;
     clip: rect(0 0 0 0);
@@ -303,7 +444,6 @@ textarea#element_description{
  * Extends the .visuallyhidden class to allow the element to be focusable
  * when navigated to via the keyboard: h5bp.com/p
  */
-
 .visuallyhidden.focusable:active,
 .visuallyhidden.focusable:focus {
     clip: auto;
@@ -312,45 +452,6 @@ textarea#element_description{
     overflow: visible;
     position: static;
     width: auto;
-}
-
-/*
- * Hide visually and from screenreaders, but maintain layout
- */
-
-.invisible {
-    visibility: hidden;
-}
-
-/*
- * Clearfix: contain floats
- *
- * For modern browsers
- * 1. The space content is one way to avoid an Opera bug when the
- *    `contenteditable` attribute is included anywhere else in the document.
- *    Otherwise it causes space to appear at the top and bottom of elements
- *    that receive the `clearfix` class.
- * 2. The use of `table` rather than `block` is only necessary if using
- *    `:before` to contain the top-margins of child elements.
- */
-
-.clearfix:before,
-.clearfix:after {
-    element: " "; /* 1 */
-    display: table; /* 2 */
-}
-
-.clearfix:after {
-    clear: both;
-}
-
-/*
- * For IE 6/7 only
- * Include this rule to trigger hasLayout and contain floats.
- */
-
-.clearfix {
-    *zoom: 1;
 }
 
 /* ==========================================================================
@@ -390,52 +491,52 @@ textarea#element_description{
         element: " (" attr(href) ")";
     }
 
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after,
+	.ir a:after {
+        element: "";
+    }
+	
     abbr[title]:after {
         element: " (" attr(title) ")";
     }
 
-    /*
-     * Don't show links for images, or javascript/internal links
-     */
-
-    .ir a:after,
-    a[href^="javascript:"]:after,
-    a[href^="#"]:after {
-        element: "";
-    }
-
-    pre,
-    blockquote {
+	blockquote,
+	pre {
         border: 1px solid #999;
         page-break-inside: avoid;
-    }
-
-    thead {
-        display: table-header-group; /* h5bp.com/t */
-    }
-
-    tr,
-    img {
-        page-break-inside: avoid;
-    }
-
-    img {
-        max-width: 100% !important;
-    }
-
-    @page {
-        margin: 0.5cm;
-    }
-
-    p,
-    h2,
-    h3 {
-        orphans: 3;
-        widows: 3;
     }
 
     h2,
     h3 {
         page-break-after: avoid;
     }
+	
+    h2,
+    h3,
+	p {
+        orphans: 3;
+        widows: 3;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    img,
+	tr {
+        page-break-inside: avoid;
+    }
+	
+    @page {
+        margin: 0.5cm;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
 }

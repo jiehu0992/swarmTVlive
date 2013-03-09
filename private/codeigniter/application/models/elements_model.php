@@ -374,7 +374,9 @@ class Elements_model extends CI_Model {
 		
 		// delete all links for this element
 		$this->load->model('Links_model');
-		$this->Links_model->delete_links_by_element_id($id);
+        //if ($element->type != "text"){
+            $this->Links_model->delete_links_by_element_id($id);
+        //}
 		
 		// create a new element in the deleted_elements **** make sure to add the old ID field
 		//unlink($element->id);?? What does this do ??
