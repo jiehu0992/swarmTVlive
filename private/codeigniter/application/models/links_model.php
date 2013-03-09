@@ -13,10 +13,13 @@ class Links_model extends CI_Model {
     
     
     // Returns an associative array with all the links in an array
+	//it is called "links" and it stores the Link_id and also the position in the string where it starts
 	// and the parts either side of the links in an array.
+	//This one is called "parts" and it splits the text into every substring, split by the links themselves (including the double brackets)
 	function parse_string_for_links($string)
 	{
 		$pattern = "/(?<=\[\[)[\w :]+(?=\]\])/"; // [[ ... ]] regex
+		//$pattern = "/(?<=\[\[).+(?=\]\])/"; // [[ ... ]] regex
 		
 		$links = null;							// array to store results of regex					
 		$cursor = 0;							// cursor to keep track of the substring start position
@@ -45,7 +48,7 @@ class Links_model extends CI_Model {
 		$part = substr($string, $cursor, strlen($string));
 		array_push($parts, $part);
 		
-		// create and associative array of the results and return it
+		// create an associative array of the results and return it
 		$result['links'] = $links[0];
 		$result['parts'] = $parts;
 		

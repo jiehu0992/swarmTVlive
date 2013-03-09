@@ -65,7 +65,7 @@
 			
 			$('input[name="x"]').val(e.pageX);
 			$('input[name="y"]').val(e.pageY);
-			
+			$('textarea').focus();
 			clearSelection();
 		});
 		
@@ -129,7 +129,7 @@
 			
 			// get all the form values
 			var element_file = $('#element_file').get(0).files[0];
-			var element_description = $('#element_description').val();
+			var element_description = $('#element_text').val();
 			var pages_id = $('input[name="pages_id"]').val();
 			var x = $('input[name="x"]').val();
 			var y = $('input[name="y"]').val();
@@ -433,11 +433,13 @@
 			
 			// get the shortcode content
 			var link = string.substr(openCodeIndex + 2, (closeCodeIndex) - (openCodeIndex+4));
+			//var linkURI = encodeURIComponent(string.substr(openCodeIndex + 2, (closeCodeIndex) - (openCodeIndex+4)));
+			var linkURI = string.substr(openCodeIndex + 2, (closeCodeIndex) - (openCodeIndex+4));
 			
 			var leftOfShortCode = string.slice(0,openCodeIndex);	
 			var rightOfShortCode = string.slice(closeCodeIndex);
 		
-			var linkHTML = '<a href="' + link + '">' + link + '</a>';
+			var linkHTML = '<a href="' + linkURI + '">' + linkURI + '</a>';
 			
 			string = leftOfShortCode + linkHTML + rightOfShortCode;
 		
