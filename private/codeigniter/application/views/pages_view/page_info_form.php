@@ -1,28 +1,21 @@
-<div id="page_info_form_wrap">
-	
-	<!-- used to show form -->
-	<div id="page_info_form_triger">
-		<h1 id="page_title"> <?php echo $page_info->title; ?> </h1>	
-		<p id="page_description" > <?php echo $page_info->description; ?> </p>
-	</div>
-	
-	<form action="#" method="get" enctype="multipart/form-data" class="hidden" id="page_info_form" >
-		
+<a class="hidden" id="page_info_form_trigger" href="#page_info_form">&nbsp;</a>
+
+<div id="page_info_form_wrapper" class="hidden">
+	<form id="page_info_form">
+		<h2><?php echo $page_info->title; ?></h2>	
+		<p id="element_file_info"></p>
 		<input type="hidden" value="<?php echo $page_info->id; ?>" name="id" />
-		
 		<label for="description"> Description: </label>
         <textarea name="description"><?php echo $page_info->description; ?> </textarea>
-        
         <br />
         <label for="keywords"> Keywords: </label>
-        <textarea name="keywords"><?php echo $page_info->keywords; ?> </textarea> <br /> <br />
-        
-        <select name="public">
-          <option value="1" <?php if($page_info->public == "1") echo 'selected="true"'; ?>>public</option>
-          <option value="0" <?php if($page_info->public == "0") echo 'selected="true"'; ?>>private</option>
-         </select>
-         <br /> <br/>
-         <input type="submit" value="Submit" id="page_info_submit"/>
-    </form>
+        <input id="pageKeywords" type="text" name="keywords" value="<?php echo $page_info->keywords; ?>" /> <br /><br />
+		
+        <input type="radio" name="public" value="1" checked="true"> Public   <input type="radio" name="public" value="0" <?php if($page_info->public == 0) echo 'selected="true"'; ?>> Private
 
+        <br /> <br/>
+		<div>
+				<input type="submit" value="Submit" class="submit_element" />&nbsp;<input type="button" value="Remove" class="submit_element" />
+		</div>
+    </form>
 </div>

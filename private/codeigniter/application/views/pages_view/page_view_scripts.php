@@ -16,9 +16,24 @@
 		// as soon as the page is ready initiate all elements on the page
 		initElements();
 		
-		// toggle the page info view
-		$('#page_info_form_triger').click(function(){
-			$('#page_info_form').toggleClass('hidden');
+		// open the page info view
+		$('#page_title_wrapper').click(function(e){
+            $("#page_info_form_trigger").trigger('click');
+			
+			//$('input[name="x"]').val(e.pageX);
+			//$('input[name="y"]').val(e.pageY);
+			$('textarea').focus();
+			clearSelection();
+		});
+        
+        
+		$('#page_title_wrapper').dblclick(function(e){
+			$("a#add_element_form_trigger").trigger('click');
+			
+			$('input[name="x"]').val(e.pageX);
+			$('input[name="y"]').val(e.pageY);
+			$('textarea').focus();
+			clearSelection();
 		});
 		
 		// Work around for linking with special chars
@@ -52,8 +67,14 @@
 			});
 		});
 		
-		// init fancy box
+		// init fancy boxes
 		$("a#add_element_form_trigger").fancybox({
+			'overlayOpacity':0,
+			'autoDimensions':true,
+			'showCloseButton':false,
+		});
+        
+		$("a#page_info_form_trigger").fancybox({
 			'overlayOpacity':0,
 			'autoDimensions':true,
 			'showCloseButton':false,

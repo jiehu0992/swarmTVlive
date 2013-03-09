@@ -1,4 +1,4 @@
-<a class="hidden" id="add_element_form_trigger" href="#add_element_form"> HACK FOR FANCYBOX IMPLEMENTATION </a>
+<a class="hidden" id="add_element_form_trigger" href="#add_element_form">&nbsp;</a>
 
 <!-- omni-element box: will detect exactly what the user wants to do instead of forcing them to make so many choices -->
 <div id="add_element_form_wrapper" class="hidden">
@@ -9,7 +9,7 @@
 		<input type="file" name="element_file" id="element_file" /><br /><br />
 		<label for="element_text">Text:</label>
 		<textarea id="element_text" > </textarea>
-		<input type="submit" id="submit_element" value="Submit" />
+		<input type="submit" class="submit_element" value="Submit" />
 		<!-- hidden values -->
 		<input type="hidden" name="pages_id" value="<?php echo $page_info->id; ?>"/>
 		<input type="hidden" name="x" value="400"/>
