@@ -136,21 +136,12 @@ class Elements_model extends CI_Model {
 		$this->data['type'] = $folder_from_mime_type;
 		$success = move_uploaded_file($_FILES['file']['tmp_name'], 'assets/' . $folder_from_mime_type . '/' . $full_name);
         if ($folder_from_mime_type == 'audio') {
-            echo getcwd() . "\n";
             chdir('./assets/audio');
-            echo getcwd() . "\n";
-            $listFiles = "ls -lart";
-            $output = shell_exec($listFiles);
-            echo "<pre>$output</pre>\n";
-            echo "ffmpeg2theora ".$full_name ."\n";
             //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
             $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
             $execute = shell_exec($createOgvVersion);
             $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
-            echo $renameOgvToOga;
             $execute = shell_exec($renameOgvToOga);
-            $output2 = shell_exec('ls -lart');
-            echo "<pre>$output2</pre>";
         }
 		
 		if ($success){
