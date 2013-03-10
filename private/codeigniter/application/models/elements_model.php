@@ -149,9 +149,9 @@ class Elements_model extends CI_Model {
             echo "<pre>$output</pre>\n";
             echo "ffmpeg2theora ".$full_name ."\n";
             $createOgaVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-            //$createOgaVersion = "/usr/share/doc/ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;           
             $execute = shell_exec($createOgaVersion);
-            //echo 'mv '.$unique_name.'.ogv '.$unique_name.'.oga'."\n";
+            echo "execute = ".$execute."\n";
+            echo 'mv '.$unique_name.'.ogv '.$unique_name.'.oga'."\n";
             $execute = shell_exec('mv '.$unique_name.'.ogv '.$unique_name.'.oga');
             $output2 = shell_exec('ls -lart');
             echo "<pre>$output2</pre>";
