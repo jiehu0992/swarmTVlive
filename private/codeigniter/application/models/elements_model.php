@@ -136,16 +136,14 @@ class Elements_model extends CI_Model {
 		$this->data['type'] = $folder_from_mime_type;
 		$success = move_uploaded_file($_FILES['file']['tmp_name'], 'assets/' . $folder_from_mime_type . '/' . $full_name);
         if ($folder_from_mime_type == 'audio') {
-            // current directory
             echo getcwd() . "\n";
             chdir('./assets/audio');
-            // current directory
             echo getcwd() . "\n";
             $listFiles = "ls -lart";
             $output = shell_exec($listFiles);
             echo "<pre>$output</pre>\n";
             echo "ffmpeg2theora ".$full_name ."\n";
-            //$createOgaVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+            //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
             $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
             $execute = shell_exec($createOgvVersion);
             $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
@@ -153,9 +151,6 @@ class Elements_model extends CI_Model {
             $execute = shell_exec($renameOgvToOga);
             $output2 = shell_exec('ls -lart');
             echo "<pre>$output2</pre>";
-            //echo "/assets/audio/"+$full_name;
-            //shell_exec(ffmpeg2theora "/assets/audio/"+$full_name);
-            //shell_exec(mv "/assets/audio/"+$unique_name+".ogv /assets/audio/"+$unique_name+".oga");
         }
 		
 		if ($success){
@@ -284,10 +279,12 @@ class Elements_model extends CI_Model {
                         $jasonArray = json_encode($element);
                         break;
                     case 'audio':
-                        //;
+                        $elementInHtml = '<audio style="width:320px" preload="none" controls="" tabindex="0"><source type="audio/mpeg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$element->filename.'.mp3"></source><source type="audio/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$element->filename.'.oga"></source></audio>';
++                       $jasonArray = json_encode($element);
                         break;
                     case 'video':
-                        //;
+                        $elementInHtml = '<video width="100%" height="100%" preload="auto" controls="" tabindex="0"><source type="video/mp4" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$element->filename.'.mp4"></source><source type="video/webm" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$element->filename.'.webm"></source><source type="video/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$element->filename.'.ogv"></source><object width="100%" height="100%" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash"></video>';
+                        $jasonArray = json_encode($element);
                         break;
 		}
 		$this->load->model('Pages_model');
@@ -295,12 +292,12 @@ class Elements_model extends CI_Model {
 		
 		//create array to insert into updates table
 		$updates_data = array(
-		   'page' => $pages_title ,
-                   'summary' => $action . $element->type ,
-                   'elementInHtml' => $elementInHtml ,
-		   'jsonArray' => json_encode($element) ,
-		   'elements_id' => $elements_id ,
-		   'pages_id' => $element->pages_id
+            'page' => $pages_title ,
+            'summary' => $action . $element->type ,
+            'elementInHtml' => $elementInHtml ,
+            'jsonArray' => json_encode($element) ,
+            'elements_id' => $elements_id ,
+            'pages_id' => $element->pages_id
 		);
 		
 		//insert new record into into updates table
@@ -394,12 +391,11 @@ class Elements_model extends CI_Model {
 		
 		// delete all links for this element
 		$this->load->model('Links_model');
-        //if ($element->type != "text"){
-            $this->Links_model->delete_links_by_element_id($id);
-        //}
+        $this->Links_model->delete_links_by_element_id($id);
 		
 		// create a new element in the deleted_elements **** make sure to add the old ID field
 		//unlink($element->id);?? What does this do ??
+        unset($element->id);
 		$this->db->insert('deleted_elements', $element);
 		
 		//create new record for updates table before it is deleted
