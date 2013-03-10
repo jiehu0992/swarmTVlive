@@ -151,34 +151,6 @@ a#main_home_button:hover{
 #page_info_form label{ 
         font-size:15px; 
 }
- 
-#add_element_form .submit_element,
-#page_info_form .submit_element {  
-	width: 85px;
-	height: 25px;  
-	font-weight:bold; 
-	color:#ccc;  
-	border:none;  
-	display:block;  
-	float:right; 
-	margin-right:6px;  
-	background-color:#006;   
-	-moz-border-radius:8px;  
-	-webkit-border-radius:8px;  
-	border-radius:8px;  
-}  
-      
-#add_element_form .submit_element:hover,
-#page_info_form .submit_element:hover {  
-	color: #fff;  
-}  
-  
-#add_element_form .submit_element:active,
-#page_info_form .submit_element:active {  
-	position:relative;  
-	top:1px;  
-}
-  
 	
 /*
  *	pages_view
@@ -366,6 +338,32 @@ img {
     background: #b3d4fc;
     text-shadow: none;
 }
+
+.submit_button {
+  float:right;  
+  width: 85px;
+  height: 25px;  
+  font-weight:bold; 
+  color:#ccc;  
+  border:none;  
+  display:block;  
+  float:right; 
+  margin-right:6px;  
+  background-color:#006;   
+  -moz-border-radius:8px;  
+  -webkit-border-radius:8px;  
+  border-radius:8px;  
+}
+
+.submit_button:hover { 
+	color: #fff;  
+}
+
+.submit_button:active {  
+	position:relative;  
+	top:1px;
+}
+  
 
 /*
  * Allow only vertical resizing of textareas.

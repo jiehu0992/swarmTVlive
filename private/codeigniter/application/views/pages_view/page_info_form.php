@@ -15,7 +15,7 @@
 
         <br /> <br/>
 		<div>
-				<input type="submit" value="Submit" class="submit_element" />&nbsp;<input type="button" value="Remove" class="submit_element" />
+				<input type="submit" value="Submit" id="submit_page_info" class="submit_button" />&nbsp;<input type="button" value="Remove" id="remove_page" class="submit_button" />
 		</div>
     </form>
 </div>

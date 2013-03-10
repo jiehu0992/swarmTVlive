@@ -9,7 +9,7 @@
 		<input type="file" name="element_file" id="element_file" /><br /><br />
 		<label for="element_text">Text:</label>
 		<textarea id="element_text" > </textarea>
-		<input type="submit" class="submit_element" value="Submit" />
+		<input type="submit" id="submit_element" value="Submit" class="submit_button"  />
 		<!-- hidden values -->
 		<input type="hidden" name="pages_id" value="<?php echo $page_info->id; ?>"/>
 		<input type="hidden" name="x" value="400"/>
