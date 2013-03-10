@@ -13,7 +13,6 @@ class Elements_model extends CI_Model {
 										array('image/png;'	, 'image'),
 										array('image/gif;'	, 'image'),
 										array('image/jpg;'	, 'image'),
-										array('image/gif;'	, 'image'),
 										array('audio/mpeg;'	, 'audio'),
 										array('video/mp4;' , 'video')
 										);
@@ -135,8 +134,6 @@ class Elements_model extends CI_Model {
 		
 		$this->data['filename'] = $full_name;
 		$this->data['type'] = $folder_from_mime_type;
-		
-<<<<<<< HEAD
 		$success = move_uploaded_file($_FILES['file']['tmp_name'], 'assets/' . $folder_from_mime_type . '/' . $full_name);
         if ($folder_from_mime_type == 'audio') {
             // current directory
@@ -148,20 +145,17 @@ class Elements_model extends CI_Model {
             $output = shell_exec($listFiles);
             echo "<pre>$output</pre>\n";
             echo "ffmpeg2theora ".$full_name ."\n";
-            $createOgaVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-            $execute = shell_exec($createOgaVersion);
-            echo "execute = ".$execute."\n";
-            echo 'mv '.$unique_name.'.ogv '.$unique_name.'.oga'."\n";
-            $execute = shell_exec('mv '.$unique_name.'.ogv '.$unique_name.'.oga');
+            //$createOgaVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+            $createOgvVersion = "ffmpeg2theora assets/audio/".$full_name;
+            $execute = shell_exec($createOgvVersion);
+            $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
+            $execute = shell_exec($renameOgvToOga);
             $output2 = shell_exec('ls -lart');
             echo "<pre>$output2</pre>";
             //echo "/assets/audio/"+$full_name;
             //shell_exec(ffmpeg2theora "/assets/audio/"+$full_name);
             //shell_exec(mv "/assets/audio/"+$unique_name+".ogv /assets/audio/"+$unique_name+".oga");
         }
-=======
-		$success = move_uploaded_file($_FILES['file']['tmp_name'], 'assets/' . $folder_from_mime_type . '/' . $full_name);	
->>>>>>> 05a4e24... tests out directory stricture on server to create oga file
 		
 		if ($success){
 			$file = true;
