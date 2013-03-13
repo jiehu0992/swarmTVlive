@@ -100,12 +100,13 @@
 			{
 				// make content editable and disable drag
 				$(this).find('.text-content').attr('contenteditable','true');
+				$(this).find('.text-content').focus();
 				$(this).draggable({ disabled: true });
 				
 				// listen for when the user shifts focus out of the box
 				$(this).bind('focusout', function(updateTextElementContent)
 				{
-					$(this).find('.delete_button').fadeOut();
+                    $(this).find('.delete_button').fadeOut();
 					// remove the event
 					$(this).unbind('focusout', updateTextElementContent);
 				
@@ -256,17 +257,17 @@
 			// create the style object
 			var style = { 
 			    'background-color'	:   page_elements_json[i].backgroundColor,
-			    'color'		:   page_elements_json[i].color,
-			    'font-size'		:   page_elements_json[i].fontSize + 'px',				
-			    'font-family'	:   page_elements_json[i].fontFamily,
-			    'height'		:   page_elements_json[i].height+'px',
-			    'opacity'		:   page_elements_json[i].opacity,
-			    'text-align'	:   page_elements_json[i].textAlign,
-			    'width'		:   page_elements_json[i].width+'px',
-			    'left'		:   page_elements_json[i].x+'px',
-			    'top'		:   page_elements_json[i].y+'px',
-			    'z-index'  		:   page_elements_json[i].z,
-			    'position'		:   'absolute'
+			    'color'		        :   page_elements_json[i].color,
+			    'font-size'		    :   page_elements_json[i].fontSize + 'px',
+			    'font-family'	    :   page_elements_json[i].fontFamily,
+			    'height'		    :   page_elements_json[i].height+'px',
+			    'opacity'		    :   page_elements_json[i].opacity,
+			    'text-align'	    :   page_elements_json[i].textAlign,
+			    'width'		        :   page_elements_json[i].width+'px',
+			    'left'		        :   page_elements_json[i].x+'px',
+			    'top'		        :   page_elements_json[i].y+'px',
+			    'z-index'  		    :   page_elements_json[i].z,
+			    'position'		    :   'absolute'
 			}
 			
 			if (page_elements_json[i].type === 'text') style.height = 'auto';
