@@ -135,14 +135,31 @@ class Elements_model extends CI_Model {
 		$this->data['filename'] = $full_name;
 		$this->data['type'] = $folder_from_mime_type;
 		$success = move_uploaded_file($_FILES['file']['tmp_name'], 'assets/' . $folder_from_mime_type . '/' . $full_name);
-        if ($folder_from_mime_type == 'audio') {
-            chdir('./assets/audio');
-            //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-            $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
-            $execute = shell_exec($createOgvVersion);
-            $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
-            $execute = shell_exec($renameOgvToOga);
+        
+        switch ($folder_from_mime_type) {
+            case 'image':
+                //get proportions of image uploaded
+                $size = getimagesize('assets/image/' . $full_name);
+                $ratio = $size[0]/$size[1];
+                $this->data['width'] = '320';
+                $this->data['height'] = 320/$ratio;
+                break;
+            case 'audio':
                 //create OGA version
+                chdir('./assets/audio');
+                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                $execute = shell_exec($createOgvVersion);
+                $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
+                $execute = shell_exec($renameOgvToOga);
+                break;
+            case 'video':
+                //create OGV version;
+                chdir('./assets/video');
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                $execute = shell_exec($createOgvVersion);
+                break;
         }
 		
 		if ($success){
