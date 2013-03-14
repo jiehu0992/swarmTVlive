@@ -142,6 +142,7 @@ class Elements_model extends CI_Model {
             $execute = shell_exec($createOgvVersion);
             $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
             $execute = shell_exec($renameOgvToOga);
+                //create OGA version
         }
 		
 		if ($success){
