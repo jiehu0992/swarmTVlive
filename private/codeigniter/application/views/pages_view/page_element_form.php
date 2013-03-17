@@ -2,6 +2,7 @@
 
 <!-- omni-element box: will detect exactly what the user wants to do instead of forcing them to make so many choices -->
 <div id="add_element_form_wrapper" class="hidden">
+	
 	<form id="add_element_form">
 		<h2>New Element</h2>	
 		<p id="element_file_info"></p>
@@ -14,5 +15,7 @@
 		<input type="hidden" name="pages_id" value="<?php echo $page_info->id; ?>"/>
 		<input type="hidden" name="x" value="400"/>
 		<input type="hidden" name="y" value="400"/>
+		
+		<div id="loadingPrompt">Loading...</div>
 	</form>
 </div>

@@ -270,6 +270,7 @@ hr {
     padding: 0;
 }
 
+
 /*
  * Remove the gap between images and the bottom of their containers: h5bp.com/i/440
  */
@@ -432,6 +433,10 @@ textarea#element_description{
 	user-select: none;
 }
 
+#loadingPrompt {
+    visibility: hidden;
+}
+
 /*
  * Hide visually and from screenreaders, but maintain layout
  */
@@ -569,5 +574,5 @@ textarea#element_description{
     thead {
         display: table-header-group; /* h5bp.com/t */
     }
-
+	
 }

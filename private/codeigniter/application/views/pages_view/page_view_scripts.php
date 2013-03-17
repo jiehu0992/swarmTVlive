@@ -15,7 +15,7 @@
 		
 		// as soon as the page is ready initiate all elements on the page
 		initElements();
-		
+        
 		// open the page info view
 		$('#page_title_wrapper').click(function(e){
             $("#page_info_form_trigger").trigger('click');
@@ -149,6 +149,9 @@
 		$('#submit_element').click(function(e){
 			e.preventDefault();
 			
+            $("#loadingPrompt").css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            $.fancybox.showActivity();
+		
 			// get all the form values
 			var element_file = $('#element_file').get(0).files[0];
 			var element_description = $('#element_text').val();
@@ -190,6 +193,7 @@
 			
 			// Initiate a multipart/form-data upload
 			xhr.send(fd);
+            
 			
 		});
 		
@@ -205,7 +209,8 @@
 				success	: function(data, status)
 				{
 					location.reload();
-				}
+                    
+				} 
 			});
 		});
 		

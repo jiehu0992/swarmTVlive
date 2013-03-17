@@ -271,7 +271,8 @@ class Elements_model extends CI_Model {
 		//get element data from elements_id provided
 		$this->load->model('Elements_model');
 		$element = $this->get_element_by_id($elements_id);
-		switch ($element->type) {
+        $justName = substr(($element->filename), 0,strrpos(($element->filename),'.'));
+        switch ($element->type) {
                     case 'text':
                         //set description as the element displayed and then json array
                         //restore links in content
@@ -288,11 +289,11 @@ class Elements_model extends CI_Model {
                         $jasonArray = json_encode($element);
                         break;
                     case 'audio':
-                        $elementInHtml = '<audio style="width:320px" preload="none" controls="" tabindex="0"><source type="audio/mpeg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$element->filename.'.mp3"></source><source type="audio/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$element->filename.'.oga"></source></audio>';
+                        $elementInHtml = '<audio style="width:320px" preload="none" controls="" tabindex="0"><source type="audio/mpeg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.oga"></source></audio>';
 +                       $jasonArray = json_encode($element);
                         break;
                     case 'video':
-                        $elementInHtml = '<video width="100%" height="100%" preload="auto" controls="" tabindex="0"><source type="video/mp4" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$element->filename.'.mp4"></source><source type="video/webm" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$element->filename.'.webm"></source><source type="video/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$element->filename.'.ogv"></source><object width="100%" height="100%" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash"></video>';
+                        $elementInHtml = '<video width="100%" height="100%" preload="auto" controls="" tabindex="0"><source type="video/mp4" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.ogv"></source><object width="100%" height="100%" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash"></video>';
                         $jasonArray = json_encode($element);
                         break;
 		}
