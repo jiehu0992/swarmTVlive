@@ -285,7 +285,7 @@ class Elements_model extends CI_Model {
                         $jsonArray = json_encode($element);
                         break;
                     case 'image':
-                        $elementInHtml = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="100%" height="100%" src="http://ucfmediacentre.co.uk/swarmtv/assets/image/'.$element->filename.'"></div>';
+                        $elementInHtml = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="'.$element->width.'px" height="'.$element->height.'px" src="http://ucfmediacentre.co.uk/swarmtv/assets/image/'.$element->filename.'"></div>';
                         $jasonArray = json_encode($element);
                         break;
                     case 'audio':

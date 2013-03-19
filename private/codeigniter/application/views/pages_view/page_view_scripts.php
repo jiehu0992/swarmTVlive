@@ -377,8 +377,10 @@
 	// ----------------------------------------------- AUDIO
 	function initAudio(elm, index)
 	{
+        
+		$(elm).css("height","30px");
 		var filename_NoExt = page_elements_json[index].filename.split('.');
-		var audio_html = '<audio controls preload="none" style="width:320px">';
+		var audio_html = '<audio controls preload="none" style="width:320px";>';
 		audio_html = audio_html + '<source src="' + base_url + 'assets/audio/' + filename_NoExt[0] + '.mp3" type="audio/mpeg">';
 		audio_html = audio_html + '<source src="' + base_url + 'assets/audio/' + filename_NoExt[0] + '.oga" type="audio/ogg">';
 		audio_html = audio_html + '</audio>';	
