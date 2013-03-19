@@ -11,7 +11,7 @@ class Updates_model extends CI_Model {
     }
     
     // get all postings  
-    function getUpdates($limit = NULL)  
+    function getUpdates($limit = 10)  
     {  
         $this->db->order_by('pubDate', 'desc');
 	return $this->db->get('updates', $limit);  

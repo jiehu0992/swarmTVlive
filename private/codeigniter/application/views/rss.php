@@ -13,8 +13,8 @@
 	       <guid><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/update/view/' . $update->id ?></guid>
 	       <link><?php echo 'http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/' . $update->page ?></link>   
 	       <pubDate><?php echo date('r', strtotime($update->pubDate)); ?></pubDate>
-	       <content:encoded><![CDATA[<?php echo $update->elementInHtml ?>]]></content:encoded>
 	       <description><![CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
+	       <content:encoded><![CDATA[<?php echo $update->elementInHtml ?>]]></content:encoded>
 	  </item>  
 	  <?php endforeach; ?>
      </channel>  

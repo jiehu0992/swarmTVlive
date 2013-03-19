@@ -250,7 +250,7 @@ class Elements_model extends CI_Model {
 		//save the new element id 
 		$elements_id = $this->db->insert_id();
 		$update_elements_id = $elements_id;
-		$update_action = 'Created ';
+		$update_action = 'created ';
 		$this->create_update($update_action, $update_elements_id);
 		
 		//having saved new update, return new element id from elements table
@@ -289,11 +289,11 @@ class Elements_model extends CI_Model {
                         $jasonArray = json_encode($element);
                         break;
                     case 'audio':
-                        $elementInHtml = '<audio style="width:320px" preload="none" controls="" tabindex="0"><source type="audio/mpeg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.oga"></source></audio>';
+                        $elementInHtml = '<audio style="width:320px" tabindex="0"><source type="audio/mpeg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.oga"></source></audio>';
 +                       $jasonArray = json_encode($element);
                         break;
                     case 'video':
-                        $elementInHtml = '<video width="100%" height="100%" preload="auto" controls="" tabindex="0"><source type="video/mp4" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.ogv"></source><object width="100%" height="100%" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf" type="application/x-shockwave-flash"></video>';
+                        $elementInHtml = '<video tabindex="0"><source type="video/mp4" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.ogv"></source></video>';
                         $jasonArray = json_encode($element);
                         break;
 		}
@@ -303,7 +303,7 @@ class Elements_model extends CI_Model {
 		//create array to insert into updates table
 		$updates_data = array(
             'page' => $pages_title ,
-            'summary' => $action . $element->type ,
+            'summary' =>  $element->type . $action,
             'elementInHtml' => $elementInHtml ,
             'jsonArray' => json_encode($element) ,
             'elements_id' => $elements_id ,
@@ -323,7 +323,7 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table
 		$update_elements_id = $id;
-		$update_action = 'Revised ';
+		$update_action = 'revised ';
 		$this->create_update($update_action, $update_elements_id);
 		
 	}
@@ -362,7 +362,7 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table
 		$update_elements_id = $id;
-		$update_action = 'Revised ';
+		$update_action = 'revised ';
 		$this->create_update($update_action, $update_elements_id);
 		
 		return $this->db->affected_rows();
@@ -410,7 +410,7 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table before it is deleted
 		$update_elements_id = $id;
-		$update_action = 'Deleted ';
+		$update_action = 'deleted ';
 		$this->create_update($update_action, $update_elements_id);
 		
 		// delete element
