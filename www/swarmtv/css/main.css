@@ -62,7 +62,7 @@ a.navbar:hover {
 
 a#main_home_button{
 	display:block;
-	height:30px;
+	height:70px;
 	width:160px;
 	position:fixed;
 	left:20px;
@@ -70,7 +70,6 @@ a#main_home_button{
 	background-image:url(../img/swarmLogo.png);
 	background-position:0px -70px;
 	text-align:center;
-	padding-top:45px;
 	color:#ccc;
 	text-decoration:none;
 }
