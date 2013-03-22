@@ -169,7 +169,10 @@
 			xhr.onreadystatechange = function() {
 				if (xhr.readyState == 4 && xhr.status == 200) {
 					// Handle response.
-					//alert(xhr.responseText); // handle response.
+                    if (xhr.responseText !== ""){
+                        //An error can be triggered by the server not finding an .webm format which gives a blank alert
+                        alert(xhr.responseText); // handle response.
+                    }
 					location.reload();
 				}
 			};
@@ -214,7 +217,7 @@
 			});
 		});
 		
-		// update preview is file is selected
+		// update preview if file is selected
 		$('#element_file').change(function(){
 			
 			// check to see if a file has been selected

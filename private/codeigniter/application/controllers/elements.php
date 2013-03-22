@@ -43,10 +43,10 @@ class Elements extends CI_Controller {
 		//update the CONTENTS
 		$this->Elements_model->update_description($return_id, $processed_description);
 		
-		// get the content
+		//get the content
 		$contents = $this->Elements_model->return_contents();
 		
-		// piece the content back together with the link ids instead of the page titles
+		//piece the content back together with the link ids instead of the page titles
 		$processed_contents = $this->Links_model->process_links($contents, $pages_title, $return_id);
 			
 		//update the description

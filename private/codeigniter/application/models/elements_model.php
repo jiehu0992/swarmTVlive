@@ -113,7 +113,7 @@ class Elements_model extends CI_Model {
 		// send error if the file does not validate
 		if ($this->current_mime_type_index < 0) 
 		{
-			$this->file_errors = "The file type is not allowed! :" . $file_mime_type;
+			$this->file_errors = "This file type is not allowed! - " . $file_mime_type;
 			return false;
 			exit;
 		}
@@ -147,8 +147,8 @@ class Elements_model extends CI_Model {
             case 'audio':
                 //create OGA version
                 chdir('./assets/audio');
-                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
@@ -156,8 +156,8 @@ class Elements_model extends CI_Model {
             case 'video':
                 //create OGV version;
                 chdir('./assets/video');
-                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
-                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 break;
         }
@@ -185,7 +185,7 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('description', $post_data))
 		{
 			$description = $post_data['description'];
-			$description = htmlspecialchars($description, ENT_QUOTES);
+            $description = htmlspecialchars($description, ENT_QUOTES);
 			
 			$this->data['description'] = $description;
 		}
@@ -193,7 +193,7 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('contents', $post_data))
 		{
 			$contents = $post_data['contents'];
-			$contents = htmlspecialchars($contents, ENT_QUOTES);
+            $contents = htmlspecialchars($contents, ENT_QUOTES);
 			
 			$this->data['contents'] = $contents;
 			$this->data['type'] = 'text';
@@ -239,7 +239,7 @@ class Elements_model extends CI_Model {
 		if (!$this->db->insert('elements', $this->data))
 		{
 			// should probably check to see if a page exist with this id as well?
-			$this->data_errors = "There was an error adding element to the database";
+			$this->data_errors = "There was an error adding this element to the database";
 			//delete file if there was one?
 			// *** IMPORTANT *** 
 			if ($file) remove_orthan_file();
@@ -289,11 +289,11 @@ class Elements_model extends CI_Model {
                         $jasonArray = json_encode($element);
                         break;
                     case 'audio':
-                        $elementInHtml = '<audio style="width:320px" tabindex="0"><source type="audio/mpeg" src="' . base_url() . 'assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="' . base_url() . 'assets/audio/'.$justName.'.oga"></source></audio>';
+                        $elementInHtml = '<audio style="width:320px" controls tabindex="0"><source type="audio/mpeg" src="' . base_url() . 'assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="' . base_url() . 'assets/audio/'.$justName.'.oga"></source></audio>';
 +                       $jasonArray = json_encode($element);
                         break;
                     case 'video':
-                        $elementInHtml = '<video tabindex="0"><source type="video/mp4" src="' . base_url() . 'assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="' . base_url() . 'assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="' . base_url() . 'assets/video/'.$justName.'.ogv"></source></video>';
+                        $elementInHtml = '<video controls tabindex="0"><source type="video/mp4" src="' . base_url() . 'assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="' . base_url() . 'assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="' . base_url() . 'assets/video/'.$justName.'.ogv"></source></video>';
                         $jasonArray = json_encode($element);
                         break;
 		}
@@ -311,20 +311,17 @@ class Elements_model extends CI_Model {
 		);
 		
 		//insert new record into updates table
-		$this->db->insert('updates', $updates_data); 
+		$this->db->insert('updates', $updates_data);
+        
 	}
 	
 	function update_contents($id, $contents)
 	{
 		$data = array( 'contents' => $contents);
-
-		$this->db->where('id', $id);
-		$this->db->update('elements', $data);
-		
-		//create new record for updates table
-		$update_elements_id = $id;
-		$update_action = 'revised';
-		$this->create_update($update_action, $update_elements_id);
+        
+        
+        $this->db->where('id', $id);
+        $this->db->update('elements', $data);
 		
 	}
 	
@@ -337,33 +334,32 @@ class Elements_model extends CI_Model {
 	// 
 	public function update_element()
 	{
-		// get the post data
+        //If anything is updated get the post data
 		$post_data = $this->input->post();
-		//print_r($post_data);
+		//find the id of the element
    		$id = $this->input->post('id');
 
 		if ($this->input->post('contents'))
 		{
+            //if it is a text element and therefore has contents ...
 			$this->load->model('Links_model');
 			$this->load->model('Pages_model');
 			
+            //get the page title
 			$pages_title = $this->Pages_model->get_title($id);
 			
+            //delete all the links in the links database belonging to this element
 			$this->Links_model->delete_links_by_element_id($id);
 			
+            //process the text for any links again
 			$contents = $this->Links_model->process_links($post_data['contents'], $pages_title, $id);
-		
+            
+            //post the new data with the coded links
 			$post_data['contents'] = $contents;
 		}
 		
 		$this->db->where('id', $id);
-		
 		$this->db->update('elements', $post_data);
-		
-		//create new record for updates table
-		$update_elements_id = $id;
-		$update_action = 'revised ';
-		$this->create_update($update_action, $update_elements_id);
 		
 		return $this->db->affected_rows();
    	}
@@ -412,7 +408,7 @@ class Elements_model extends CI_Model {
 		$update_elements_id = $id;
 		$update_action = 'deleted';
 		$this->create_update($update_action, $update_elements_id);
-		
+        
 		// delete element
 		$this->db->delete('elements', array('id' => $id));
 				

@@ -331,6 +331,7 @@ img {
 }
 
 #recentChanges{
+	color:#ccc;
 	width:500px;
 	position:absolute;
 	left:260px;
