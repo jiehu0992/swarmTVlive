@@ -8,7 +8,7 @@
 		$page = $directories[sizeof($directories)-1];
 		
 		//iterate through all the items found in the rss feed and form output
-		$changesList = $changesList . "<H2>" . $item->get_title() . " on <a href='" . $item->get_link() . "'>" . $page . "</a></H2>";
+		$changesList = $changesList . "<H2>" . $item->get_title() . " on <a href='" . $item->get_link() . "'>" . urldecode($page) . "</a></H2>";
 		$changesList = $changesList . "Changed: " . $item->get_date() . "<br /><br />";
 		$changesList = $changesList . $item->get_content() . "<br /><br />";
 		$changesList = $changesList . "<hr />";	
