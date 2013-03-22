@@ -6,14 +6,6 @@ class Feed extends CI_Controller {
 	parent::__construct();
     }
     
-    function Feed()  
-    {  
-	parent::Controller();  
-	$this->load->helper('xml');  
-	$this->load->helper('text');
-	$this->load->model('updates_model', 'updates');  
-    }
-    
     function index()  
     {	
 	 
@@ -24,12 +16,12 @@ class Feed extends CI_Controller {
 	
 	$data['feed_name'] = 'ucfmediacentre.co.uk/swarmtv';  
 	$data['encoding'] = 'utf-8';  
-	$data['feed_url'] = 'http://www.ucfmediacentre.co.uk/swarmtv/index.php/feed';  
+	$data['feed_url'] = base_url() . "index.php/feed";  
 	$data['page_description'] = 'Swarm TV Recent Changes';  
 	$data['page_language'] = 'en-en';  
 	$data['creator_email'] = 'ucfmediacentre.co.uk@gmail.com';  
 	$data['updates'] = $this->updates->getUpdates(50);  
-	header("Content-Type: application/rss+xml");  
+	header("Content-Type: application/rss+xml");
 	$this->load->view('rss', $data);  
     }  
 }  

@@ -147,8 +147,8 @@ class Elements_model extends CI_Model {
             case 'audio':
                 //create OGA version
                 chdir('./assets/audio');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
@@ -156,8 +156,8 @@ class Elements_model extends CI_Model {
             case 'video':
                 //create OGV version;
                 chdir('./assets/video');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
-                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 break;
         }
@@ -250,7 +250,7 @@ class Elements_model extends CI_Model {
 		//save the new element id 
 		$elements_id = $this->db->insert_id();
 		$update_elements_id = $elements_id;
-		$update_action = 'created ';
+		$update_action = 'created';
 		$this->create_update($update_action, $update_elements_id);
 		
 		//having saved new update, return new element id from elements table
@@ -285,15 +285,15 @@ class Elements_model extends CI_Model {
                         $jsonArray = json_encode($element);
                         break;
                     case 'image':
-                        $elementInHtml = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="'.$element->width.'px" height="'.$element->height.'px" src="http://ucfmediacentre.co.uk/swarmtv/assets/image/'.$element->filename.'"></div>';
+                        $elementInHtml = '<div style="height: '.$element->height.'px; width: '.$element->width.'px;"><img width="'.$element->width.'px" height="'.$element->height.'px" src="' . base_url() . 'assets/image/'.$element->filename.'"></div>';
                         $jasonArray = json_encode($element);
                         break;
                     case 'audio':
-                        $elementInHtml = '<audio style="width:320px" tabindex="0"><source type="audio/mpeg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/audio/'.$justName.'.oga"></source></audio>';
+                        $elementInHtml = '<audio style="width:320px" tabindex="0"><source type="audio/mpeg" src="' . base_url() . 'assets/audio/'.$justName.'.mp3"></source><source type="audio/ogg" src="' . base_url() . 'assets/audio/'.$justName.'.oga"></source></audio>';
 +                       $jasonArray = json_encode($element);
                         break;
                     case 'video':
-                        $elementInHtml = '<video tabindex="0"><source type="video/mp4" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="http://ucfmediacentre.co.uk/swarmtv/assets/video/'.$justName.'.ogv"></source></video>';
+                        $elementInHtml = '<video tabindex="0"><source type="video/mp4" src="' . base_url() . 'assets/video/'.$justName.'.mp4"></source><source type="video/webm" src="' . base_url() . 'assets/video/'.$justName.'.webm"></source><source type="video/ogg" src="' . base_url() . 'assets/video/'.$justName.'.ogv"></source></video>';
                         $jasonArray = json_encode($element);
                         break;
 		}
@@ -302,15 +302,15 @@ class Elements_model extends CI_Model {
 		
 		//create array to insert into updates table
 		$updates_data = array(
-            'page' => $pages_title ,
-            'summary' =>  $element->type . $action,
-            'elementInHtml' => $elementInHtml ,
-            'jsonArray' => json_encode($element) ,
-            'elements_id' => $elements_id ,
+            'page' => $pages_title,
+            'summary' =>  $element->type . " " . $action,
+            'elementInHtml' => $elementInHtml,
+            'jsonArray' => json_encode($element),
+            'elements_id' => $elements_id,
             'pages_id' => $element->pages_id
 		);
 		
-		//insert new record into into updates table
+		//insert new record into updates table
 		$this->db->insert('updates', $updates_data); 
 	}
 	
@@ -323,7 +323,7 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table
 		$update_elements_id = $id;
-		$update_action = 'revised ';
+		$update_action = 'revised';
 		$this->create_update($update_action, $update_elements_id);
 		
 	}
@@ -410,7 +410,7 @@ class Elements_model extends CI_Model {
 		
 		//create new record for updates table before it is deleted
 		$update_elements_id = $id;
-		$update_action = 'deleted ';
+		$update_action = 'deleted';
 		$this->create_update($update_action, $update_elements_id);
 		
 		// delete element
