@@ -50,10 +50,23 @@ class Pages_model extends CI_Model {
    
    function get_filtered_pages($string)
    {
-   		$this->db->select('*');
-   		$this->db->from('pages');
-   		$this->db->like('title', $string);
-   		$result = $this->db->get();
+		if ($string != "") {
+			//build up SQL statement that finds any page title that has something to do with the filtered string
+			$sql = "SELECT DISTINCT pages.title ";
+			$sql = $sql . "FROM elements ";
+			$sql = $sql . "INNER JOIN pages ";
+			$sql = $sql . "ON elements.pages_id=pages.id ";
+			$sql = $sql . "WHERE (CONVERT(elements.description USING utf8) LIKE '%" . $string ."%' ";
+			$sql = $sql . "OR CONVERT(elements.contents USING utf8) LIKE '%" . $string ."%' ";
+			$sql = $sql . "OR CONVERT(elements.keywords USING utf8) LIKE '%" . $string ."%' ";
+			$sql = $sql . "OR CONVERT(pages.description USING utf8) LIKE '%" . $string ."%' ";
+			$sql = $sql . "OR CONVERT(pages.keywords USING utf8) LIKE '%" . $string ."%' ";
+			$sql = $sql . "OR CONVERT(pages.title USING utf8) LIKE '%" . $string ."%')";
+		} else {
+			$sql = "SELECT pages.title FROM pages";
+		}
+		
+   		$result = $this->db->query($sql);
    		
    		if ($result->num_rows() > 0)
 		{ 
