@@ -45,18 +45,7 @@ class Elements_model extends CI_Model {
     	$elements = $query->result_array();
     	
     	for ($i = 0; $i < sizeof($elements); $i++)
-    	{
-    		$description = $elements[$i]['description'];
-
-			// break up the parts of the description
-			$break_apart_description = $this->Links_model->parse_string_for_links($description);
-		
-			// piece the content back together with the html links embedded
-			$processed_description = $this->Links_model->insert_links($break_apart_description);
-			
-			//update the description
-			$elements[$i]['description'] = $processed_description;
-			
+    	{	
 			$contents = $elements[$i]['contents'];
 
 			// break up the parts of the description
@@ -247,14 +236,9 @@ class Elements_model extends CI_Model {
 			exit;
 		} 
 		
-		//save the new element id 
-		$elements_id = $this->db->insert_id();
-		$update_elements_id = $elements_id;
-		$update_action = 'created';
-		$this->create_update($update_action, $update_elements_id);
+		//return the new element id 
+		return $this->db->insert_id();
 		
-		//having saved new update, return new element id from elements table
-   		return $elements_id;
 	}
 	
 	function update_description($id, $description)
@@ -277,7 +261,7 @@ class Elements_model extends CI_Model {
                         //set description as the element displayed and then json array
                         //restore links in content
                         $this->load->model('Links_model');
-                        // break up the parts of the contents
+                        // break up the parts of the contents as an array
                         $break_apart_contents = $this->Links_model->parse_string_for_links($element->contents);
                         // piece the content back together with the html links embedded
                         $processed_contents = $this->Links_model->insert_links($break_apart_contents);

@@ -34,23 +34,19 @@ class Elements extends CI_Controller {
 		$pages_id = $this->Elements_model->return_pages_id();
 		$pages_title = $this->Pages_model->get_title($pages_id);
 		
-		// get the DESCRIPTION
-		$description = $this->Elements_model->return_description();
-		
-		// piece the content back together with the link ids instead of the page titles
-		$processed_description = $this->Links_model->process_links($description, $pages_title, $return_id);
-			
-		//update the CONTENTS
-		$this->Elements_model->update_description($return_id, $processed_description);
-		
-		//get the content
+		//get the CONTENTS
 		$contents = $this->Elements_model->return_contents();
 		
-		//piece the content back together with the link ids instead of the page titles
+		//piece the CONTENTS back together with the link ids instead of the page titles
 		$processed_contents = $this->Links_model->process_links($contents, $pages_title, $return_id);
 			
-		//update the description
+		//update the CONTENTS
 		$this->Elements_model->update_contents($return_id, $processed_contents);
+		
+		//create the new record in table 'updates'
+		$update_elements_id = $return_id;
+		$update_action = 'created';
+		$this->Elements_model->create_update($update_action, $update_elements_id);
 	}	
 	
 	public function update()
