@@ -17,9 +17,12 @@ class Swarmtv extends CI_Controller {
 		// get filtered pages
 		$pages = $this->Pages_model->get_filtered_pages($filter);
 		
+		if ($pages === false) {
+			$filter = "";
+			$pages = $this->Pages_model->get_filtered_pages($filter);
+		}
 		
-		for ($i = 0; $i < sizeof($pages); $i++)
-		{
+		for ($i = 0; $i < sizeof($pages); $i++) {
 			$linked_pages = $this->Links_model->return_links_for_page($pages[$i]['title']);
 			$filtered_linked_pages = array_intersect($linked_pages, $pages);
 			
