@@ -24,6 +24,7 @@ class Links_model extends CI_Model {
 		$cursor = 0;							// cursor to keep track of the substring start position
 		$parts = array();						// to store the parts either side of the links
 			
+		// find all the links in $string
 		// execute the regex on string and populate $links array storing the offset with the match
 		preg_match_all ( $pattern, $string, $links, PREG_OFFSET_CAPTURE );
 	
@@ -98,7 +99,7 @@ class Links_model extends CI_Model {
 	// 
 	function process_links($string, $pages_title, $elements_id)
 	{
-		// break up the parts of the description
+		// break up the parts of the content
 		$break_apart_string = $this->parse_string_for_links($string);
 	
 		// save the links to the database
@@ -114,6 +115,7 @@ class Links_model extends CI_Model {
 	// return content with all the links embeded
 	function insert_links($link_info)
 	{
+		
 		// put the first part of the content in
 		$content = $link_info['parts'][0];
 		

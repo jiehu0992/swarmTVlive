@@ -216,34 +216,48 @@
                 $(document).ready(function () {
 
                     var links = <?php echo $links; ?> ;
-					//console.log(links);
 					var strokeColour
 					var UIstring = '';
 					var edgeString = '';
 					var nodeString = '';
-					//iterate through the list of pages found
+					var edge = '';
+					var pagesFound = new Array();;
+					// create an array of just the pages found
+					for (var i = 0; i < links.length; i++) {
+					  pagesFound.push(links[i].title);
+					}
+					//iterate through the list of pages again and this time extract the edges needed
 					for (var i = 0; i < links.length; i++) {
 						strokeColour = '';
-						//check to see if any matches have links
+						//check to see if any pages have links
 						if (links[i].link_tree.length > 0) {
-							//create a string to represent each node from which the edge is to be drawn
+							//create a string to represent each node(page) from which the edges(links) are to be drawn
 							edgeString = edgeString + '"' + links[i].title + '":{';
 							//search through all the links tree for the page to create the connections
-							for (var m = 0; m < links[i].link_tree.length; m++) {
-								edgeString = edgeString + '"' + links[i].link_tree[m].pagesTitle + '":{},'
+							for (var j = 0; j < links[i].link_tree.length; j++) {
+								edge = links[i].link_tree[j].pagesTitle;
+								
+								//check to see that all nodes are in the pages found array
+								for(var k=0;k<pagesFound.length;k++) {
+									if(edge == pagesFound[k]) {
+										edgeString = edgeString + '"' + links[i].link_tree[j].pagesTitle + '":{},'
+									}
+								}
 							}
-							//take off end comma
-							edgeString = edgeString.substr(0,edgeString.length-1);
+							//take off end comma if there were some edges found
+							//otherwise it will leave the starting bracket by default
+							if (edgeString.charAt(edgeString.length-1) == ","){
+							  edgeString = edgeString.substr(0,edgeString.length-1);  
+							}
+							//terminate the object properly
 							edgeString = edgeString + '},';
-							//check to see if this node should be a hub, if so, give it a white border
-							if (links[i].link_tree.length > 2) {
-								strokeColour = "white";
-							}
 						}
-						//build up the node string with title, link and stroke colour ('' will make it transparent)
+						//build up the node string with title & link
 						nodeString = nodeString + '"' + links[i].title;
 						nodeString = nodeString + '":{"link":"<?php echo base_url(); ?>index.php/pages/view/' + links[i].title + '", ';
-						nodeString = nodeString + '"stroke":"' + strokeColour + '"},';
+						//create a stroke colour but leave it blank for now
+						nodeString = nodeString + '"stroke":""},';
+						
 					}
 					//take off the end comas
 					nodeString = nodeString.substr(0,nodeString.length-1);
@@ -255,8 +269,37 @@
 					UIstring = UIstring + edgeString;
 					UIstring = UIstring + '}}';
 					var theUI = $.parseJSON(UIstring);
-
-
+					
+					// see how many times each page occurs across the edges(links) section of the array
+					var node = "";
+					var count
+					var connections = new Array();
+					$.each(theUI.edges, function(page, links) {
+						$.each(links, function(item, value){
+							connection = page+"°"+item;
+							if($.inArray(connection, connections) < 0){
+								//if this connection isnt already in the array then store it 
+								connections.push(connection);
+								//also store the reverse connection!
+								connection = item+"°"+page;
+								connections.push(connection);
+							}
+						})
+					});
+					
+					var nodeNum = 0;
+					$.each(theUI.nodes, function(key, value) {
+						count=0;
+						for (var m=0; m<connections.length; m++) {
+							if (key === connections[m].split("°")[1]){
+							  count++;
+							}
+						}
+						if(count>2){
+							this.stroke = "white";
+						}
+					});
+					
                     var sys = arbor.ParticleSystem();
                     sys.parameters({
                         stiffness: 900,
@@ -264,6 +307,12 @@
                         gravity: true,
                         dt: 0.015
                     })
+					if (pagesFound.length === 1) {
+						//Stop single nodes bouncing all over the place
+						sys.parameters({ friction: '10.0' });
+						sys.parameters({gravity:true, dt:0.0001}) 
+					}
+					
                     sys.renderer = Renderer("#the-swarm");
                     sys.graft(theUI);
 

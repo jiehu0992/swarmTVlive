@@ -51,17 +51,21 @@ class Pages_model extends CI_Model {
    function get_filtered_pages($string)
    {
 		if ($string != "") {
-			//build up SQL statement that finds any page title that has something to do with the filtered string
+			//build up SQL statement that finds any page title that has something to do with the filtered string, including links!
 			$sql = "SELECT DISTINCT pages.title ";
-			$sql = $sql . "FROM elements ";
-			$sql = $sql . "INNER JOIN pages ";
-			$sql = $sql . "ON elements.pages_id=pages.id ";
+			$sql = $sql . "FROM pages ";
+			$sql = $sql . "INNER JOIN links ";
+			$sql = $sql . "ON pages.title=links.parentTitle ";
+			$sql = $sql . "INNER JOIN elements ";
+			$sql = $sql . "ON pages.id=elements.pages_id ";
 			$sql = $sql . "WHERE (CONVERT(elements.description USING utf8) LIKE '%" . $string ."%' ";
 			$sql = $sql . "OR CONVERT(elements.contents USING utf8) LIKE '%" . $string ."%' ";
 			$sql = $sql . "OR CONVERT(elements.keywords USING utf8) LIKE '%" . $string ."%' ";
+			$sql = $sql . "OR CONVERT(links.pagesTitle USING utf8) LIKE '%" . $string ."%' ";
 			$sql = $sql . "OR CONVERT(pages.description USING utf8) LIKE '%" . $string ."%' ";
 			$sql = $sql . "OR CONVERT(pages.keywords USING utf8) LIKE '%" . $string ."%' ";
 			$sql = $sql . "OR CONVERT(pages.title USING utf8) LIKE '%" . $string ."%')";
+			
 		} else {
 			$sql = "SELECT pages.title FROM pages";
 		}
