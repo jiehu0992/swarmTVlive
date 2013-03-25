@@ -300,6 +300,9 @@
 						}
 					});
 					
+					theUI.nodes["Recent Changes"].stroke = "cyan";
+					theUI.nodes["Recent Changes"].link = "<?php echo base_url(); ?>index.php/recentChanges";
+					
                     var sys = arbor.ParticleSystem();
                     sys.parameters({
                         stiffness: 900,

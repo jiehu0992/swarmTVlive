@@ -175,6 +175,7 @@ class Links_model extends CI_Model {
 	// return all the links for specific page
 	function return_links_for_page($page_title)
 	{
+		$this->db->select('pagesTitle');
 		$this->db->where('parentTitle', $page_title);
 		$query = $this->db->get('links');
 		$result = $query->result_array();

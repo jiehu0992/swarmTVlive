@@ -12,24 +12,32 @@ class Swarmtv extends CI_Controller {
 	{
 		$this->load->model('Links_model');
 		$this->load->model('Pages_model');
+		$this->load->model('Updates_model');
 		$filter = $this->input->get('filter');
 		
-		// get filtered pages
+		// get pages that have something to do with the filter specified
 		$pages = $this->Pages_model->get_filtered_pages($filter);
 		
+		
 		if ($pages === false) {
+			//if none are found, then retrieve all the pages
 			$filter = "";
 			$pages = $this->Pages_model->get_filtered_pages($filter);
 		}
 		
 		for ($i = 0; $i < sizeof($pages); $i++) {
+			//create a list of links that come from these pages
 			$linked_pages = $this->Links_model->return_links_for_page($pages[$i]['title']);
-			$filtered_linked_pages = array_intersect($linked_pages, $pages);
 			
-			$pages[$i]['link_tree'] = $filtered_linked_pages;
+			$pages[$i]['link_tree'] = $linked_pages;
 			
 		}
 		
+		//add in Recent Changes
+		array_push($pages, array('title'=>'Recent Changes'));
+		//create articiial link tree for Recent Chanages
+		$recentChangesPages = $this->Updates_model->get_links_from_RSS();
+		$pages[sizeof($pages)-1]['link_tree'] = $recentChangesPages;
 		
 		$pages = json_encode($pages);
 		
