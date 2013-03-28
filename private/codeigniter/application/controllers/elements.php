@@ -13,10 +13,12 @@ class Elements extends CI_Controller {
 		$this->load->model('Links_model');
 		$this->load->model('Pages_model');
 		
+		$this->load->library('Shortcodes');
+		
 		// check if there is a file to process
 		if(sizeof($_FILES) > 0){
        		
-       		// check if the file validates
+			// check if the file validates
 			$this->Elements_model->validate_file() or exit($this->Elements_model->file_errors);
 			
 			// move the file depending on its mime type
