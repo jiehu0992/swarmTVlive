@@ -306,14 +306,12 @@ img {
 	z-index:2000;
 	background-color:transparent;
 	overflow:visible;
-	color: #eee;
+	color: #ccc;
 }
 
 #page_title_wrapper:hover {
 	cursor:hand; cursor:pointer;
-	border-width:1px;
-	border-color:#ccc;
-	border-style:dashed;
+	color: #fff;
 }
 
 #page_info_form_wrap{
