@@ -16,16 +16,6 @@ class Tests extends CI_Controller {
 		//$this->load->view('welcome_message');
 		
 	}
-	
-	public function shortcodes()
-	{
-		$this->load->library('Shortcodes');
-		$this->shortcodes->process_string("jhghj jklklj [[here::wewe]] kjhjkh kjhkjhjkhjh [[http://www.-\!ghj&=@+ghjg]] kljljkjh [[jk&hjkh ]]kjhkj[[kjhjk::jkhkj]] hjkghjg");
-		
-		$internal_links = $this->shortcodes->return_shortcodes_by_key('internal');
-		echo $internal_links[0]->getValue();
-	
-	}
 }
 
 /* End of file welcome.php */
