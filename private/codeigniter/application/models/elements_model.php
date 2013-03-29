@@ -46,16 +46,16 @@ class Elements_model extends CI_Model {
     	
     	for ($i = 0; $i < sizeof($elements); $i++)
     	{	
-		$contents = $elements[$i]['contents'];
+			$contents = $elements[$i]['contents'];
 
-		// break up the parts of the contents
-		$break_apart_contents = $this->Links_model->parse_string_for_links($contents);
-	
-		// piece the contents back together with the html links embedded
-		$processed_contents = $this->Links_model->insert_links($break_apart_contents);
+			// break up the parts of the contents
+			$break_apart_contents = $this->Links_model->parse_string_for_links($contents);
 		
-		//update the description
-		$elements[$i]['contents'] = $processed_contents;
+			// piece the contents back together with the html links embedded
+			$processed_contents = $this->Links_model->insert_links($break_apart_contents);
+			
+			//update the description
+			$elements[$i]['contents'] = $processed_contents;
     	}
     	return $elements;
     }

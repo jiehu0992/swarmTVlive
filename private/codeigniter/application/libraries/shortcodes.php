@@ -16,11 +16,6 @@ class Shortcodes{
 	private $accepted_keys = array('internal', 'external', 'youtube', 'vimeo');
 
 	private $accepted_styling = array('b','i','u');
-	
-	private $original_string = "";
-	private $adapted_string = "";
-	
-	private $modified = false;
 
 	/**
 	 * Shortcodes Constructor
@@ -44,8 +39,6 @@ class Shortcodes{
 	 */
 	public function process_string($string)
 	{
-		$this->original_string = $string;
-		$this->adapted_string = $string;
 		$pattern = "/(?<=\[\[)[\w \!\?\&\+=@:\/\.\\\-]+(?=\]\])/"; // [[ ... ]] regex
 		$short_code_info = null;
 			
@@ -78,62 +71,26 @@ class Shortcodes{
 	// --------------------------------------------------------------------
 
 	/**
-	 * returns an array of shortcodes by their key type
-	 * @param 	array of string for accepted keys
+	 * returns an array of shortcodes by their type
+	 *
 	 * @access	public
-	 * @return	array of arrays [shortcodes][index in main array]
+	 * @return	array of shortcodes
 	 */
-	public function return_shortcodes_by_key($types)
+	public function return_shortcodes_by_key($type)
 	{
-		
 		$short_codes_by_type = array();
 		
-		foreach ($types as $type)
+		foreach($this->shortcodes as $sc)
 		{
-			for($i = 0; $i < sizeof($this->shortcodes);$i++)
+			if ($sc->getKey() === 'internal')
 			{
-				if ($this->shortcodes[$i]->getKey() === $type)
-				{
-					$match['shortcode']	= $this->shortcodes[$i];
-					$match['index'] 	= $i;
-					array_push($short_codes_by_type, $match);
-				}
+				array_push($short_codes_by_type, $sc);
 			}
 		}
 		return ($short_codes_by_type);
 	}
 	
 	// --------------------------------------------------------------------
-
-	/**
-	 * alters a duplicate of the original text with the replacement for the short code
-	 * @param 	index of short code in the shortcode array, the replacement html
-	 * @access	public
-	 * @return	n/a
-	 */
-	public function replaceShortCodeWithHTML($index, $html)
-	{
-		$length = strlen($html);
-		$original_length = $this->shortcodes[$index]->getLength();
-		
-		// get the difference in the length of the short code to the new html
-		$diff = $length = $original_length+4;
-		
-		//loop through all the short codes and update their start and end position
-		
-		for ($i = 0; $i < sizeof($this->shortcodes); $i++)
-		{
-			if(($i != $index) && ($this->shortcodes[$i]->getStart() >$this->shortcodes[$index]->getStart()))
-			{
-				$this->shortcodes[$i]->moveBy($diff);
-			}
-		}
-		
-		
-		$this->adapted_string = substr_replace($this->adapted_string, $html, $this->shortcodes[$index]->getStart()-2, $this->shortcodes[$index]->getLength());
-	}
-	
-	// -------------------------------------------------------------------- 
 	// PRIVATE METHODS
 	// --------------------------------------------------------------------
 	
@@ -148,14 +105,6 @@ class Shortcodes{
 		array_push($this->shortcodes, $short_code);
 	}
 	
-	// --------------------------------------------------------------------
-	// GETTERS & SETTERS
-	// --------------------------------------------------------------------
-	
-	public function getAdaptedString()
-	{
-		return $this->adapted_string;
-	}
 }
 
 
@@ -174,8 +123,8 @@ class Shortcode
 	// property declaration
 	private $raw = null;
 	private $length = null;
-	private $start = 0;
-	private $end = 0;
+	private $start = null;
+	private $end = null;
 	private $key = '';
 	private $value = '';
 	
@@ -191,21 +140,6 @@ class Shortcode
 	    $this->start = $start;
 	    
 	    $this->process_raw_shortcode();
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * moves the start and end of a shortcode in conjunction with a shortcode modification
-	 * before it
-	 * @param 	the amount the code has to move by
-	 * @access	public
-	 * 
-	 */
-	public function moveBy($diff)
-	{
-		$this->start 	= $this->start + $diff;
-		$this->end	= $this->end + $diff;
 	}
 	
 	
@@ -243,7 +177,7 @@ class Shortcode
 		    }
 		    $this->value = $this->raw;
 	    }
-	}
+	} 
 	
 	// --------------------------------------------------------------------
 	// GETTERS & SETTERS
@@ -257,15 +191,5 @@ class Shortcode
 	public function getValue()
 	{
 		return $this->value;
-	}
-	
-	public function getStart()
-	{
-		return $this->start;
-	}
-	
-	public function getLength()
-	{
-		return $this->length;
 	}
 }
