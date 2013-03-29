@@ -117,9 +117,10 @@ class Shortcodes{
 		$original_length = $this->shortcodes[$index]->getLength();
 		
 		// get the difference in the length of the short code to the new html
-		$diff = $length - ($original_length);
+		$diff = $length = $original_length+4;
 		
 		//loop through all the short codes and update their start and end position
+		
 		for ($i = 0; $i < sizeof($this->shortcodes); $i++)
 		{
 			if(($i != $index) && ($this->shortcodes[$i]->getStart() >$this->shortcodes[$index]->getStart()))
@@ -128,8 +129,8 @@ class Shortcodes{
 			}
 		}
 		
-		// update the adapted string with the change
-		$this->adapted_string = substr_replace($this->adapted_string, $html, $this->shortcodes[$index]->getStart()-2, $this->shortcodes[$index]->getLength()+4);
+		
+		$this->adapted_string = substr_replace($this->adapted_string, $html, $this->shortcodes[$index]->getStart()-2, $this->shortcodes[$index]->getLength());
 	}
 	
 	// -------------------------------------------------------------------- 

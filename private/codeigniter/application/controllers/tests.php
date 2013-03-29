@@ -31,7 +31,7 @@ class Tests extends CI_Controller {
 		
 		foreach($links as $link)
 		{
-			$this->shortcodes->replaceShortCodeWithHTML($link['index'], '<a href="' . $link['shortcode']->getValue() . '">' . $link['shortcode']->getValue() . '</a>');
+			$this->shortcodes->replaceShortCodeWithHTML($link['index'], '<a href="' . $link['shortcode']->getValue() . '"> ' . $link['shortcode']->getValue() . '</a>');
 		}
 		
 		echo $this->shortcodes->getAdaptedString();
