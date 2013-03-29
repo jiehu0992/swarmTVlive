@@ -174,7 +174,8 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('description', $post_data))
 		{
 			$description = $post_data['description'];
-            $description = htmlspecialchars($description, ENT_QUOTES);
+            //$description = htmlspecialchars($description, ENT_QUOTES); Do we need this?
+            $description = str_replace ("\n", "<br>", $description );
 			
 			$this->data['description'] = $description;
 		}
@@ -182,7 +183,8 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('contents', $post_data))
 		{
 			$contents = $post_data['contents'];
-            $contents = htmlspecialchars($contents, ENT_QUOTES);
+            //$contents = htmlspecialchars($contents, ENT_QUOTES); Do we need this?
+            $contents = str_replace ("\n", "<br>", $contents );
 			
 			$this->data['contents'] = $contents;
 			$this->data['type'] = 'text';
