@@ -32,6 +32,15 @@ class Elements extends CI_Controller {
 		// process links for element
 		// *** PROCESS THE LINKS IN THE DESCRIPTION & CONTENT***
 		
+		// get the DESCRIPTION
+		$description = $this->Elements_model->return_description();         
+
+		// piece the DESCRIPTION back together with the link ids instead of the page titles
+		$processed_description = $this->Links_model->process_links($description, $pages_title, $return_id);
+		
+		//update the DESCRIPTION
+		$this->Elements_model->update_description($return_id, $processed_description);
+		
 		// get more page details
 		$pages_id = $this->Elements_model->return_pages_id();
 		$pages_title = $this->Pages_model->get_title($pages_id);
