@@ -49,22 +49,44 @@
 		});
 		
 		// Ajax submit for updating page info 
-		$('#page_info_submit').click(function(e){
+		$('#submit_page_info').click(function(e){
+            
 			// Stop the page from navigating away from this page
-			e.preventDefault();		
+			e.preventDefault();
 			
 			// get the values from the form
 			var idVal = $('input[name="id"]').val();
 			var descriptionVal = $('textarea[name="description"]').val();
-			var keywordsVal = $('textarea[name="keywords"]').val();
-			var publicVal = $('select[name="public"]').val();
+			var keywordsVal = $('input[name="keywords"]').val();
+			var publicVal = $('input[name="public"]').val();
+            
+             
+			// AJAX to server
+			var uri = base_url + "index.php/pages/update";
+			var xhr = new XMLHttpRequest();
+			var fd = new FormData();
+	
+			xhr.open("POST", uri, true);
 			
-			// Post the values to the pages controller  
-			$.post(base_url + "index.php/pages/update", { id: idVal , description: descriptionVal, keywords: keywordsVal, public:publicVal },
-				function(data) {
-				// User feed back
-				alert("Data Loaded: " + data);
-			});
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					// Handle response.
+                    if (xhr.responseText !== ""){
+                        //An error can be triggered by the server not finding an .webm format which gives a blank alert
+                        alert(xhr.responseText); // handle response.
+                    }
+					location.reload();
+				}
+			};
+			
+            //load values into the FormData object
+            fd.append('id', idVal);
+            fd.append('description', descriptionVal);
+			fd.append('keywords', keywordsVal);
+			fd.append('public', publicVal);
+			
+			// Initiate a multipart/form-data upload
+			xhr.send(fd);
 		});
 		
 		// init fancy boxes
