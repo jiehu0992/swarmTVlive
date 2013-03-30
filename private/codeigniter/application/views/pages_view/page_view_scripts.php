@@ -72,7 +72,7 @@
 				if (xhr.readyState == 4 && xhr.status == 200) {
 					// Handle response.
                     if (xhr.responseText !== ""){
-                        //An error can be triggered by the server not finding an .webm format which gives a blank alert
+                        //If clause used because an error can be triggered by the server not finding an .webm format and it gives a blank alert
                         alert(xhr.responseText); // handle response.
                     }
 					location.reload();

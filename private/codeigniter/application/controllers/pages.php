@@ -55,7 +55,7 @@ class Pages extends CI_Controller {
 	public function update()
 	{
 		$this->load->model('Pages_model');
-		echo $this->Pages_model->update() . " " . $this->input->post('keywords');
+		return $this->Pages_model->update();
 	}
 	
 	public function upload_image()
