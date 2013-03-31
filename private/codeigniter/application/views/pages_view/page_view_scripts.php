@@ -72,7 +72,7 @@
 				if (xhr.readyState == 4 && xhr.status == 200) {
 					// Handle response.
                     if (xhr.responseText !== ""){
-                        //An error can be triggered by the server not finding an .webm format which gives a blank alert
+                        //If clause used because an error can be triggered by the server not finding an .webm format and it gives a blank alert
                         alert(xhr.responseText); // handle response.
                     }
 					location.reload();
@@ -349,14 +349,14 @@
 					create: function(event, ui) {
 						
 					},
-					start: function(e, ui) {
-						initDiagonal = getContentDiagonal(this);
-						initFontSize = parseInt($(ui.element).css("font-size"));
-					},
 					resize: function(e, ui) {
-						var newDiagonal = getContentDiagonal(this);
-						var ratio = newDiagonal / initDiagonal;
-						$(this).css({"font-size" : initFontSize*ratio});
+                        if($(this).hasClass('text')){
+                            var textLength = $(this).text().length;
+                            var textRatio = $(this).width()/$(this).height();
+                            var textWidth = $(this).width();
+                            var newFontSize = textWidth/(Math.sqrt(textLength*textRatio));
+                            $(this).css("font-size", newFontSize);
+                        }
 					},
 					stop: function(event, ui) {
 						updateElement(ui.helper[0].id, 'size');
