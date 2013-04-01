@@ -342,12 +342,23 @@ class Elements_model extends CI_Model {
             
             //post the new data with the coded links
 			$post_data['contents'] = $contents;
+		
 		}
 		
 		$this->db->where('id', $id);
 		$this->db->update('elements', $post_data);
+        
+        $affected_rows = $this->db->affected_rows();
+        
+        if ($this->input->post('contents')){
+            //create the new record in table 'updates'
+            $this->load->model('Elements_model');
+            $update_elements_id = $id;
+            $update_action = 'revised';
+            $this->Elements_model->create_update($update_action, $update_elements_id);
+        }
 		
-		return $this->db->affected_rows();
+		return $affected_rows;
    	}
    
 	public function return_description()
