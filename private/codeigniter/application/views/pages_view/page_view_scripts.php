@@ -8,8 +8,6 @@
 
 	// Save the base url as a a javascript variable
 	var base_url = "<?php echo base_url(); ?>";
-	var initDiagonal;
-	var initFontSize;
 	
 	$(document).ready(function(){
 		
@@ -113,7 +111,7 @@
 		});
 		
 		// double click elements
-		$('.element').dblclick(function(){
+		$('.element').dblclick(function(event){
 			
 			$(this).find('.delete_button').fadeIn();
 			
@@ -136,7 +134,6 @@
 					
 					// get the content
 					var content_container = $(this).find('.text-content');
-					
 					// activate the drag and deactivate the content editable
 					$(content_container).removeAttr('contenteditable');
 					$(this).draggable({ disabled: false });	
@@ -157,8 +154,13 @@
 					});
 					
 					// get the new content
-					var new_contents = $(content_container).html();
-					// send to database
+                    
+                    var new_contents = content_container.html();
+                    new_contents = new_contents.replace(/&lt;/gi, "<");
+                    new_contents = new_contents.replace(/&gt;/gi, ">");
+                    event.stopPropagation();
+                    
+                    // send to database
 					updateElement(link_id, 'text-content', new_contents);
 					// update the element with the links
 					$(content_container).html(processShortCodes(new_contents));
