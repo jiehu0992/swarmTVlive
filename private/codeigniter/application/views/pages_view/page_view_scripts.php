@@ -396,13 +396,15 @@
 	function initVideo(elm, index)
 	{
 		var filename_NoExt = page_elements_json[index].filename.split('.');
-		var video_html = '<video width="100%" height="100%" controls preload="auto">';
+		/*var video_html = '<video width="100%" height="100%" controls preload="auto">';
 		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4" type="video/mp4">';
 		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.webm" type="video/webm">';
 		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.ogv" type="video/ogg">';
 		video_html = video_html + '<object width="100%" height="100%" type="application/x-shockwave-flash" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"><param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=http://www.ucfmediacentre.co.uk/swarmtv/assets/video/' + filename_NoExt[0] + '.mp4"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><p>Your browser does not support HTML5 video.</p></object>';
 		video_html = video_html + '</video>';
-		video_html = video_html + '<p><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';
+		video_html = video_html + '<p><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';*/
+        
+        var video_html = '<div id="div6653" class="video_gallery_container" type="movie" style="position:absolute; left:12px; top:186px; z-index:166; overflow:auto; background- image:url(\'transparentpixel.gif\'); margin:1px;" altText="Driving through St Agnes"; onMouseOver="this.style.border=\'1px dashed #888\';" onmouseout="this.style.border=\'1px solid #444\'; this.style.margin=\'1px\';" onDblClick="openEditor(\'div6653\');"><a class="videoLink" id=6653 videofile="video-5151c2bd45dfd" videowidth="512" videoheight="288" videocaption="Driving through St Agnes (Vvideo-5151c2bd45dfd) 00:03:12" videoin="0" videoout="191.796"></a><div class="clear_both"></div></div>';
 		var video_element = $(video_html);
 		
 		$(elm).append(video_element);

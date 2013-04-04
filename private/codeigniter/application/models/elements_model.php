@@ -136,8 +136,8 @@ class Elements_model extends CI_Model {
             case 'audio':
                 //create OGA version
                 chdir('./assets/audio');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
@@ -145,8 +145,8 @@ class Elements_model extends CI_Model {
             case 'video':
                 //create OGV version;
                 chdir('./assets/video');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
-                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 break;
         }

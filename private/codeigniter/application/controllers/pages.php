@@ -17,7 +17,7 @@ class Pages extends CI_Controller {
 	{
 		$this->load->helper('url');
 		
-		if (urldecode($page_title) === "Recent Changes" | $page_title === "recentChanges") {
+		if (strtoupper(urldecode($page_title)) === "RECENT CHANGES" | strtoupper ($page_title) === "RECENTCHANGES") {
 			redirect('/recentChanges', 'location');
 		}
 		
