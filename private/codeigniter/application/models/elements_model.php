@@ -321,7 +321,7 @@ class Elements_model extends CI_Model {
 	public function update_element()
 	{
         //If anything is updated get the post data
-		$post_data = $this->input->post();
+		$post_data = $this->input->post(NULL, TRUE); // return all post data filtered XSS - SCRIPT SAFE
 		//find the id of the element
    		$id = $this->input->post('id');
 
