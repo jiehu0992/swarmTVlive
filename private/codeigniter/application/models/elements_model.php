@@ -174,7 +174,8 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('description', $post_data))
 		{
 			$description = $post_data['description'];
-            $description = htmlspecialchars($description, ENT_QUOTES);
+            //$description = htmlspecialchars($description, ENT_QUOTES); Do we need this?
+            $description = str_replace ("\n", "<br>", $description );
 			
 			$this->data['description'] = $description;
 		}
@@ -182,7 +183,8 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('contents', $post_data))
 		{
 			$contents = $post_data['contents'];
-            $contents = htmlspecialchars($contents, ENT_QUOTES);
+            //$contents = htmlspecialchars($contents, ENT_QUOTES); Do we need this?
+            $contents = str_replace ("\n", "<br>", $contents );
 			
 			$this->data['contents'] = $contents;
 			$this->data['type'] = 'text';
@@ -319,7 +321,7 @@ class Elements_model extends CI_Model {
 	public function update_element()
 	{
         //If anything is updated get the post data
-		$post_data = $this->input->post();
+		$post_data = $this->input->post(NULL, TRUE); // return all post data filtered XSS - SCRIPT SAFE
 		//find the id of the element
    		$id = $this->input->post('id');
 
@@ -340,12 +342,23 @@ class Elements_model extends CI_Model {
             
             //post the new data with the coded links
 			$post_data['contents'] = $contents;
+		
 		}
 		
 		$this->db->where('id', $id);
 		$this->db->update('elements', $post_data);
+        
+        $affected_rows = $this->db->affected_rows();
+        
+        if ($this->input->post('contents')){
+            //create the new record in table 'updates'
+            $this->load->model('Elements_model');
+            $update_elements_id = $id;
+            $update_action = 'revised';
+            $this->Elements_model->create_update($update_action, $update_elements_id);
+        }
 		
-		return $this->db->affected_rows();
+		return $affected_rows;
    	}
    
 	public function return_description()

@@ -311,8 +311,6 @@ img {
 
 #page_title_wrapper:hover {
 	cursor:hand; cursor:pointer;
-	border-width:1px;
-	border-color:#ccc;
 	color:#fff;
 }
 
