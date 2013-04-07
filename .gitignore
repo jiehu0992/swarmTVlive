@@ -19,7 +19,8 @@ www/*/
 !www/swarmtv
 private/codeigniter/application/config/database.php
 private/codeigniter/application/config/config.php
-.DS_Store
+*.DS_Store
 www/swarmtv/assets/audio
 www/swarmtv/assets/image
 www/swarmtv/assets/video
+www/swarmtv/assets/videoposters

@@ -25,7 +25,6 @@
 		<script src="<?php echo base_url(); ?>js/vendor/jquery.ui.touch-punch.min.js"></script>
         <script src="<?php echo base_url(); ?>js/vendor/modernizr-2.6.2.min.js"></script>
         <script src="<?php echo base_url(); ?>js/popcorn.js"></script>
-        <script src="<?php echo base_url(); ?>js/videoplayer.js"></script>
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<link rel="stylesheet" type="text/css" href="includes/videoPlayer_ie.css" />

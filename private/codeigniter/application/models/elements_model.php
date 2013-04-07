@@ -148,6 +148,21 @@ class Elements_model extends CI_Model {
                 $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
                 //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
+                
+                //set string variables for ffmpeg string
+                $filename = $full_name;
+                $filename = substr($filename, 0, -4);
+                $videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
+                //$videoDirectory = "/var/www/swarmtv/assets/video/";
+                $videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
+                //$videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                
+                //create first frame jpg and put it in "assets/videoposters"
+                chdir('assets/video/');
+                $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4";
+                $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 0.04 ";
+                $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
+                $execute = shell_exec($createFirstFrame);
                 break;
         }
 		

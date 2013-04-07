@@ -8,6 +8,8 @@
 
 	// Save the base url as a a javascript variable
 	var base_url = "<?php echo base_url(); ?>";
+	//var initDiagonal;
+	//var initFontSize;
 	
 	$(document).ready(function(){
 		
@@ -47,44 +49,22 @@
 		});
 		
 		// Ajax submit for updating page info 
-		$('#submit_page_info').click(function(e){
-            
+		$('#page_info_submit').click(function(e){
 			// Stop the page from navigating away from this page
-			e.preventDefault();
+			e.preventDefault();		
 			
 			// get the values from the form
 			var idVal = $('input[name="id"]').val();
 			var descriptionVal = $('textarea[name="description"]').val();
-			var keywordsVal = $('input[name="keywords"]').val();
-			var publicVal = $('input[name="public"]').val();
-            
-             
-			// AJAX to server
-			var uri = base_url + "index.php/pages/update";
-			var xhr = new XMLHttpRequest();
-			var fd = new FormData();
-	
-			xhr.open("POST", uri, true);
+			var keywordsVal = $('textarea[name="keywords"]').val();
+			var publicVal = $('select[name="public"]').val();
 			
-			xhr.onreadystatechange = function() {
-				if (xhr.readyState == 4 && xhr.status == 200) {
-					// Handle response.
-                    if (xhr.responseText !== ""){
-                        //If clause used because an error can be triggered by the server not finding an .webm format and it gives a blank alert
-                        alert(xhr.responseText); // handle response.
-                    }
-					location.reload();
-				}
-			};
-			
-            //load values into the FormData object
-            fd.append('id', idVal);
-            fd.append('description', descriptionVal);
-			fd.append('keywords', keywordsVal);
-			fd.append('public', publicVal);
-			
-			// Initiate a multipart/form-data upload
-			xhr.send(fd);
+			// Post the values to the pages controller  
+			$.post(base_url + "index.php/pages/update", { id: idVal , description: descriptionVal, keywords: keywordsVal, public:publicVal },
+				function(data) {
+				// User feed back
+				alert("Data Loaded: " + data);
+			});
 		});
 		
 		// init fancy boxes
@@ -111,7 +91,7 @@
 		});
 		
 		// double click elements
-		$('.element').dblclick(function(event){
+		$('.element').dblclick(function(){
 			
 			$(this).find('.delete_button').fadeIn();
 			
@@ -134,6 +114,7 @@
 					
 					// get the content
 					var content_container = $(this).find('.text-content');
+					
 					// activate the drag and deactivate the content editable
 					$(content_container).removeAttr('contenteditable');
 					$(this).draggable({ disabled: false });	
@@ -154,13 +135,8 @@
 					});
 					
 					// get the new content
-                    
-                    var new_contents = content_container.html();
-                    new_contents = new_contents.replace(/&lt;/gi, "<");
-                    new_contents = new_contents.replace(/&gt;/gi, ">");
-                    event.stopPropagation();
-                    
-                    // send to database
+					var new_contents = $(content_container).html();
+					// send to database
 					updateElement(link_id, 'text-content', new_contents);
 					// update the element with the links
 					$(content_container).html(processShortCodes(new_contents));
@@ -345,28 +321,30 @@
 			
 			// *** GLOBAL VARIABLES CAUSING HAVOC WITH THIS FUNCTION
 			// if the file type is not audio then add resize 
-			if (page_elements_json[i].type !== 'audio')
+			if (page_elements_json[i].type !== 'audio' && page_elements_json[i].type !== 'video')
 			{
 				$(elm).resizable({
 					create: function(event, ui) {
 						
 					},
+					start: function(e, ui) {
+						/*initDiagonal = getContentDiagonal(this);
+						initFontSize = parseInt($(ui.element).css("font-size"));*/
+					},
 					resize: function(e, ui) {
-                        if($(this).hasClass('text')){
-                            var textLength = $(this).text().length;
-                            var textRatio = $(this).width()/$(this).height();
-                            var textWidth = $(this).width();
-                            var newFontSize = textWidth/(Math.sqrt(textLength*textRatio));
-                            $(this).css("font-size", newFontSize);
-                        }
+						/*var newDiagonal = getContentDiagonal(this);
+						var ratio = newDiagonal / initDiagonal;
+						$(this).css({"font-size" : initFontSize*ratio});*/
 					},
 					stop: function(event, ui) {
 						updateElement(ui.helper[0].id, 'size');
 						if ($(this).hasClass('text')) $(this).css({'height':'auto'});
 					}
 				});
-			}		
-			
+			}		 
+            
+			if ($(elm).hasClass('video')) $(elm).css({'height':'155', 'width':'240'});
+            
 			// Add delete button
 			var delete_button = $('<a href="' + page_elements_json[i].id + '">');
 			$(delete_button).addClass("delete_button");
@@ -420,16 +398,10 @@
 	function initVideo(elm, index)
 	{
 		var filename_NoExt = page_elements_json[index].filename.split('.');
-		/*var video_html = '<video width="100%" height="100%" controls preload="auto">';
-		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4" type="video/mp4">';
-		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.webm" type="video/webm">';
-		video_html = video_html + '<source src="' + base_url + 'assets/video/' + filename_NoExt[0] + '.ogv" type="video/ogg">';
-		video_html = video_html + '<object width="100%" height="100%" type="application/x-shockwave-flash" data="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"><param name="movie" value="http://fpdownload.adobe.com/strobe/FlashMediaPlayback.swf"></param><param name="flashvars" value="src=http://www.ucfmediacentre.co.uk/swarmtv/assets/video/' + filename_NoExt[0] + '.mp4"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><p>Your browser does not support HTML5 video.</p></object>';
-		video_html = video_html + '</video>';
-		video_html = video_html + '<p><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';*/
-        
-        var video_html = '<div id="div6653" class="video_gallery_container" type="movie" style="position:absolute; left:12px; top:186px; z-index:166; overflow:auto; background- image:url(\'transparentpixel.gif\'); margin:1px;" altText="Driving through St Agnes"; onMouseOver="this.style.border=\'1px dashed #888\';" onmouseout="this.style.border=\'1px solid #444\'; this.style.margin=\'1px\';" onDblClick="openEditor(\'div6653\');"><a class="videoLink" id=6653 videofile="video-5151c2bd45dfd" videowidth="512" videoheight="288" videocaption="Driving through St Agnes (Vvideo-5151c2bd45dfd) 00:03:12" videoin="0" videoout="191.796"></a><div class="clear_both"></div></div>';
-		var video_element = $(video_html);
+        var video_html = '<a class="videoLink" videofile="' + filename_NoExt[0];
+		video_html = video_html + '" videowidth="640" videoheight="480"';
+		video_html = video_html + ' videocaption="' + page_elements_json[index].description + '"></a>';
+        var video_element = $(video_html);
 		
 		$(elm).append(video_element);
 	}

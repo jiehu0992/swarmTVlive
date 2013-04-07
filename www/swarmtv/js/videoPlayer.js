@@ -1,18 +1,15 @@
 $(document).ready(function() {
-
+  
 	// Set up link thumbnails
 	$('a.videoLink').each(function(){
 		
-		var thumbnailFilePath = 'moviePosters/' + $(this).attr('videofile') + '.jpg';
+		var thumbnailFilePath = '../../../assets/videoposters/' + $(this).attr('videofile') + '.jpg';
 		var videoCaption = $(this).attr('videocaption');
-		
-		$(this).css('background-image','url('+thumbnailFilePath+')');
-		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="images/play_icon.png" />');
+		$(this).css('background-image', 'url('+thumbnailFilePath+')');
+		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="../../../img/play_icon.png" />');
 		fancyWidth=eval($(this).attr('videowidth'))+26;
-		//alert(fancyWidth);
 		fancyHeight=eval($(this).attr('videoheight'))+82;
-		//alert(fancyHeight);
-		$(this).attr('href','http://www.swarmtv.org/clipPlayer.php?id=' + $(this).attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
+		$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
 		$(this).addClass('iframe');
 	});
 	
