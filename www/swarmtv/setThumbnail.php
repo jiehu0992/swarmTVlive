@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 $id=$_GET["id"];
 $currentPos=$_GET["currentPos"];
 
@@ -27,12 +29,14 @@ $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
 
 //create Terminal string for ffmpeg and execute it
 chdir('assets/video/');
+$path = shell_exec("pwd");
+//echo $path;
 $makeFrameString = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4";
 $makeFrameString = $makeFrameString . " -vframes 1 -an -s 200x115 -ss " . $currentPos . " ";
 $makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
 echo "makeFrameString = ".$makeFrameString . "\n";
 $execute = shell_exec($makeFrameString);
-echo "\n\nmakeFrameString = ".$makeFrameString . "\n";
+//echo "\n\nexecute = ".$execute . "\n";
 
 
 
