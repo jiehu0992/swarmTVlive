@@ -149,7 +149,7 @@ function setThumbnail(id){
 	$.ajax({
 		url: "setThumbnail.php?id="+id+"&currentPos="+currentPos,
 		success: function(data) {
-			alert(data);
+			//alert(data);
 			//alert('Load was performed.');
 		}
 	});

@@ -10,8 +10,8 @@ $(document).ready(function() {
 		fancyWidth=eval($(this).attr('videowidth'))+26;
 		fancyHeight=eval($(this).attr('videoheight'))+82;
 		
-		//$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
-		$(this).attr('href','../../../index.php/clipPlayer/playClip/457/640/480');
+		$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
+		//$(this).attr('href','../../../index.php/clipPlayer/playClip/457/640/480');
 		
 		$(this).addClass('iframe');
 	});
