@@ -1,7 +1,7 @@
 
         <script src="<?php echo base_url(); ?>js/plugins.js"></script>
         <script src="<?php echo base_url(); ?>js/main.js"></script>
-        <script src="<?php echo base_url(); ?>js/videoplayer.js"></script>
+        <script src="<?php echo base_url(); ?>js/videoPlayer.js"></script>
 
         <!-- Google Analytics -->
         <script>
