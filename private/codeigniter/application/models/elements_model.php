@@ -426,4 +426,21 @@ class Elements_model extends CI_Model {
 				
 		
 	}
+    
+    public function get_clip_details($id)
+    {
+        $this->load->database();
+        $this->load->helper('url');
+        
+    	$query = $this->db->get_where('elements', array('id' =>$id), 1);
+        
+		if ($query->num_rows() > 0)
+		{ 
+   			return $query->row();
+   		}else
+   		{
+   			return false;
+   		}
+        
+    }
 }

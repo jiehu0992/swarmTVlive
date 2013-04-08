@@ -9,7 +9,10 @@ $(document).ready(function() {
 		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="../../../img/play_icon.png" />');
 		fancyWidth=eval($(this).attr('videowidth'))+26;
 		fancyHeight=eval($(this).attr('videoheight'))+82;
-		$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
+		
+		//$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
+		$(this).attr('href','../../../index.php/clipPlayer/playClip/457/640/480');
+		
 		$(this).addClass('iframe');
 	});
 	
