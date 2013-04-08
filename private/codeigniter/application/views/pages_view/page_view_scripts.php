@@ -9,7 +9,7 @@
 	// Save the base url as a a javascript variable
 	var base_url = "<?php echo base_url(); ?>";
 	//var initDiagonal;
-	//var initFontSize;
+	var initFontSize;
 	
 	$(document).ready(function(){
 		
@@ -335,6 +335,14 @@
 						/*var newDiagonal = getContentDiagonal(this);
 						var ratio = newDiagonal / initDiagonal;
 						$(this).css({"font-size" : initFontSize*ratio});*/
+                        if($(this).hasClass('text')){
+                                var textLength = $(this).text().length;
+                                var textRatio = $(this).width()/$(this).height();
+                                var textWidth = $(this).width();
+                                var newFontSize = textWidth/(Math.sqrt(textLength*textRatio));
+                                $(this).css("font-size", newFontSize);
+                        }
+
 					},
 					stop: function(event, ui) {
 						updateElement(ui.helper[0].id, 'size');
