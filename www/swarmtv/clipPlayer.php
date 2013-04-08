@@ -1,6 +1,8 @@
 <?php
-//session_start();
+session_start();
 //normal page passes URL in the form of http://swarmtv.org/viewer.php?id=123
+include_once "../../dbinfo.php";
+
 //get variables from URL
 $id = $_GET['id'];
 $width = $_GET['width'];
@@ -9,12 +11,12 @@ $in = 0;
 $out = null;
 
 //connect to database
-$db = mysql_connect('localhost:3306', 'root', '');
+$db = mysql_connect($_SESSION['serverName'], $_SESSION['userName'], $_SESSION['pword']);
 if (!$db) {
 	echo "Error: Could not connect to database. Please try again later.";
 	exit;
 }
-mysql_select_db('web38-swarmtv');
+mysql_select_db($_SESSION['databaseName']);
 $json = array();
 
 $query = "SELECT * FROM `elements` WHERE `id` = '".$id."'";
