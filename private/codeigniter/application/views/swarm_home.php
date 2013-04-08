@@ -35,13 +35,14 @@
     </head>
     
     <body>
-        <div>
+        <div style="padding:20px;">
             <form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
                 <input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
-                <input type="submit" value="Filter">
-            </form>
+                <input type="submit" value="Search Filter">
+            </form>	
+			<p id="search_results" > <?php echo $searchResults; ?> </p><br />
         </div>
-        <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="428"></canvas>
+        <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="350"></canvas>
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor.js"></script>
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-tween.js"></script>
@@ -70,7 +71,7 @@
                                     width: dom.width(),
                                     height: dom.height()
                                 },
-                                padding: [36, 150, 36, 150]
+                                padding: [36, 150, 150, 150]
                             })
 
                             $(window).resize(that.resize)

@@ -17,13 +17,16 @@ class Swarmtv extends CI_Controller {
 		
 		// get pages that have something to do with the filter specified
 		$pages = $this->Pages_model->get_filtered_pages($filter);
-		
-		
+
 		if ($pages === false) {
 			//if none are found, then retrieve all the pages
 			$filter = "";
-			$pages = $this->Pages_model->get_filtered_pages($filter);
+			$pages = array();
+			$numberOfResults= 0;
 		}
+		
+		$numberOfResults= count($pages);
+		$data['searchResults'] = $numberOfResults." pages found";
 		
 		for ($i = 0; $i < sizeof($pages); $i++) {
 			//create a list of links that come from these pages
@@ -38,7 +41,6 @@ class Swarmtv extends CI_Controller {
 		//create articiial link tree for Recent Chanages
 		$recentChangesPages = $this->Updates_model->get_links_from_RSS();
 		$pages[sizeof($pages)-1]['link_tree'] = $recentChangesPages;
-		
 		$pages = json_encode($pages);
 		
 		$data['links'] = $pages;

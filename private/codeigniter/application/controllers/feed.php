@@ -12,7 +12,7 @@ class Feed extends CI_Controller {
 	$this->load->helper('xml');  
 	$this->load->helper('text');  
 	$this->load->helper('url');
-	$this->load->model('updates_model', 'updates');
+	$this->load->model('Updates_model', 'updates');
 	
 	$data['feed_name'] = 'ucfmediacentre.co.uk/swarmtv';  
 	$data['encoding'] = 'utf-8';  
