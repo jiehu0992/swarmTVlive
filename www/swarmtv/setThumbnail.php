@@ -3,12 +3,12 @@ $id=$_GET["id"];
 $currentPos=$_GET["currentPos"];
 
 //connect to database
-$db = mysql_connect('localhost:3306', 'root', '');
+$db = mysql_connect($_SESSION['serverName'], $_SESSION['userName'], $_SESSION['pword']);
 if (!$db) {
 	echo "Error: Could not connect to database. Please try again later.";
 	exit;
 }
-mysql_select_db('web38-swarmtv');
+mysql_select_db($_SESSION['databaseName']);
 
 $query = "SELECT * FROM `elements` WHERE `id` = '".$id."';";
 
