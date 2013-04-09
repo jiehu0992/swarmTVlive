@@ -18,7 +18,7 @@ class ClipPlayer extends CI_Controller {
 		$data['altText'] = $record->description;
 		$timelineJSON = $record->timeline;
 		$timeline = json_decode($timelineJSON);
-		if ($timeline !== ""){
+		if ($timeline !== NULL){
 		  $data['in'] = $timeline->in;
 		  $data['out'] = $timeline->out;
 		  $data['duration'] = $timeline->duration;
