@@ -11,7 +11,11 @@ $(document).ready(function() {
 		fancyHeight=eval($(this).attr('videoheight'))+82;
 		
 		//$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
-		$(this).attr('href','../../../index.php/clipPlayer/playClip/'.$(this).parent().attr('id').'/'.fancyWidth.'/'.fancyHeight);
+		var URLString = '../../../index.php/clipPlayer/playClip/';
+		URLString = URLString+$(this).parent().attr('id')+'/';
+		URLString = URLString+fancyWidth+'/';
+		URLString = URLString+fancyHeight;
+		$(this).attr('href', URLString);
 		$(this).attr('target','fancybox-frame');
 		
 		$(this).addClass('iframe');
