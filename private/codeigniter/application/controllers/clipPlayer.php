@@ -22,6 +22,10 @@ class ClipPlayer extends CI_Controller {
 		  $data['in'] = $timeline->in;
 		  $data['out'] = $timeline->out;
 		  $data['duration'] = $timeline->duration;
+		} else {
+		  $data['in'] = "";
+		  $data['out'] = "";
+		  $data['duration'] = "";
 		}
 		$data['filename']=substr($record->filename, 0 , -4);
 		$data['width']=$record->width;
