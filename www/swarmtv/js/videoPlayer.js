@@ -11,7 +11,7 @@ $(document).ready(function() {
 		fancyHeight=eval($(this).attr('videoheight'))+82;
 		
 		//$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
-		$(this).attr('href','../../../index.php/clipPlayer/playClip/457/640/480');
+		$(this).attr('href','../../../index.php/clipPlayer/playClip/'.$(this).parent().attr('id').'/'.fancyWidth.'/'.fancyHeight);
 		$(this).attr('target','fancybox-frame');
 		
 		$(this).addClass('iframe');
