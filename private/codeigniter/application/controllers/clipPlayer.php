@@ -8,8 +8,8 @@ class ClipPlayer extends CI_Controller {
 	}
 	
 	public function playClip($id, $width, $height)
-	{
-	    $this->load->helper('url');
+	{		
+		$this->load->helper('url');
 		$this->load->model('Elements_model');
 		
 		$record = $this->Elements_model->get_clip_details($id);

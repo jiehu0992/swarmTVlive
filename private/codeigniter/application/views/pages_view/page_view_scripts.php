@@ -341,12 +341,19 @@
                                 var textWidth = $(this).width();
                                 var newFontSize = textWidth/(Math.sqrt(textLength*textRatio));
                                 $(this).css("font-size", newFontSize);
+                                $(this).css("border", 0);
                         }
 
 					},
 					stop: function(event, ui) {
 						updateElement(ui.helper[0].id, 'size');
-						if ($(this).hasClass('text')) $(this).css({'height':'auto'});
+						if ($(this).hasClass('text')){
+                            $(this).css({'height':'auto'});
+                            $(this).css("border-width", "1px");
+                            $(this).css("border-color","#ccc");
+                            $(this).css("border-radius","10px");
+                            $(this).css("border-style","dashed");
+                        }
 					}
 				});
 			}		 
