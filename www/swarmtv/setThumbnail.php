@@ -33,11 +33,11 @@ $path = shell_exec("pwd");
 //echo $path;
 $makeFrameString = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4";
 $makeFrameString = $makeFrameString . " -vframes 1 -an -s 200x115 -ss " . $currentPos . " ";
-$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
+$makeFrameString = $makeFrameString . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
 echo "makeFrameString = ".$makeFrameString . "\n";
 $execute = shell_exec($makeFrameString);
-//echo "\n\nexecute = ".$execute . "\n";
-
-
+echo "\n\nexecute = ".$execute . "\n";
+$execute = shell_exec("which ffmpeg");
+echo "\n\nexecute = ".$execute . "\n";
 
 ?>

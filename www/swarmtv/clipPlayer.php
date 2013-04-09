@@ -151,7 +151,7 @@ function setThumbnail(id){
 	$.ajax({
 		url: "setThumbnail.php?id="+id+"&currentPos="+currentPos,
 		success: function(data) {
-			alert(data);
+//			alert(data);
 			//alert('Load was performed.');
 		}
 	});
@@ -173,7 +173,7 @@ function setThumbnail(id){
 	</tr>
 	<tr>
 		<td align="left" valign="bottom">
-			<!--<button type="button" id="setThumb" onClick="setThumbnail('<?php echo $id ?>');">Set Thumbnail</button>-->
+<!--			<button type="button" id="setThumb" onClick="setThumbnail('<?php echo $id ?>');">Set Thumbnail</button>-->
 		</td>
 		<td>&nbsp;</td>
 		<td align="right">
