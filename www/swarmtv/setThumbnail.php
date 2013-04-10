@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once "../../dbinfo.php";
 
 $id=$_GET["id"];
 $currentPos=$_GET["currentPos"];
