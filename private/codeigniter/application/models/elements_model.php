@@ -148,8 +148,8 @@ class Elements_model extends CI_Model {
                 //create OGV version;
                 //chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video');
                 chdir('/var/www/swarmtv/assets/video');
-                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
-                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 
                 //set string variables for ffmpeg string
