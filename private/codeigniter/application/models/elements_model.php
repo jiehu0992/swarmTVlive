@@ -164,7 +164,6 @@ class Elements_model extends CI_Model {
                 $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
                 
                 //create first frame jpg and put it in "assets/videoposters"
-                //echo "current directory for creating frame = ".getcwd() . "\n";
                 $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
                 $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 1 ";
                 $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg";
@@ -172,7 +171,6 @@ class Elements_model extends CI_Model {
                 
                 //also get width & height from the file
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4 -vstats 2>&1";
-                //echo "movieDetails = ".$movieDetails;
                 $output = shell_exec ( $movieDetails );  
                 $result = preg_match( '/[0-9]?[0-9][0-9][0-9]x[0-9][0-9][0-9][0-9]?/', $output, $regs );  
                 if (isset ( $regs [0] )) {  
