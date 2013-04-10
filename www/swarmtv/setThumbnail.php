@@ -37,8 +37,8 @@ $makeFrameString = $makeFrameString . " -vframes 1 -an -s 200x115 -ss " . $curre
 $makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
 echo "makeFrameString = ".$makeFrameString . "\n";
 $execute = shell_exec($makeFrameString);
-echo "\n\nexecute = ".$execute . "\n";
+//echo "\n\nexecute = ".$execute . "\n";
 $execute = shell_exec("which ffmpeg");
-echo "\n\nexecute = ".$execute . "\n";
+//echo "\n\nexecute = ".$execute . "\n";
 
 ?>
