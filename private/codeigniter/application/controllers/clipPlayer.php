@@ -9,6 +9,8 @@ class ClipPlayer extends CI_Controller {
 	
 	public function playClip($id, $width, $height)
 	{		
+		echo "current directory =".getcwd();
+		
 		$this->load->helper('url');
 		$this->load->model('Elements_model');
 		
