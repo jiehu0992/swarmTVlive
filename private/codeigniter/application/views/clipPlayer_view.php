@@ -8,9 +8,9 @@ body,td,th {
 	font-size: 10px;
 	color: #666;
 }</style>
-<script type="application/javascript" src="js/vendor/jquery-1.8.3.min.js"></script>
-<script type="application/javascript" src="js/popcorn.js"></script>
-<script type="application/javascript" src="js/videoExtension.js"></script>
+<script type="application/javascript" src="../../../../../js/vendor/jquery-1.8.3.min.js"></script>
+<script type="application/javascript" src="../../../../../js/popcorn.js"></script>
+<script type="application/javascript" src="../../../../../js/videoExtension.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -118,8 +118,8 @@ function setThumbnail(id){
 	<tr>
 		<td colspan="3" align="center">
 			<video height="<?php echo $height ?>" width="<?php echo $width ?>" id="clipToShow" controls>
-				<source src="assets/video/<?php echo $filename ?>.mp4">
-				<source src="assets/video/<?php echo $filename ?>.ogv">
+				<source src="../../../../../assets/video/<?php echo $filename ?>.mp4">
+				<source src="../../../../../assets/video/<?php echo $filename ?>.ogv">
 			</video>
 		</td>
 	</tr>
