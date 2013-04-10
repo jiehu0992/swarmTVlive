@@ -9,7 +9,7 @@
 	// Save the base url as a a javascript variable
 	var base_url = "<?php echo base_url(); ?>";
 	//var initDiagonal;
-	var initFontSize;
+	//var initFontSize;
 	
 	$(document).ready(function(){
 		
@@ -414,7 +414,7 @@
 	{
 		var filename_NoExt = page_elements_json[index].filename.split('.');
         var video_html = '<a class="videoLink" videofile="' + filename_NoExt[0];
-		video_html = video_html + '" videowidth="640" videoheight="480"';
+		video_html = video_html + '" videowidth="590" videoheight="' + parseInt(page_elements_json[index].height) + '"';
 		video_html = video_html + ' videocaption="' + page_elements_json[index].description + '"></a>';
         var video_element = $(video_html);
 		
