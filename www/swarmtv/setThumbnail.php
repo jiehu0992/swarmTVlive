@@ -37,8 +37,13 @@ $makeFrameString = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . "
 echo "makeFrameString = ".$makeFrameString . "\n";
 $makeFrameString = $makeFrameString . " -vframes 1 -an -s 200x115 -ss " . $currentPos . " ";
 echo "makeFrameString = ".$makeFrameString . "\n";
+<<<<<<< HEAD
 $makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
 //echo "makeFrameString = ".$makeFrameString . "\n";
+=======
+$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg";
+echo "makeFrameString = ".$makeFrameString . "\n";
+>>>>>>> github/master
 $execute = shell_exec($makeFrameString);
 echo "\n\nexecute = ".$execute . "\n";
 $execute = shell_exec("which ffmpeg");
