@@ -29,21 +29,9 @@ $videoDirectory = "/var/www/swarmtv/assets/video/";
 $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
 
 //create Terminal string for ffmpeg and execute it
-//chdir('assets/video/');
-//chdir('/var/www/swarmtv/assets/video/');
-$path = "setThumbnail: ".exec("pwd");
-echo $path . "\n";
 $makeFrameString = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
-echo "makeFrameString = ".$makeFrameString . "\n";
 $makeFrameString = $makeFrameString . " -vframes 1 -an -s 200x115 -ss " . $currentPos . " ";
-echo "makeFrameString = ".$makeFrameString . "\n";
-//$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
-//echo "makeFrameString = ".$makeFrameString . "\n";
 $makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg";
-echo "makeFrameString = ".$makeFrameString . "\n";
 $execute = shell_exec($makeFrameString);
-echo "\n\nexecute = ".$execute . "\n";
-$execute = shell_exec("which ffmpeg");
-echo "\n\nexecute = ".$execute . "\n";
 
 ?>

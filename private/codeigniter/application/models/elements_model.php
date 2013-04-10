@@ -166,9 +166,9 @@ class Elements_model extends CI_Model {
                 //create first frame jpg and put it in "assets/videoposters"
                 //echo "current directory for creating frame = ".getcwd() . "\n";
                 $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
-                $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 0.04 ";
-                $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
-                $execute = exec($createFirstFrame);
+                $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 1 ";
+                $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg";
+                $execute = shell_exec($createFirstFrame);
                 
                 //also get width & height from the file
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4 -vstats 2>&1";
