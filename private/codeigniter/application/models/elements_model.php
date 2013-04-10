@@ -135,10 +135,11 @@ class Elements_model extends CI_Model {
                 break;
             case 'audio':
                 //create OGA version
-                //chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/audio');
-                chdir('/var/www/swarmtv/assets/audio');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
-                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                //chdir('assets/audio');
+                //echo "elements_model:move_file:audio: ".shell_exec("pwd");
+                //chdir('/var/www/swarmtv/assets/audio');
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 $execute = shell_exec($createOgvVersion);
                 $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
@@ -146,8 +147,9 @@ class Elements_model extends CI_Model {
             case 'video':
                 //echo "create OGV version\n";
                 //create OGV version;
-                //chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video');
-                chdir('/var/www/swarmtv/assets/video');
+                //chdir('assets/video');
+                //echo "elements_model:move_file:video: ".shell_exec("pwd");
+                //chdir('/var/www/swarmtv/assets/video');
                 //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
                 $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
@@ -163,7 +165,7 @@ class Elements_model extends CI_Model {
                 
                 //create first frame jpg and put it in "assets/videoposters"
                 //echo "current directory for creating frame = ".getcwd() . "\n";
-                $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4";
+                $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
                 $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 0.04 ";
                 $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
                 $execute = shell_exec($createFirstFrame);
@@ -172,7 +174,7 @@ class Elements_model extends CI_Model {
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4 -vstats 2>&1";
                 //echo "movieDetails = ".$movieDetails;
                 $output = shell_exec ( $movieDetails );  
-                $result = ereg ( '[0-9]?[0-9][0-9][0-9]x[0-9][0-9][0-9][0-9]?', $output, $regs );  
+                $result = preg_match( '/[0-9]?[0-9][0-9][0-9]x[0-9][0-9][0-9][0-9]?/', $output, $regs );  
                 if (isset ( $regs [0] )) {  
                     $vals = (explode ( 'x', $regs [0] ));  
                     $width = $vals [0] ? $vals [0] : null;  
