@@ -135,8 +135,8 @@ class Elements_model extends CI_Model {
                 break;
             case 'audio':
                 //create OGA version
-                chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/audio');
-                //chdir('/var/www/swarmtv/assets/audio');
+                //chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/audio');
+                chdir('/var/www/swarmtv/assets/audio');
                 //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
                 $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 $execute = shell_exec($createOgvVersion);
@@ -146,8 +146,8 @@ class Elements_model extends CI_Model {
             case 'video':
                 echo "create OGV version\n";
                 //create OGV version;
-                chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video');
-                //chdir('/var/www/swarmtv/assets/video');
+                //chdir('/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video');
+                chdir('/var/www/swarmtv/assets/video');
                 $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
                 //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
                 $execute = shell_exec($createOgvVersion);
@@ -156,15 +156,13 @@ class Elements_model extends CI_Model {
                 echo "set string variables for ffmpeg string\n";
                 $filename = $full_name;
                 $filename = substr($filename, 0, -4);
-                $videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
-                //$videoDirectory = "/var/www/swarmtv/assets/video/";
-                $videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
-                //$videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                //$videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
+                $videoDirectory = "/var/www/swarmtv/assets/video/";
+                //$videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
+                $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
                 
                 //create first frame jpg and put it in "assets/videoposters"
-                echo "create first frame jpg and put it in 'assets/videoposters'\n";
-                
-                //echo "current directory = ".getcwd() . "\n";
+                echo "current directory for creating frame = ".getcwd() . "\n";
                 $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4";
                 $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 0.04 ";
                 $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg </dev/null >/dev/null 2>/var/log/ffmpeg.log &";
