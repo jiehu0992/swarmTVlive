@@ -102,7 +102,7 @@ function setThumbnail(id){
 	var currentPos = myClip.currentTime();
 	
 	$.ajax({
-		url: "setThumbnail.php?id="+id+"&currentPos="+currentPos,
+		url: "../../../../../setThumbnail.php?id="+id+"&currentPos="+currentPos,
 		success: function(data) {
 			alert(data);
 			//alert('Load was performed.');

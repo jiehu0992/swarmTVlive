@@ -28,7 +28,7 @@ $videoDirectory = "/var/www/swarmtv/assets/video/";
 $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
 
 //create Terminal string for ffmpeg and execute it
-chdir('assets/video/');
+chdir('/var/www/swarmtv/assets/video/');
 $path = shell_exec("pwd");
 //echo $path;
 $makeFrameString = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4";
