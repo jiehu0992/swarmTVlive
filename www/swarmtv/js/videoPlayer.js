@@ -6,6 +6,8 @@ $(document).ready(function() {
 		var thumbnailFilePath = '../../../assets/videoposters/' + $(this).attr('videofile') + '.jpg';
 		var videoCaption = $(this).attr('videocaption');
 		$(this).css('background-image', 'url('+thumbnailFilePath+')');
+		$(this).css('background-repeat', 'no-repeat');
+		$(this).css('background-position', 'center');
 		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="../../../img/play_icon.png" />');
 		fancyWidth=eval($(this).attr('videowidth'))+26;
 		fancyHeight=eval($(this).attr('videoheight'))+82;

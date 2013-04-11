@@ -13,8 +13,9 @@ body,td,th {
 <script type="application/javascript" src="../../../../../js/videoExtension.js"></script>
 <script type="text/javascript">
 
+var base_url = "<?php echo base_url(); ?>";
+
 $(document).ready(function() {
-	var base_url = "<?php echo base_url(); ?>";
 	$("#clipLabel").html('(<?php echo $filename ?>'+videoExtension+')');
 });
 
@@ -86,9 +87,7 @@ function updateEdit(videoID){
 
 function setThumbnail(id){
 	var currentPos = myClip.currentTime();
-	
 	$.ajax({
-		//url: "../../../../../setThumbnail.php?id="+id+"&currentPos="+currentPos,
 		url: base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos,
 		success: function(data) {
 			alert(data);

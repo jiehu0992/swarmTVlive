@@ -12,10 +12,10 @@
 	background: #000;
 }
 
-a.videoLink {
+a.videoLink { 
 	display: block;
 	margin: 20px;
-	//width: 200px;
+	width: 200px;
 	height: 115px;
 	float: center;
 	position: relative;

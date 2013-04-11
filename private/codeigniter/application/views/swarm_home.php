@@ -41,6 +41,8 @@
                 <input type="submit" value="Search Filter">
             </form>	
 			<p id="search_results" > <?php echo $searchResults; ?> </p><br />
+			
+			<div id="oldBrowser" style="display:none" width="600px">This website is a project designed to work with <strong>HTML5</strong>, so please download a modern browser if you can (its worth the wait - honest!). If you haven't got IT permissions to do this, try Chrome portable (<a href="http://portableapps.com/apps/internet/google_chrome_portable">Chrome Portable</a>). You should be able to use that, OK. Otherwise, go straight to the home page here: <a href="http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/home">Home</a>, and have a play around there. Thanks very much!</div>
         </div>
         <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="350"></canvas>
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
@@ -49,12 +51,16 @@
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-graphics.js"></script>
         <script type="text/javascript">
             (function ($) {
+				
+				if( !window.Worker) {
+				  $("#oldBrowser").css("display", "inline");
+				} 
 
                 var Renderer = function (elt) {
                     var dom = $(elt)
                     var canvas = dom.get(0)
                     var ctx = canvas.getContext("2d");
-                    var gfx = arbor.Graphics(canvas)
+                    var gfx = arbor.Graphics(canvas);
                     var sys = null;
                     var img = document.getElementById("bg"); //from Al's coding
 

@@ -52,10 +52,15 @@ class Clip extends CI_Controller {
 		//public server's URLs
 		//$videoDirectory = "/var/www/swarmtv/assets/video/";
 		//$videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                
+		//create new image size
+		$sizeRatio = $record->width/$record->height;
+		$newWidthString = intval($sizeRatio*115);
+		$sizeString = $newWidthString."x115";
 		
 		//create Terminal string for ffmpeg and execute it
 		$makeFrameString = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
-		$makeFrameString = $makeFrameString . " -vframes 1 -an -s 200x115 -ss " . $currentPos . " ";
+		$makeFrameString = $makeFrameString . " -vframes 1 -an -s ". $sizeString ." -ss " . $currentPos . " ";
 		$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg";
 		echo "makeFrameString = ".$makeFrameString;
 		$execute = shell_exec($makeFrameString);
