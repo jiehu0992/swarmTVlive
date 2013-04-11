@@ -135,51 +135,67 @@ class Elements_model extends CI_Model {
                 break;
             case 'audio':
                 //create OGA version
-                //chdir('assets/audio');
-                //echo "elements_model:move_file:audio: ".shell_exec("pwd");
-                //chdir('/var/www/swarmtv/assets/audio');
-                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                //Jem's URL
+                 $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                 
+                //Public server's URL
                 //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                
                 $execute = shell_exec($createOgvVersion);
                 $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
                 break;
             case 'video':
-                //echo "create OGV version\n";
-                //create OGV version;
-                //chdir('assets/video');
-                //echo "elements_model:move_file:video: ".shell_exec("pwd");
-                //chdir('/var/www/swarmtv/assets/video');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
-                $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                //create OGV version
+                //Jem's URL
+                $createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                 
+                //Public server's URL
+                //$createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                
                 $execute = shell_exec($createOgvVersion);
                 
                 //set string variables for ffmpeg string
-                //echo "set string variables for ffmpeg string\n";
                 $filename = $full_name;
                 $filename = substr($filename, 0, -4);
-                //$videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
-                $videoDirectory = "/var/www/swarmtv/assets/video/";
-                //$videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
-                $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                //Jem's URLs
+                $videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
+                $videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
+                
+                //Public server URLs
+                //$videoDirectory = "/var/www/swarmtv/assets/video/";
+                //$videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                
+                //get width & height from the file
+                $movieDetails = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4 -vstats 2>&1";
+                $output = shell_exec ( $movieDetails );
+                echo "output = ".$output."\n\n";
+                $result = preg_match( '/ [0-9]+x[0-9]+ /', $output, $matches );  
+                echo "matches = \n";
+                print_r($matches);
+                echo "\n\n";
+                if (isset ( $matches[0] )) {  
+                    $vals = (explode ( 'x', $matches[0] ));  
+                    $width = $vals[0] ? $vals[0] : null;  
+                    $height = $vals[1] ? $vals[1] : null;  
+                    $this->data['width'] = $width;  
+                    $this->data['height'] = $height;
+                    
+                    //create size string of thumbnail in original ratio
+                    $widthString = intval((115*$width)/$height);
+                    $sizeString = $widthString."x115";
+                }
+                
+
+                if ($sizeString == "x115") $sizeString = "200x115";
                 
                 //create first frame jpg and put it in "assets/videoposters"
                 $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
-                $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s 200x115 -ss 1 ";
+                $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s ".$sizeString." -ss 1 ";
                 $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg";
+                echo "createFirstFrame = ".$createFirstFrame;
                 $execute = shell_exec($createFirstFrame);
                 
-                //also get width & height from the file
-                $movieDetails = "/usr/local/bin/ffmpeg -i " . $filename . ".mp4 -vstats 2>&1";
-                $output = shell_exec ( $movieDetails );  
-                $result = preg_match( '/[0-9]?[0-9][0-9][0-9]x[0-9][0-9][0-9][0-9]?/', $output, $regs );  
-                if (isset ( $regs [0] )) {  
-                    $vals = (explode ( 'x', $regs [0] ));  
-                    $width = $vals [0] ? $vals [0] : null;  
-                    $height = $vals [1] ? $vals [1] : null;  
-                    $this->data['width'] = $width;  
-                    $this->data['height'] = $height;
-                }
                 
                 break;
         }

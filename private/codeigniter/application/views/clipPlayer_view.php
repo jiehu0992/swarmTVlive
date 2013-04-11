@@ -14,23 +14,8 @@ body,td,th {
 <script type="text/javascript">
 
 $(document).ready(function() {
-	/*sDuration = <?php echo $out; ?>;
-	//alert(sDuration);
-	sHours = Math.floor(sDuration/3600);
-	if (sHours<10) {sDurationString="0"+sHours;}
-	sMins = Math.floor((sDuration-(sHours*3600))/60);
-	sDurationString=sDurationString+":";
-	if (sMins<10) {sDurationString=sDurationString+"0"+sMins;} else {sDurationString=sDurationString+sMins;}
-	sSecs = sDuration - ((sHours*3600)+sMins*60);
-	sDurationString=sDurationString+":";
-	if (sSecs<10) {sDurationString=sDurationString+"0"+sSecs;} else {sDurationString=sDurationString+sSecs;}*/
-	//alert(sDurationString);
-	$("#clipLabel").html('(<?php echo $filename ?>'+videoExtension+')');/*+sDurationString);*/
-	
-	// trigger the fancy box on double click
-		/*$('#setThumb').click(function(){
-			setThumbnail(<?php echo $id ?>);
-		});*/
+	var base_url = "<?php echo base_url(); ?>";
+	$("#clipLabel").html('(<?php echo $filename ?>'+videoExtension+')');
 });
 
 function setIn(videoID, videoIn){
@@ -83,16 +68,17 @@ function setText(videoID, altText){
 	updateEdit(videoID, altText, inPoint, outPoint, duration);
 }
 
-function updateEdit(videoID, altText, inPoint, outPoint, duration){
+function updateEdit(videoID){
 	//alert("updateEdit:"+"updateClip.php?id="+videoID+"&altText="+altText+"&inPoint="+inPoint+"&outPoint="+outPoint);
 	var altText = document.getElementsByName('videoCaption')[0].value;
 	var inPoint = document.getElementsByName('videoInField')[0].value;
 	var outPoint = document.getElementsByName('videoOutField')[0].value;
 	var duration = document.getElementsByName('videoDuration')[0].value;
 	$.ajax({
-		url: "updateClip.php?id="+videoID+"&altText="+altText+"&inPoint="+inPoint+"&outPoint="+outPoint+"&duration="+duration,
+		//url: "updateClip.php?id="+videoID+"&altText="+altText+"&inPoint="+inPoint+"&outPoint="+outPoint+"&duration="+duration,
+		url: base_url+"index.php/clip/update/"+videoID+"/"+altText+"/"+inPoint+"/"+outPoint+"/"+duration,
 		success: function(data) {
-			//alert(data);
+			alert(data);
 			//alert('Load was performed.');
 		}
 	});
@@ -102,9 +88,10 @@ function setThumbnail(id){
 	var currentPos = myClip.currentTime();
 	
 	$.ajax({
-		url: "../../../../../setThumbnail.php?id="+id+"&currentPos="+currentPos,
+		//url: "../../../../../setThumbnail.php?id="+id+"&currentPos="+currentPos,
+		url: base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos,
 		success: function(data) {
-			//alert(data);
+			alert(data);
 			//alert('Load was performed.');
 		}
 	});
@@ -139,7 +126,7 @@ function setThumbnail(id){
 			<input type="text" name="videoInField" id="videoInField" value='<?php echo $in ?>' size="10"  onChange="updateIn('<?php echo $id ?>', this.value);" />
 			<button type="button" onClick="setIn('<?php echo $id ?>', '<?php echo $in ?>');">Set In</button>
 		</td>
-		<td><span id="clipLabel"></span></td>
+		<td align="center"><span id="clipLabel"></span></td>
 		<td align="right"  valign="bottom">
 			<input type="text" name="videoOutField"  id="videoOutField" value='<?php echo $out ?>' size="10"   onChange="updateOut('<?php echo $id ?>', this.value);"/>
 			<button type="button" onClick="setOut('<?php echo $id ?>', '<?php echo $out ?>');">Set Out</button>
