@@ -6,11 +6,12 @@ $(document).ready(function() {
 		var thumbnailFilePath = '../../../assets/videoposters/' + $(this).attr('videofile') + '.jpg';
 		var videoCaption = $(this).attr('videocaption');
 		$(this).css('background-image', 'url('+thumbnailFilePath+')');
+		$(this).css('background-repeat', 'no-repeat');
+		$(this).css('background-position', 'center');
 		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="../../../img/play_icon.png" />');
 		fancyWidth=eval($(this).attr('videowidth'))+26;
 		fancyHeight=eval($(this).attr('videoheight'))+82;
 		
-		//$(this).attr('href','../../../clipPlayer.php?id=' + $(this).parent().attr('id') + "&width="+fancyWidth+"&height="+fancyHeight);
 		var URLString = '../../../index.php/clipPlayer/playClip/';
 		URLString = URLString+$(this).parent().attr('id')+'/';
 		URLString = URLString+fancyWidth+'/';
@@ -28,9 +29,7 @@ $(document).ready(function() {
 		//codeigniter parameters for width and height
         var dWidth  = parseInt(parameters[7]);
 		var dHeight     =  parseInt(parameters[8]);  
-        //var dWidth  = parseInt($(this).attr('href').match(/width=[0-9]+/i)[0].replace('width=',''));  
-        //var dHeight     =  parseInt($(this).attr('href').match(/height=[0-9]+/i)[0].replace('height=',''));  
-		$(this).fancybox({  
+        $(this).fancybox({  
 			'width':dWidth,  
 			'height':dHeight, 
 			'padding':0,
