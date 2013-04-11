@@ -57,9 +57,9 @@
                     var canvas = dom.get(0)
                     var ctx = canvas.getContext("2d");
                     var gfx = arbor.Graphics(canvas);
-					/*if (gfx = null) {
+					if (gfx == null) {
 					  $("#oldBrowser").css("visibility", "visible");
-					}*/
+					}
                     var sys = null;
                     var img = document.getElementById("bg"); //from Al's coding
 
