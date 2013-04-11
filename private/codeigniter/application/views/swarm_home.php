@@ -41,6 +41,8 @@
                 <input type="submit" value="Search Filter">
             </form>	
 			<p id="search_results" > <?php echo $searchResults; ?> </p><br />
+			
+			<div id="oldBrowser" class="hidden">This page was designed to use modern browsers, so please download one if you can (its worth the wait - honest!). Otherwise go to the home page here: <a href="index.php/pages/view/home">Home</a> Thanks very much!</div> 
         </div>
         <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="350"></canvas>
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
@@ -54,7 +56,10 @@
                     var dom = $(elt)
                     var canvas = dom.get(0)
                     var ctx = canvas.getContext("2d");
-                    var gfx = arbor.Graphics(canvas)
+                    var gfx = arbor.Graphics(canvas);
+					if (gfx = null) {
+					  $("#oldBrowser").css("visibility", "visible");
+					}
                     var sys = null;
                     var img = document.getElementById("bg"); //from Al's coding
 
