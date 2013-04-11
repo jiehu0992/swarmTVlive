@@ -51,15 +51,16 @@
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-graphics.js"></script>
         <script type="text/javascript">
             (function ($) {
+				
+				if( !window.Worker) {
+				  $("#oldBrowser").css("visibility", "visible");
+				} 
 
                 var Renderer = function (elt) {
                     var dom = $(elt)
                     var canvas = dom.get(0)
                     var ctx = canvas.getContext("2d");
                     var gfx = arbor.Graphics(canvas);
-					if (gfx == null) {
-					  $("#oldBrowser").css("visibility", "visible");
-					}
                     var sys = null;
                     var img = document.getElementById("bg"); //from Al's coding
 
