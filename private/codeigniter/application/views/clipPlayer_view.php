@@ -88,9 +88,12 @@ function updateEdit(videoID){
 
 function setThumbnail(id){
 	var currentPos = myClip.currentTime();
+	var altText = document.getElementsByName('videoCaption')[0].value;
+	var alert = (altText == "alert") ? 1 : 0;
 	$.ajax({
 		url: base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos,
 		success: function(data) {
+			if (alert == 1) alert(data);
 			//alert(data);
 			//alert('Load was performed.');
 		}
