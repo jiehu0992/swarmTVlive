@@ -15,7 +15,7 @@ class Clip extends CI_Controller {
 		$record = $this->Elements_model->get_clip_details($id);
 		
 		$data['id'] = $record->id;
-		$data['altText'] = $record->description;
+		$data['description'] = $record->description;
 		$timelineJSON = $record->timeline;
 		$timeline = json_decode($timelineJSON);
 		if ($timeline !== NULL){
@@ -24,8 +24,8 @@ class Clip extends CI_Controller {
 			$data['duration'] = $timeline->duration;
 		} else {
 			$data['in'] = 0;
-			$data['out'] = "";
-			$data['duration'] = "";
+			$data['out'] = "100";
+			$data['duration'] = "100";
 		}
 		$data['filename']=substr($record->filename, 0 , -4);
 		$data['width']=$record->width;
@@ -62,7 +62,7 @@ class Clip extends CI_Controller {
 		$makeFrameString = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
 		$makeFrameString = $makeFrameString . " -vframes 1 -an -s ". $sizeString ." -ss " . $currentPos . " ";
 		$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg";
-		echo "makeFrameString = ".$makeFrameString;
+		//echo "makeFrameString = ".$makeFrameString;
 		$execute = shell_exec($makeFrameString);
 		
 	}
@@ -81,8 +81,8 @@ class Clip extends CI_Controller {
 		
 		$timelineJSON = json_encode($timeline);
 		
-		$data[altText]=$altText;
-		$data[timeline]=$timelineJSON;
+		$data['description']=$altText;
+		$data['timeline']=$timelineJSON;
 		
 		$this->db->where('id', $id);
 		$this->db->update('elements', $data); 

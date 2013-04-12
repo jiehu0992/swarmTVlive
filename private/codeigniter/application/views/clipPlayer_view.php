@@ -75,11 +75,12 @@ function updateEdit(videoID){
 	var inPoint = document.getElementsByName('videoInField')[0].value;
 	var outPoint = document.getElementsByName('videoOutField')[0].value;
 	var duration = document.getElementsByName('videoDuration')[0].value;
+	
+	
 	$.ajax({
-		//url: "updateClip.php?id="+videoID+"&altText="+altText+"&inPoint="+inPoint+"&outPoint="+outPoint+"&duration="+duration,
 		url: base_url+"index.php/clip/update/"+videoID+"/"+altText+"/"+inPoint+"/"+outPoint+"/"+duration,
 		success: function(data) {
-			alert(data);
+			//alert(data);
 			//alert('Load was performed.');
 		}
 	});
@@ -90,7 +91,7 @@ function setThumbnail(id){
 	$.ajax({
 		url: base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos,
 		success: function(data) {
-			alert(data);
+			//alert(data);
 			//alert('Load was performed.');
 		}
 	});
@@ -115,7 +116,7 @@ function setThumbnail(id){
 		</td>
 		<td>&nbsp;</td>
 		<td align="right">
-			Clip Description: <input type="text" name="videoCaption" id="videoCaption" value='<?php echo $altText ?>' />
+			Clip Description: <input type="text" name="videoCaption" id="videoCaption" value='<?php echo urldecode($description) ?>' />
 			<button type="button" onClick="updateEdit('<?php echo $id ?>');">Update</button>
 			<input type="hidden" name="videoDuration" id="videoDurationField" value='<?php echo $duration ?>');"/>
 		</td>

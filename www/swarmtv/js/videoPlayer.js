@@ -4,7 +4,7 @@ $(document).ready(function() {
 	$('a.videoLink').each(function(){
 		
 		var thumbnailFilePath = '../../../assets/videoposters/' + $(this).attr('videofile') + '.jpg';
-		var videoCaption = $(this).attr('videocaption');
+		var videoCaption = unescape($(this).attr('videocaption'));
 		$(this).css('background-image', 'url('+thumbnailFilePath+')');
 		$(this).css('background-repeat', 'no-repeat');
 		$(this).css('background-position', 'center');
@@ -12,7 +12,7 @@ $(document).ready(function() {
 		fancyWidth=eval($(this).attr('videowidth'))+26;
 		fancyHeight=eval($(this).attr('videoheight'))+82;
 		
-		var URLString = '../../../index.php/clipPlayer/playClip/';
+		var URLString = '../../../index.php/clip/play/';
 		URLString = URLString+$(this).parent().attr('id')+'/';
 		URLString = URLString+fancyWidth+'/';
 		URLString = URLString+fancyHeight;

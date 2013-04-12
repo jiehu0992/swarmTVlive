@@ -169,15 +169,11 @@ class Elements_model extends CI_Model {
                 //get width & height from the file
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4 -vstats 2>&1";
                 $output = shell_exec ( $movieDetails );
-                echo "output = ".$output."\n\n";
                 $result = preg_match( '/ [0-9]+x[0-9]+ /', $output, $matches );  
-                echo "matches = \n";
-                print_r($matches);
-                echo "\n\n";
                 if (isset ( $matches[0] )) {  
                     $vals = (explode ( 'x', $matches[0] ));  
-                    $width = $vals[0] ? $vals[0] : null;  
-                    $height = $vals[1] ? $vals[1] : null;  
+                    $width = $vals[0] ? trim($vals[0]) : null;  
+                    $height = $vals[1] ? trim($vals[1]) : null;   
                     $this->data['width'] = $width;  
                     $this->data['height'] = $height;
                     
@@ -186,16 +182,35 @@ class Elements_model extends CI_Model {
                     $sizeString = $widthString."x115";
                 }
                 
-
                 if ($sizeString == "x115") $sizeString = "200x115";
                 
                 //create first frame jpg and put it in "assets/videoposters"
                 $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
                 $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s ".$sizeString." -ss 1 ";
                 $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg";
-                echo "createFirstFrame = ".$createFirstFrame;
                 $execute = shell_exec($createFirstFrame);
                 
+                //get duration as well
+                $result = preg_match('/Duration: (.*?),/', $output, $matches); 
+                if (isset ( $matches[0] )) {  
+                    $vals = (explode ( ':', $matches[1] ));  
+                    $hours = $vals[0] ? trim($vals[0]) : null;  
+                    $mins = $vals[1] ? $vals[1] : null;   
+                    $secs = $vals[2] ? $vals[2] : null;
+                }
+                $duration = ($hours * 3600) + ($mins * 60) + $secs;
+                
+                //create JSON string for timeline field
+                $timeline = array(
+                    "in" => 0,
+                    "out" => $duration,
+                    "duration" => $duration
+                );
+                $timelineJSON = json_encode($timeline);
+                $this->data['timeline']=$timelineJSON;
+                
+                //by default the description will be the filename on the server
+                $this->data['description']=$filename;
                 
                 break;
         }
@@ -225,8 +240,9 @@ class Elements_model extends CI_Model {
 			$description = $post_data['description'];
             //$description = htmlspecialchars($description, ENT_QUOTES); Do we need this?
             $description = str_replace ("\n", "<br>", $description );
-			
-			$this->data['description'] = $description;
+            if ($description !== " " && $description !== "") {
+                $this->data['description'] = $description;
+            }
 		}
 		
 		if (array_key_exists('contents', $post_data))
