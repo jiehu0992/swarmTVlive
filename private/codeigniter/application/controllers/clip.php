@@ -61,10 +61,8 @@ class Clip extends CI_Controller {
 		//create Terminal string for ffmpeg and execute it
 		$makeFrameString = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
 		$makeFrameString = $makeFrameString . " -vframes 1 -an -s ". $sizeString ." -ss " . $currentPos . " ";
-		$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg &";
+		$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg";
 		$execute = shell_exec($makeFrameString);
-		echo "makeFrameString = ".$makeFrameString."\n\n";
-		echo "execute = ".$execute;
 	}
 	
 	

@@ -92,7 +92,7 @@ function setThumbnail(id){
 	$.ajax({
 		url: base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos,
 		success: function(data) {
-			alert(data);
+			//alert(data);
 			//alert('Load was performed.');
 		}
 	});
