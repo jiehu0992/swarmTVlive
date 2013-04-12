@@ -46,12 +46,12 @@ class Clip extends CI_Controller {
 		$filename = substr($filename, 0, -4);
 		
 		//Jem's local URLs
-		$videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
-		$videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
+		//$videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
+		//$videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
 		
 		//public server's URLs
-		//$videoDirectory = "/var/www/swarmtv/assets/video/";
-		//$videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+		$videoDirectory = "/var/www/swarmtv/assets/video/";
+		$videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
                 
 		//create new image size
 		$sizeRatio = $record->width/$record->height;
@@ -62,7 +62,7 @@ class Clip extends CI_Controller {
 		$makeFrameString = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
 		$makeFrameString = $makeFrameString . " -vframes 1 -an -s ". $sizeString ." -ss " . $currentPos . " ";
 		$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg";
-		//echo "makeFrameString = ".$makeFrameString;
+		echo "makeFrameString = ".$makeFrameString;
 		$execute = shell_exec($makeFrameString);
 		
 	}
