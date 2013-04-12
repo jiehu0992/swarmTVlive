@@ -88,10 +88,11 @@ function updateEdit(videoID){
 
 function setThumbnail(id){
 	var currentPos = myClip.currentTime();
+	alert(base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos);
 	$.ajax({
 		url: base_url+"index.php/clip/setThumbnail/"+id+"/"+currentPos,
 		success: function(data) {
-			//alert(data);
+			alert(data);
 			//alert('Load was performed.');
 		}
 	});
