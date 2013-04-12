@@ -64,7 +64,7 @@ class Clip extends CI_Controller {
 		$makeFrameString = $makeFrameString . $videopostersDirectory . $filename . ".jpg &";
 		$execute = shell_exec($makeFrameString);
 		echo "makeFrameString = ".$makeFrameString."\n\n";
-		echo "execute = '.$execute;
+		echo "execute = ".$execute;
 	}
 	
 	
