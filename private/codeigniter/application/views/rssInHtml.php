@@ -34,7 +34,8 @@
         <script src="<?php echo base_url(); ?>js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
-        <div id="recentChangesTitle"><h1>Recent Changes</h1></div>
+        <div id="recentChangesTitle"><h1>Recent Changes</h1><br /><strong>RSS feed: http://ucfmediacentre.co.uk/swarmtv/index.php/feed</strong></div>
+		
 		<div>
 			<div id="recentChanges"><?php echo $changesList; ?></div>
 		</div>
