@@ -115,7 +115,7 @@ function setThumbnail(id){
 	</tr>
 	<tr>
 		<td align="left" valign="bottom">
-			<button type="button" id="setThumb" onClick="setThumbnail('<?php echo $id ?>');">Set Thumbnail</button>
+			<button type="button" id="setThumb" onClick="setThumbnail('<?php echo $id ?>');">Set Thumbnail</button><br />(This may take a minute to process)
 		</td>
 		<td>&nbsp;</td>
 		<td align="right">
