@@ -3,11 +3,10 @@
 <head>
   
 	<meta charset="UTF-8">
-	<title>swarm tv</title>
+	<title>Falmouth University Media</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <link rel="stylesheet" href="style.css" type="text/css" />
-    <link rel="stylesheet" href="../css/main.css" type="text/css" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
     
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
    
@@ -40,8 +39,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">AIR:Pressure 2013</a>
-		  <a id="main_home_button" href="../index.php/swarmtv">&nbsp;</a>
+          <a class="brand" href="#">Falmouth University Media</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
               Username: <a href="#" id="username"class="navbar-link"> </a>
@@ -76,10 +74,16 @@
             <h2>Live Video</h2>
             <iframe src="http://www.ucfmediacentre.co.uk/wowzainterface/client/live.html" width="700" height="500" frameborder="0" allowtransparency="true" noresize="noresize" scrolling="no"></iframe>
             
-		<p><b> Do not change the settings! </b>  Click <b>Play</b> to connect to the stream<br /> - The stream won't be active until - 9:00am 15th April 2013</p>            
+		<p><b> Do not change the settings! </b>  Click <b>Play</b> to connect to the stream<br /> - The stream won't be active until - 7:45pm 1st March 2013</p>            
           </div>
           </div>
           </div>
+
+      <hr>
+
+      <footer>
+        <p>FXU Awards Ceremony - 2013</p>
+      </footer>
 
     </div><!--/.fluid-container-->
 
