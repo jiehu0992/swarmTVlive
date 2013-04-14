@@ -41,6 +41,10 @@ class Swarmtv extends CI_Controller {
 		//create articiial link tree for Recent Chanages
 		$recentChangesPages = $this->Updates_model->get_links_from_RSS();
 		$pages[sizeof($pages)-1]['link_tree'] = $recentChangesPages;
+		//add in Stream Page
+		array_push($pages, array('title'=>'Stream'));
+		$streamPages = array(array("pagesTitle" => "home"));
+		$pages[sizeof($pages)-1]['link_tree'] = $streamPages;
 		$pages = json_encode($pages);
 		
 		$data['links'] = $pages;
