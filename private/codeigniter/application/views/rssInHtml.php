@@ -35,8 +35,9 @@
     </head>
     <body>
         <div id="recentChangesTitle"><h1>Recent Changes</h1></div>
+		
 		<div>
-			<div id="recentChanges"><?php echo $changesList; ?></div>
+			<div id="recentChanges"><strong>RSS feed: http://ucfmediacentre.co.uk/swarmtv/index.php/feed</strong><br /><br /><?php echo $changesList; ?></div>
 		</div>
 		<a id="main_home_button" href="<?php echo base_url(); ?>index.php/swarmtv">&nbsp;</a>
 

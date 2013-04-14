@@ -35,25 +35,30 @@
     </head>
     
     <body>
-        <div>
+        <div style="padding:20px;">
             <form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
                 <input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
-                <input type="submit" value="Filter">
-            </form>
-        </div>
-        <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="428"></canvas>
+                <input type="submit" value="Search Filter">
+            </form>	
+			<p id="search_results" > <?php echo $searchResults; ?> </p><br />
+			<div id="oldBrowser" style="display:none" width="600px">This website is a project designed to work with <strong>HTML5</strong>, so please download a modern browser if you can (its worth the wait - honest!). If you haven't got IT permissions to do this, try Chrome portable (<a href="http://portableapps.com/apps/internet/google_chrome_portable">Chrome Portable</a>). You should be able to use that, OK. Otherwise, go straight to the home page here: <a href="http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/home">Home</a>, and have a play around there. Thanks very much!</div>
+        <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="350"></canvas>
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor.js"></script>
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-tween.js"></script>
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor-graphics.js"></script>
         <script type="text/javascript">
             (function ($) {
+				
+				if( !window.Worker) {
+					$("#oldBrowser").css("display", "inline");
+				} 
 
                 var Renderer = function (elt) {
                     var dom = $(elt)
                     var canvas = dom.get(0)
                     var ctx = canvas.getContext("2d");
-                    var gfx = arbor.Graphics(canvas)
+                    var gfx = arbor.Graphics(canvas);
                     var sys = null;
                     var img = document.getElementById("bg"); //from Al's coding
 
@@ -70,7 +75,7 @@
                                     width: dom.width(),
                                     height: dom.height()
                                 },
-                                padding: [36, 150, 36, 150]
+                                padding: [36, 150, 150, 150]
                             })
 
                             $(window).resize(that.resize)
@@ -302,6 +307,8 @@
 					
 					theUI.nodes["Recent Changes"].stroke = "cyan";
 					theUI.nodes["Recent Changes"].link = "<?php echo base_url(); ?>index.php/recentChanges";
+					theUI.nodes["Stream"].stroke = "cyan";
+					theUI.nodes["Stream"].link = "<?php echo base_url(); ?>stream";
 					
                     var sys = arbor.ParticleSystem();
                     sys.parameters({
