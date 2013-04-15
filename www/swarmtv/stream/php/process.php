@@ -53,6 +53,11 @@
         	 fwrite(fopen('../data/chat.txt', 'a'), "<span>". $nickname . "</span>" . $message = str_replace("\n", " ", $message) . "\n"); 
 		 }
         	 break;
+			
+    	 case('users'):
+			$nickname = htmlentities(strip_tags($_POST['nickname']));
+			fwrite(fopen('../data/users.txt', 'a'), "<span>". date(DATE_RFC822) . " - " . $nickname . "</span>\n"); 
+        	break;
     	
     }
     
