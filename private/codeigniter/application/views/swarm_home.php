@@ -307,8 +307,8 @@
 					
 					theUI.nodes["Recent Changes"].stroke = "cyan";
 					theUI.nodes["Recent Changes"].link = "<?php echo base_url(); ?>index.php/recentChanges";
-					theUI.nodes["Stream"].stroke = "cyan";
-					theUI.nodes["Stream"].link = "<?php echo base_url(); ?>stream";
+					/*theUI.nodes["Stream"].stroke = "cyan";
+					theUI.nodes["Stream"].link = "<?php echo base_url(); ?>stream";*/
 					
                     var sys = arbor.ParticleSystem();
                     sys.parameters({
