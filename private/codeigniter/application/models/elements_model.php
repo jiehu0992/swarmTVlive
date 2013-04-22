@@ -143,6 +143,7 @@ class Elements_model extends CI_Model {
                 
                 $execute = shell_exec($createOgvVersion);
                 $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
+                alert("renameOgvToOga = "+$renameOgvToOga)
                 $execute = shell_exec($renameOgvToOga);
                 break;
             case 'video':
