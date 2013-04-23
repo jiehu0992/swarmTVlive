@@ -142,7 +142,7 @@ class Elements_model extends CI_Model {
                 $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 
                 $execute = shell_exec($createOgvVersion);
-                $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
+                $renameOgvToOga = "mv /var/www/swarmtv/assets/audio/".$unique_name.".ogv /var/www/swarmtv/assets/audio/".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
                 break;
             case 'video':
