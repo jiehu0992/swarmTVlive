@@ -25,7 +25,7 @@ class Updates_model extends CI_Model {
 		$this->db->distinct();
 		$this->db->select('page AS pagesTitle');
 		$this->db->order_by("pubDate", "desc");
-		$this->db->limit(50);
+		//$this->db->limit(50);
 		$query = $this->db->get('updates');
 		$result = $query->result_array();
 		return $result;
