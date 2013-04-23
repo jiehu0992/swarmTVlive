@@ -170,7 +170,7 @@ class Elements_model extends CI_Model {
                 //get width & height from the file
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4 -vstats 2>&1";
                 $output = shell_exec ( $movieDetails );
-                $result = preg_match( '/ [0-9]+x[0-9]+ /', $output, $matches );  
+                $result = preg_match( '/ [0-9]+x[0-9]+[, ]/', $output, $matches );  
                 if (isset ( $matches[0] )) {  
                     $vals = (explode ( 'x', $matches[0] ));  
                     $width = $vals[0] ? trim($vals[0]) : null;  
