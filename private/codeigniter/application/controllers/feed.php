@@ -20,7 +20,7 @@ class Feed extends CI_Controller {
 	$data['page_description'] = 'Swarm TV Recent Changes';  
 	$data['page_language'] = 'en-en';  
 	$data['creator_email'] = 'ucfmediacentre.co.uk@gmail.com';  
-	$data['updates'] = $this->updates->getUpdates(50);  
+	$data['updates'] = $this->updates->getUpdates();  
 	header("Content-Type: application/rss+xml");
 	$this->load->view('rss', $data);  
     }  

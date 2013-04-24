@@ -45,8 +45,8 @@ class Swarmtv extends CI_Controller {
 		array_push($pages, array('title'=>'Stream'));
 		$streamPages = array(array("pagesTitle" => "home"));
 		$pages[sizeof($pages)-1]['link_tree'] = $streamPages;*/
+		//echo var_dump($pages);
 		$pages = json_encode($pages);
-		
 		$data['links'] = $pages;
 		$data['filter'] = $filter;
 		
