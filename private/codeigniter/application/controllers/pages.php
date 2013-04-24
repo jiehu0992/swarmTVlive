@@ -17,7 +17,7 @@ class Pages extends CI_Controller {
 	{
 		$this->load->helper('url');
 		
-		if (urldecode($page_title) === "Recent Changes" | $page_title === "recentChanges") {
+		if (strtoupper(urldecode($page_title)) === "RECENT CHANGES" | strtoupper ($page_title) === "RECENTCHANGES") {
 			redirect('/recentChanges', 'location');
 		}
 		
@@ -55,7 +55,7 @@ class Pages extends CI_Controller {
 	public function update()
 	{
 		$this->load->model('Pages_model');
-		echo $this->Pages_model->update() . " " . $this->input->post('keywords');
+		return $this->Pages_model->update();
 	}
 	
 	public function upload_image()

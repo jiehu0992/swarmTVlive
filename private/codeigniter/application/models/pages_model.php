@@ -54,9 +54,9 @@ class Pages_model extends CI_Model {
 			//build up SQL statement that finds any page title that has something to do with the filtered string, including links!
 			$sql = "SELECT DISTINCT pages.title ";
 			$sql = $sql . "FROM pages ";
-			$sql = $sql . "INNER JOIN links ";
+			$sql = $sql . "LEFT JOIN links ";
 			$sql = $sql . "ON pages.title=links.parentTitle ";
-			$sql = $sql . "INNER JOIN elements ";
+			$sql = $sql . "LEFT JOIN elements ";
 			$sql = $sql . "ON pages.id=elements.pages_id ";
 			$sql = $sql . "WHERE (CONVERT(elements.description USING utf8) LIKE '%" . $string ."%' ";
 			$sql = $sql . "OR CONVERT(elements.contents USING utf8) LIKE '%" . $string ."%' ";

@@ -46,16 +46,16 @@ class Elements_model extends CI_Model {
     	
     	for ($i = 0; $i < sizeof($elements); $i++)
     	{	
-		$contents = $elements[$i]['contents'];
+			$contents = $elements[$i]['contents'];
 
-		// break up the parts of the contents
-		$break_apart_contents = $this->Links_model->parse_string_for_links($contents);
-	
-		// piece the contents back together with the html links embedded
-		$processed_contents = $this->Links_model->insert_links($break_apart_contents);
+			// break up the parts of the contents
+			$break_apart_contents = $this->Links_model->parse_string_for_links($contents);
 		
-		//update the description
-		$elements[$i]['contents'] = $processed_contents;
+			// piece the contents back together with the html links embedded
+			$processed_contents = $this->Links_model->insert_links($break_apart_contents);
+			
+			//update the description
+			$elements[$i]['contents'] = $processed_contents;
     	}
     	return $elements;
     }
@@ -135,19 +135,83 @@ class Elements_model extends CI_Model {
                 break;
             case 'audio':
                 //create OGA version
-                chdir('./assets/audio');
-                //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                //Jem's URL
+                 //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/audio/".$full_name;
+                 
+                //Public server's URL
                 $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
+                
                 $execute = shell_exec($createOgvVersion);
-                $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
+                $renameOgvToOga = "mv /var/www/swarmtv/assets/audio/".$unique_name.".ogv /var/www/swarmtv/assets/audio/".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
                 break;
             case 'video':
-                //create OGV version;
-                chdir('./assets/video');
+                //create OGV version
+                //Jem's URL
                 //$createOgvVersion = "/usr/local/bin/ffmpeg2theora ~/Sites/swarmTVlive/www/swarmtv/assets/video/".$full_name;
+                 
+                //Public server's URL
                 $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/video/".$full_name;
+                
                 $execute = shell_exec($createOgvVersion);
+                
+                //set string variables for ffmpeg string
+                $filename = $full_name;
+                $filename = substr($filename, 0, -4);
+                //Jem's URLs
+                //$videoDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/video/";
+                //$videopostersDirectory = "/Users/media/Sites/swarmTVlive/www/swarmtv/assets/videoposters/";
+                
+                //Public server URLs
+                $videoDirectory = "/var/www/swarmtv/assets/video/";
+                $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                
+                //get width & height from the file
+                $movieDetails = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4 -vstats 2>&1";
+                $output = shell_exec ( $movieDetails );
+                $result = preg_match( '/ [0-9]+x[0-9]+[, ]/', $output, $matches );  
+                if (isset ( $matches[0] )) {  
+                    $vals = (explode ( 'x', $matches[0] ));  
+                    $width = $vals[0] ? trim($vals[0]) : null;  
+                    $height = $vals[1] ? trim($vals[1]) : null;   
+                    $this->data['width'] = $width;  
+                    $this->data['height'] = $height;
+                    
+                    //create size string of thumbnail in original ratio
+                    $widthString = intval((115*$width)/$height);
+                    $sizeString = $widthString."x115";
+                }
+                
+                if ($sizeString == "x115") $sizeString = "200x115";
+                
+                //create first frame jpg and put it in "assets/videoposters"
+                $createFirstFrame = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4";
+                $createFirstFrame = $createFirstFrame . " -vframes 1 -an -s ".$sizeString." -ss 1 ";
+                $createFirstFrame = $createFirstFrame . $videopostersDirectory . $filename . ".jpg";
+                $execute = shell_exec($createFirstFrame);
+                
+                //get duration as well
+                $result = preg_match('/Duration: (.*?),/', $output, $matches); 
+                if (isset ( $matches[0] )) {  
+                    $vals = (explode ( ':', $matches[1] ));  
+                    $hours = $vals[0] ? trim($vals[0]) : null;  
+                    $mins = $vals[1] ? $vals[1] : null;   
+                    $secs = $vals[2] ? $vals[2] : null;
+                }
+                $duration = ($hours * 3600) + ($mins * 60) + $secs;
+                
+                //create JSON string for timeline field
+                $timeline = array(
+                    "in" => 0,
+                    "out" => $duration,
+                    "duration" => $duration
+                );
+                $timelineJSON = json_encode($timeline);
+                $this->data['timeline']=$timelineJSON;
+                
+                //by default the description will be the filename on the server
+                $this->data['description']=$filename;
+                
                 break;
         }
 		
@@ -174,15 +238,18 @@ class Elements_model extends CI_Model {
 		if (array_key_exists('description', $post_data))
 		{
 			$description = $post_data['description'];
-            $description = htmlspecialchars($description, ENT_QUOTES);
-			
-			$this->data['description'] = $description;
+            //$description = htmlspecialchars($description, ENT_QUOTES); Do we need this?
+            $description = str_replace ("\n", "<br>", $description );
+            if ($description !== " " && $description !== "") {
+                $this->data['description'] = $description;
+            }
 		}
 		
 		if (array_key_exists('contents', $post_data))
 		{
 			$contents = $post_data['contents'];
-            $contents = htmlspecialchars($contents, ENT_QUOTES);
+            //$contents = htmlspecialchars($contents, ENT_QUOTES); Do we need this?
+            $contents = str_replace ("\n", "<br>", $contents );
 			
 			$this->data['contents'] = $contents;
 			$this->data['type'] = 'text';
@@ -319,7 +386,7 @@ class Elements_model extends CI_Model {
 	public function update_element()
 	{
         //If anything is updated get the post data
-		$post_data = $this->input->post();
+		$post_data = $this->input->post(NULL, TRUE); // return all post data filtered XSS - SCRIPT SAFE
 		//find the id of the element
    		$id = $this->input->post('id');
 
@@ -340,12 +407,23 @@ class Elements_model extends CI_Model {
             
             //post the new data with the coded links
 			$post_data['contents'] = $contents;
+		
 		}
 		
 		$this->db->where('id', $id);
 		$this->db->update('elements', $post_data);
+        
+        $affected_rows = $this->db->affected_rows();
+        
+        if ($this->input->post('contents')){
+            //create the new record in table 'updates'
+            $this->load->model('Elements_model');
+            $update_elements_id = $id;
+            $update_action = 'revised';
+            $this->Elements_model->create_update($update_action, $update_elements_id);
+        }
 		
-		return $this->db->affected_rows();
+		return $affected_rows;
    	}
    
 	public function return_description()
@@ -398,4 +476,21 @@ class Elements_model extends CI_Model {
 				
 		
 	}
+    
+    public function get_clip_details($id)
+    {
+        $this->load->database();
+        $this->load->helper('url');
+        
+    	$query = $this->db->get_where('elements', array('id' =>$id), 1);
+        
+		if ($query->num_rows() > 0)
+		{ 
+   			return $query->row();
+   		}else
+   		{
+   			return false;
+   		}
+        
+    }
 }

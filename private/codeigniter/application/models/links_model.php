@@ -18,7 +18,7 @@ class Links_model extends CI_Model {
 	//This one is called "parts" and it splits the text into every substring, split by the links themselves (including the double brackets)
 	function parse_string_for_links($string)
 	{
-		$pattern = "/(?<=\[\[)[\w :]+(?=\]\])/"; // [[ ... ]] regex
+		$pattern = "/(?<=\[\[)[\w :-@]+(?=\]\])/"; // [[ ... ]] regex
 		
 		$links = null;							// array to store results of regex					
 		$cursor = 0;							// cursor to keep track of the substring start position
