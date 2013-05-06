@@ -7,54 +7,57 @@ class Elements extends CI_Controller {
 		parent::__construct();
 	}
 	
+	// processes an element and adds it to the `elements` and `updates` table
 	public function add()
 	{
 		$this->load->model('Elements_model');
 		$this->load->model('Links_model');
 		$this->load->model('Pages_model');
 		
-		// check if there is a file to process
+		// checks if there is a file to process
 		if(sizeof($_FILES) > 0){
        		
-       		// check if the file validates
+       		// checks if the file validates
 			$this->Elements_model->validate_file() or exit($this->Elements_model->file_errors);
 			
-			// move the file depending on its mime type
+			// moves the file depending on its mime type
 			$this->Elements_model->move_file() or exit($this->Elements_model->file_errors);
 		}		
 		
-		$this->Elements_model->validate_data() or exit($this->Elements_model->data_errors);
+		$this->Elements_model->validate_element_data() or exit($this->Elements_model->data_errors);
 		
-		$return_id = $this->Elements_model->add_element_to_database($this->Elements_model->data_errors) or exit();
+		$elements_id = $this->Elements_model->add_element_to_database($this->Elements_model->data_errors) or exit();
 		
-		// process links for element
-		// *** PROCESS THE LINKS IN THE DESCRIPTION & CONTENT***
+		// processes links for element
+		// *** PROCESS THE LINKS IN THE TEXT CONTENTS***
 		
-		// get more page details
+		// gets more page details
 		$pages_id = $this->Elements_model->return_pages_id();
 		$pages_title = $this->Pages_model->get_title($pages_id);
 		
-		//get the CONTENTS
+		// gets the CONTENTS as a string
 		$contents = $this->Elements_model->return_contents();
 		
-		//piece the CONTENTS back together with the link ids instead of the page titles
-		$processed_contents = $this->Links_model->process_links($contents, $pages_title, $return_id);
+		// pieces the CONTENTS back together with the link ids instead of any link titles
+		$processed_contents = $this->Links_model->process_links($contents, $pages_title, $elements_id);
 			
-		//update the CONTENTS
-		$this->Elements_model->update_contents($return_id, $processed_contents);
+		//updates the CONTENTS
+		$this->Elements_model->update_contents($elements_id, $processed_contents);
 		
-		//create the new record in table 'updates'
-		$update_elements_id = $return_id;
+		//creates the new record in table 'updates'
+		$update_elements_id = $elements_id;
 		$update_action = 'created';
 		$this->Elements_model->create_update($update_action, $update_elements_id);
 	}	
 	
+	// updates element and creates new update and returns "1" if successful
 	public function update()
 	{
 		$this->load->model('Elements_model');
 		echo $this->Elements_model->update_element();
 	}
 	
+	// deletes an element with a specific id
 	public function delete($id)
 	{
 		$this->load->model('Elements_model');

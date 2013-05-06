@@ -8,26 +8,23 @@
 
 	// Save the base url as a a javascript variable
 	var base_url = "<?php echo base_url(); ?>";
-	//var initDiagonal;
-	//var initFontSize;
 	
 	$(document).ready(function(){
 		
 		// as soon as the page is ready initiate all elements on the page
 		initElements();
         
-		// open the page info view
-		$('#page_title_wrapper').click(function(e){
+		// sets dblclick to open page_info fancy box
+		$('#page_title_wrapper').dblclick(function(e){
             $("#page_info_form_trigger").trigger('click');
 			
-			//$('input[name="x"]').val(e.pageX);
-			//$('input[name="y"]').val(e.pageY);
 			$('textarea').focus();
 			clearSelection();
 		});
         
         
-		$('#page_title_wrapper').dblclick(function(e){
+		// sets dblclick to open element fancy box
+        $('#page_title_wrapper').dblclick(function(e){
 			$("a#add_element_form_trigger").trigger('click');
 			
 			$('input[name="x"]').val(e.pageX);
@@ -36,19 +33,20 @@
 			clearSelection();
 		});
 		
-		// Work around for linking with special chars
+		// Works around linking with special chars
 		$('.text-content a').click(function(e){
 			
 			var location = $(this).attr('href');
 			
 			if(location.indexOf('http://') > 0)
 			{
+                alert("location =\n"+location.indexOf('http://'));
 				e.preventDefault();
-				window.location.href = base_url + "index.php/pages/view/" +location;
+				//window.location.href = base_url + "index.php/pages/view/" +location;
 			}
-		});
+		});/**/
 		
-		// Ajax submit for updating page info 
+		// submits Ajax for updating page info 
 		$('#page_info_submit').click(function(e){
 			// Stop the page from navigating away from this page
 			e.preventDefault();		
@@ -60,27 +58,28 @@
 			var publicVal = $('select[name="public"]').val();
 			
 			// Post the values to the pages controller  
-			$.post(base_url + "index.php/pages/update", { id: idVal , description: descriptionVal, keywords: keywordsVal, public:publicVal },
+			$.post(base_url + "index.php/pages/update", { id: idVal , description: descriptionVal, keywords: keywordsVal, public: publicVal },
 				function(data) {
 				// User feed back
 				alert("Data Loaded: " + data);
 			});
 		});
 		
-		// init fancy boxes
+		// inits element fancy box
 		$("a#add_element_form_trigger").fancybox({
 			'overlayOpacity':0,
 			'autoDimensions':true,
 			'showCloseButton':false,
 		});
         
-		$("a#page_info_form_trigger").fancybox({
+		// inits page_info fancy box
+        $("a#page_info_form_trigger").fancybox({
 			'overlayOpacity':0,
 			'autoDimensions':true,
 			'showCloseButton':false,
 		});
 		
-		// trigger the fancy box on double click
+		// triggers the element fancy box on double click
 		$('#background').dblclick(function(e){
 			$("a#add_element_form_trigger").trigger('click');
 			
@@ -90,7 +89,7 @@
 			clearSelection();
 		});
 		
-		// double click elements
+		// creates functions for double clicking elements
 		$('.element').dblclick(function(){
 			
 			$(this).find('.delete_button').fadeIn();
@@ -98,37 +97,41 @@
 			// Only allow inline editing for text elements
 			if( $(this).hasClass('text') )
 			{
+                // updates text to editable state
+                //var content_container = $(this).find('.text-content');
+                
 				// make content editable and disable drag
 				$(this).find('.text-content').attr('contenteditable','true');
 				$(this).find('.text-content').focus();
 				$(this).draggable({ disabled: true });
 				
 				// listen for when the user shifts focus out of the box
-				$(this).bind('focusout', function(updateTextElementContent)
+				//$(this).bind('focusout', function(updateTextElementContent)
+				$(this).focusout(function(updateTextElementContent)
 				{
                     $(this).find('.delete_button').fadeOut();
-					// remove the event
+					// removes the event
 					$(this).unbind('focusout', updateTextElementContent);
 				
 					// undo changes to element for editing
 					
-					// get the content
+					// gets the content
 					var content_container = $(this).find('.text-content');
 					
-					// activate the drag and deactivate the content editable
+					// activates the drag and deactivate the content editable
 					$(content_container).removeAttr('contenteditable');
 					$(this).draggable({ disabled: false });	
 					
-					// get the id of the container
+					// gets the id of the container
 					var link_id = $(this).attr('id');
 					
-					// make a replica of content
+					// makes a replica of content
 					var cloned_content = $(content_container).clone();
 					
-					// get the  a list of all links
-					var links = $(cloned_content).find('a'); 
+					// gets the a list of all html links
+					var links = $(cloned_content).find('a');
 					
-					// replace links with their shortcodes
+					// replaces links with their shortcodes
 					$.each( links, function( key, value ) {
 						var page_title = $(this).html();
 						$(this).replaceWith('[[' + page_title + ']]');
@@ -136,6 +139,7 @@
 					
 					// get the new content
 					var new_contents = $(content_container).html();
+                        console.debug(new_contents);
 					// send to database
 					updateElement(link_id, 'text-content', new_contents);
 					// update the element with the links
@@ -145,7 +149,7 @@
 			}
 		});
 		
-		// Ajax for adding element
+		// adds an element to the page with ajax when submit button is clicked
 		$('#submit_element').click(function(e){
 			e.preventDefault();
 			
@@ -200,7 +204,8 @@
 			
 		});
 		
-		$('.delete_button').click(function(e){
+		// deletes an element with Ajax
+        $('.delete_button').click(function(e){
 		
 			e.preventDefault();
 			
@@ -217,7 +222,7 @@
 			});
 		});
 		
-		// update preview if file is selected
+		// updates preview if file is selected
 		$('#element_file').change(function(){
 			
 			// check to see if a file has been selected
@@ -252,11 +257,12 @@
 		
 	});
 	
-	// CREATE ELEMENTS ON THE PAGE
+	// CREATES ELEMENTS ON THE PAGE
 	// output the elements as a json array
 	var page_elements_json = <?php echo json_encode($page_elements); ?>;
 	var page_elements = new Array();
 	
+    // creates each element on the page from a JSON array
 	function initElements()
 	{
 		// Loop through all of the elements in the json array
@@ -290,7 +296,7 @@
 			$(elm).data('page_id', page_elements_json[i].pages_id);
 			$(elm).data('license', page_elements_json[i].license);
 			
-			//add the style to the element and the generic class 
+			// adds the style to the element and the generic class 
 			$(elm).css(style);
 			$(elm).addClass('element');
 			$(elm).addClass(page_elements_json[i].type);
@@ -312,7 +318,7 @@
 					break;
 			}
 			
-			// MAKE DRAGGABLE
+			// MAKES DRAGGABLE
 			$(elm).draggable({
 				stop: function(event, ui) {
 					updateElement(ui.helper[0].id , 'position');
@@ -328,13 +334,10 @@
 						
 					},
 					start: function(e, ui) {
-						/*initDiagonal = getContentDiagonal(this);
-						initFontSize = parseInt($(ui.element).css("font-size"));*/
+						// Start function goes here
 					},
 					resize: function(e, ui) {
-						/*var newDiagonal = getContentDiagonal(this);
-						var ratio = newDiagonal / initDiagonal;
-						$(this).css({"font-size" : initFontSize*ratio});*/
+						// Resize function goes here
                         if($(this).hasClass('text')){
                                 var textLength = $(this).text().length;
                                 var textRatio = $(this).width()/$(this).height();
@@ -346,6 +349,7 @@
 
 					},
 					stop: function(event, ui) {
+                        // Stop function goes here
 						updateElement(ui.helper[0].id, 'size');
 						if ($(this).hasClass('text')){
                             $(this).css({'height':'auto'});
@@ -360,24 +364,17 @@
             
 			if ($(elm).hasClass('video')) $(elm).css({'height':'195', 'width':'240'});
             
-			// Add delete button
+			// Adds delete button
 			var delete_button = $('<a href="' + page_elements_json[i].id + '">');
 			$(delete_button).addClass("delete_button");
 			$(elm).append(delete_button);
 			
-			// add new element to the array
+			// adds new element to the array
 			page_elements.push(elm);
 		}
 		
-		// add all the elements in the array to the page.
+		// adds all the elements in the array to the page.
 		$('body').append(page_elements);
-	}
-	
-	function getContentDiagonal(element) {
-		
-		var contentWidth = $(element).width()-10;
-		var contentHeight = $(element).height()-10;
-		return Math.sqrt((contentWidth * contentWidth) + (contentHeight * contentHeight));
 	}
 	
 	
@@ -422,28 +419,30 @@
 		$(elm).append(video_element);
 	}
 	
-	// Update only the changes that have been made
-	function updateElement(elementId, change, alt){
+	// Updates only the changes that have been made
+	function updateElement(elementId, change, alt)
+    {
 	
-		// create an object with only the id 
+		// creates an object with only the id 
 		var changes = {'id':elementId};
 		
-		// add the specific changes to the object
+		// adds the specific changes to the object
 		switch(change)
 		{
 			case 'size':
-				// update width and height
+				// updates width and height
 				changes.width = parseInt($('#' + elementId).css('width'), 10);
 				changes.height = parseInt($('#' + elementId).css('height'), 10);
 				// only update font size if the element type is text (found some problems with positions otherwise)
 				if ($('#' + elementId).hasClass('text')) changes.fontSize = $('#' + elementId).css('font-size');
 				break;
 			case 'position':
-				// change the x and y for left and top ( tut tut  for mixing up terminology from data base to css )
+				// changes the x and y for left and top ( tut tut  for mixing up terminology from data base to css )
 				changes.x = parseInt($('#' + elementId).css('left'), 10);
 				changes.y = parseInt(	$('#' + elementId).css('top'), 10);
 				break;
 			case 'text-content':
+                // puts the specified text (alt) into 'changes' object
 				changes.contents = alt;
 				break; 
 		}
@@ -461,14 +460,14 @@
 		});
 	}
 	
-	// 
+	// creates a div and sets its innerHTML to input specified, return length of nodes created
 	function htmlDecode(input){
 	  var e = document.createElement('div');
 	  e.innerHTML = input;
 	  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 	}
 	
-	// create the display content with links
+	// creates the display content with links
 	function processShortCodes(string){
 
 		while(string.indexOf('[[') > 0)
@@ -494,7 +493,8 @@
 		return string;
 	}
 	
-	function clearSelection() {
+	// removes any selection
+    function clearSelection() {
     	if(document.selection && document.selection.empty) {
         	document.selection.empty();
     	} else if(window.getSelection) {
@@ -502,5 +502,15 @@
         	sel.removeAllRanges();
     	}
 	}
+    
+    // lists an object as a json string
+    function jsonList(obj){
+        var acc = []
+        $.each(obj.html, function(index, value) {
+            acc.push(index + ': ' + value);
+        });
+        return (JSON.stringify(acc));
+    }
+    
 })($);
 </script>

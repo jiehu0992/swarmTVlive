@@ -7,21 +7,24 @@ class Pages extends CI_Controller {
 		parent::__construct();
 	}
 	
+	// initial testing to print out page name
 	public function index($page_name)
 	{
 	 	echo $page_name;
 	}
 	
 	
+	// set up the page in HTML
 	public function view($page_title)
 	{
 		$this->load->helper('url');
 		
+		//test to see if page requested is recent changes, if so go there
 		if (strtoupper(urldecode($page_title)) === "RECENT CHANGES" | strtoupper ($page_title) === "RECENTCHANGES") {
 			redirect('/recentChanges', 'location');
 		}
 		
-		// get the page information
+		// get the page information from the db.php
 		$this->load->model('Pages_model');
 		$page_details= $this->Pages_model->get_page(URLdecode($page_title));
 		$data['page_info'] = $page_details;
@@ -45,19 +48,21 @@ class Pages extends CI_Controller {
 			$this->load->view('footer');
 		}else
 		{
-			//echo 'page was not found!';
+			//Page was not found, so create a new one
 			$page_id=$this->Pages_model->insert_page($page_title);
 			redirect('/pages/view/'.$page_title, 'location');
 			
 		}
 	}
 	
+	// updates the page_info and returns "1" if successful
 	public function update()
 	{
 		$this->load->model('Pages_model');
 		return $this->Pages_model->update();
 	}
 	
+	// prints out success on uploading an image and the image name
 	public function upload_image()
 	{
 		echo '{"success":true, "name": "' . $_GET['name'] . '"}';
