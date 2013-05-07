@@ -100,100 +100,60 @@ class Links_model extends CI_Model {
 	}
 	
 	// swaps the link Titles for link ids from the `links` table
-	/*function process_links($string, $pages_title, $elements_id)
-	{	
-		$this->load->library('Shortcodes');
-		$processString = $this->shortcodes->process_string($string);
-		$keys = array('internal', 'external', 'b', 'i');
-		$links = $this->shortcodes->return_shortcodes_by_key($keys);
-		// compiles the data string
-		$data = array(
-			'elementsId' => $elements_id,
-			'pageTitle' => $pages_title
-		);
-		
-		foreach($links as $link)
-        {
-				switch ($link['shortcode']->getKey()) {
-						case "internal":
-						case "external":
-								$data["linkTitle"] = $link['shortcode']->getValue();
-								// if the shortcode is a link, this section adds the link details to the database
-								if($this->db->insert('links', $data))
-								{
-									// replaces the link title with the link id
-									$this->shortcodes->replaceShortCodeWithHTML($link['index'], "[[".$this->db->insert_id()."]]");
-								}
-								break;
-				}
-				
-				
-        }
-		
-		return ($this->shortcodes->getAdaptedString());
-	}*/
-	
-	// swaps the link Titles for link ids from the `links` table
 	function process_links($string, $pages_title, $elements_id)
 	{	
 		$this->load->library('Shortcodes');
+		// creates an object with all the details about any shortcodes in the specified string
 		$linksObj = $this->shortcodes->process_string($string);
 		
-		echo "linksObj = \n";
-		var_dump($linksObj);
-		echo "\n\n";
+		// accesses the start of a shortcode
+		//echo "linksObj[0]->getStart() = \n";
 		
-		$linkStarts = array();
-		foreach ($linksObj as $link)
+		// creates an array of all the shortcode starts
+		$linksArr = array();
+		foreach($linksObj as $link)
         {
-            for($i = 0; $i < sizeof($linksObj);$i++)
+            for($i = 0; $i < sizeof($linksObj[0]);$i++)
             {
-                if ($this->shortcodes[$i]->getStart())
-                {
-                    $link['shortcode']    = $this->shortcodes[$i];
-                    $link['index']     = $i;
-                    array_push($linkStarts, $match);
-                }
+                $linkVals['length'] = $link->getLength();
+                $linkVals['start'] = $link->getStart();
+                $linkVals['key'] = $link->getKey();
+				$linkVals['value'] = $link->getValue();
+				array_push($linksArr, $linkVals);
             }
         }
-		// compiles the data string
+		//reverses the links array so that the last links in the string are changed first
+		//$linksRevArr = array_reverse($linksArr);
+		
+		// compiles the common data string
 		$data = array(
 			'elementsId' => $elements_id,
 			'pageTitle' => $pages_title
 		);
 		
-		foreach($linkStarts as $link)
+		foreach($linksArr as $link)
         {
-				switch ($link['shortcode']->getKey()) {
+				switch ($link["key"]) {
 						case "internal":
 						case "external":
-								$data["linkTitle"] = $link['shortcode']->getValue();
-								// if the shortcode is a link, this section adds the link details to the database
+								$data["linkTitle"] = $link["value"];
+								// adds the link details to the database if the shortcode is a link
 								if($this->db->insert('links', $data))
 								{
 									// replaces the link title with the link id
-									$this->shortcodes->replaceShortCodeWithHTML($link['index'], "[[".$this->db->insert_id()."]]");
+									$this->shortcodes->replaceShortCode($link, "[[".$this->db->insert_id()."]]");
 								}
 								break;
 				}
-				
-				
         }
-		
-		echo "this->shortcodes->getAdaptedString() = \n";
-		var_dump($this->shortcodes->getAdaptedString());
-		echo "\n\n";
 		
 		return ($this->shortcodes->getAdaptedString());
 	}
 	
 	// parts - links in the associative array
-	// returns content with all the links embeded
+	// returns content with all the links embedded
 	function insert_links($link_info)
 	{
-		echo "link_info=";
-		var_dump($link_info);
-		echo "\n\n";
 		// put the first part of the content in
 		$content = $link_info['parts'][0];
 		
