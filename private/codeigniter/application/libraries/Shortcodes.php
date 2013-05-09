@@ -53,7 +53,11 @@ class Shortcodes{
 		// execute the regex on string and populate $links array storing the offset with the match
 		preg_match_all ( $pattern, $string, $shortcode_info, PREG_OFFSET_CAPTURE );
 		
-		$scInfoReversed = array_reverse($shortcode_info);
+		// reverses the shortcodes array so that the last shortcodes in the string are changed first
+		// so they dont alter the character positions stored
+		$scInfoReversed = array_reverse($shortcode_info[0]);
+		$shortcode_info[0] = $scInfoReversed;
+		
 		// loop through the results of the regex and process shortcodes
 		foreach($shortcode_info[0] as $info)
 		{
@@ -115,8 +119,9 @@ class Shortcodes{
 	 * @access	public
 	 * @return	n/a
 	 */
-	public function replaceShortCodeWithHTML($linkCode, $html)
+	public function replaceShortCodeWithHTML($index, $html)
 	{
+		
 		$length = strlen($html);
 		$original_length = $this->shortcodes[$index]->getLength();
 		
