@@ -106,45 +106,40 @@ class Links_model extends CI_Model {
 		// creates an object with all the details about any shortcodes in the specified string
 		$linksObj = $this->shortcodes->process_string($string);
 		
-		// accesses the start of a shortcode
-		//echo "linksObj[0]->getStart() = \n";
-		
-		// creates an array of all the shortcode starts
-		$linksArr = array();
-		foreach($linksObj as $link)
-        {
-            for($i = 0; $i < sizeof($linksObj[0]);$i++)
-            {
-                $linkVals['length'] = $link->getLength();
-                $linkVals['start'] = $link->getStart();
-                $linkVals['key'] = $link->getKey();
-				$linkVals['value'] = $link->getValue();
-				array_push($linksArr, $linkVals);
-            }
-        }
-		//reverses the links array so that the last links in the string are changed first
-		//$linksRevArr = array_reverse($linksArr);
-		
 		// compiles the common data string
 		$data = array(
 			'elementsId' => $elements_id,
 			'pageTitle' => $pages_title
 		);
 		
-		foreach($linksArr as $link)
+		$i=0;
+		foreach($linksObj as $link)
         {
-				switch ($link["key"]) {
+				switch ($link->getKey()) {
 						case "internal":
-						case "external":
-								$data["linkTitle"] = $link["value"];
+								$data["linkTitle"] = $link->getValue();
 								// adds the link details to the database if the shortcode is a link
 								if($this->db->insert('links', $data))
 								{
-									// replaces the link title with the link id
-									$this->shortcodes->replaceShortCode($link, "[[".$this->db->insert_id()."]]");
+										// replaces the link title with the replacement code
+										$this->shortcodes->replaceShortCodeWithHTML($i, "[[".$this->db->insert_id()."]]");
+										//$this->shortcodes->replaceShortCodeWithHTML($i, "[[internal::".$this->db->insert_id()."]]");
+										//echo "link['shortcode']->getValue() =\n".$link['shortcode']->getValue()."\n\n";
+								}
+								break;
+						case "external":
+								$data["linkTitle"] = $link->getValue();
+								// adds the link details to the database if the shortcode is a link
+								if($this->db->insert('links', $data))
+								{
+										// replaces the link title with the replacement code
+										$this->shortcodes->replaceShortCodeWithHTML($i, "[[".$this->db->insert_id()."]]");
+										//$this->shortcodes->replaceShortCodeWithHTML($i, "[[external::".$this->db->insert_id()."]]");
+										//echo "link['shortcode']->getValue() =\n".$link['shortcode']->getValue()."\n\n";
 								}
 								break;
 				}
+				$i++;
         }
 		
 		return ($this->shortcodes->getAdaptedString());
