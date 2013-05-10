@@ -39,6 +39,7 @@ class Elements_model extends CI_Model {
     // gets all of the elements for a specific page
     function get_all_elements($page_id)
     {
+		$this->load->model('Pages_model');
     	$query = $this->db->get_where('elements', array('pages_id' => $page_id));
     	
     	// loop through each element and update the description
@@ -47,13 +48,13 @@ class Elements_model extends CI_Model {
     	for ($i = 0; $i < sizeof($elements); $i++)
     	{	
 			$contents = $elements[$i]['contents'];
+            $pages_id = $elements[$i]['pages_id'];
+            $pages_title = $this->Pages_model->get_title($pages_id);
+            $elements_id = $elements[$i]['id'];
 
-			// break up the parts of the contents
-			$break_apart_contents = $this->Links_model->parse_string_for_links($contents);
-		
 			// piece the contents back together with the html links embedded
-			$processed_contents = $this->Links_model->insert_links($break_apart_contents);
-			
+            $processed_contents = $this->Links_model->return_to_links($contents, $pages_title, $elements_id);
+            
 			//update the description
 			$elements[$i]['contents'] = $processed_contents;
     	}
@@ -279,7 +280,6 @@ class Elements_model extends CI_Model {
 			$x = $post_data['x'];
 			$y = $post_data['y'];
 			
-			//echo $x . ' ' . $y;
 			// check x and y are integers
 			if (filter_var($x, FILTER_VALIDATE_INT) && filter_var($x, FILTER_VALIDATE_INT))
 			{
@@ -415,7 +415,7 @@ class Elements_model extends CI_Model {
 			$this->Links_model->delete_links_by_element_id($id);
 			
             // processes the text for any links again
-			$contents = $this->Links_model->process_links($post_data['contents'], $pages_title, $id);
+			$contents = $this->Links_model->process_codes($post_data['contents'], $pages_title, $id);
             
             // posts the new data with the coded links
 			$post_data['contents'] = $contents;
