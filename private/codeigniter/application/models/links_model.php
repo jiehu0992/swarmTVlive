@@ -53,10 +53,6 @@ class Links_model extends CI_Model {
 		$result['links'] = $links[0];
 		$result['parts'] = $parts;
 		
-		/*echo "result = \n";
-		var_dump($result);
-		echo "\n\n";*/
-		
 		return $result;
 	}
 	
@@ -100,7 +96,7 @@ class Links_model extends CI_Model {
 	}
 	
 	// swaps the link Titles for link ids from the `links` table
-	function process_links($string, $pages_title, $elements_id)
+	function process_codes($string, $pages_title, $elements_id)
 	{	
 		$this->load->library('Shortcodes');
 		// creates an object with all the details about any shortcodes in the specified string
@@ -122,9 +118,7 @@ class Links_model extends CI_Model {
 								if($this->db->insert('links', $data))
 								{
 										// replaces the link title with the replacement code
-										$this->shortcodes->replaceShortCodeWithHTML($i, "[[".$this->db->insert_id()."]]");
-										//$this->shortcodes->replaceShortCodeWithHTML($i, "[[internal::".$this->db->insert_id()."]]");
-										//echo "link['shortcode']->getValue() =\n".$link['shortcode']->getValue()."\n\n";
+										$this->shortcodes->replaceShortCodeWithHTML($i, "[[internal::".$this->db->insert_id()."]]");
 								}
 								break;
 						case "external":
@@ -133,9 +127,7 @@ class Links_model extends CI_Model {
 								if($this->db->insert('links', $data))
 								{
 										// replaces the link title with the replacement code
-										$this->shortcodes->replaceShortCodeWithHTML($i, "[[".$this->db->insert_id()."]]");
-										//$this->shortcodes->replaceShortCodeWithHTML($i, "[[external::".$this->db->insert_id()."]]");
-										//echo "link['shortcode']->getValue() =\n".$link['shortcode']->getValue()."\n\n";
+										$this->shortcodes->replaceShortCodeWithHTML($i, "[[external::".$this->db->insert_id()."]]");
 								}
 								break;
 				}
@@ -145,34 +137,83 @@ class Links_model extends CI_Model {
 		return ($this->shortcodes->getAdaptedString());
 	}
 	
-	// parts - links in the associative array
-	// returns content with all the links embedded
-	function insert_links($link_info)
-	{
-		// put the first part of the content in
-		$content = $link_info['parts'][0];
+	// swaps the link ids for link Titles from the `links` table
+	function process_ids($string, $pages_title, $elements_id)
+	{	
+		$this->load->library('Shortcodes');
+		// creates an object with all the details about any shortcodes in the specified string
+		$linksObj = $this->shortcodes->process_string($string);
 		
-		// loop through the short codes adding html links 
-		for ($i = 0; $i < sizeof($link_info['links']); $i++)
-		{
-			// get the link id
-			$link_id = $link_info['links'][$i][0];
-			
-			// get the link details
-			$link = $this->get_link_by_id($link_id);
-			
-			// construct: <a href="<page_title>"><page_title></a>
-			$html_link = '<a id="link-' . $link->id . '" href="' . site_url("pages/view/" . $link->linkTitle ) . '">' . $link->linkTitle . '</a>';
-			
-			// construct the parts to make the full content
-			$content = $content . $html_link . $link_info['parts'][$i+1];
-			
-			// remove and brackets 
-			$content = str_replace("[[", "", $content);
-			$content = str_replace("]]", "", $content);
-		}
-		return $content;	
-	} 
+		// compiles the common data string
+		$data = array(
+			'elementsId' => $elements_id,
+			'pageTitle' => $pages_title
+		);
+		
+		$i=0;
+		foreach($linksObj as $link)
+        {
+				switch ($link->getKey()) {
+						case "internal":
+								// gets the linkTitle from the stored link id
+								$linkDetails = $this->get_link_by_id($link->getValue());
+								$linkTitle = $linkDetails->linkTitle;
+								// replaces the link id with replacement code
+								$this->shortcodes->replaceShortCodeWithHTML($i, '<a href="' . $linkTitle . '">' . $linkTitle . '</a>');
+								break;
+						case "external":
+								// gets the linkTitle from the stored link id
+								$linkDetails = $this->get_link_by_id($link->getValue());
+								$linkTitle = $linkDetails->linkTitle;
+								// replaces the link id with replacement code
+								$this->shortcodes->replaceShortCodeWithHTML($i, '<a href="http://' . $linkTitle . '">' . $linkTitle . '</a>');
+								break;
+				}
+				$i++;
+        }
+		
+		return ($this->shortcodes->getAdaptedString());
+	}
+	
+	// swaps the link ids for link Titles from the `links` table
+	function process_dbContents($string, $pages_title, $elements_id)
+	{	
+		$this->load->library('Shortcodes');
+		// creates an object with all the details about any shortcodes in the specified string
+		$linksObj = $this->shortcodes->process_string($string);
+		
+		// compiles the common data string
+		$data = array(
+			'elementsId' => $elements_id,
+			'pageTitle' => $pages_title
+		);
+		
+		$i=0;
+		foreach($linksObj as $link)
+        {
+				switch ($link->getKey()) {
+						case "internal":
+								echo "internal";
+								// gets the linkTitle from the stored link id
+								$linkDetails = $this->get_link_by_id($link->getValue());
+								$linkTitle = $linkDetails->linkTitle;
+								// replaces the link id with replacement code
+								$this->shortcodes->replaceShortCodeWithHTML($i, '<a href="' . $linkTitle . '">' . $linkTitle . '</a>');
+								break;
+						case "external":
+								echo "external";
+								// gets the linkTitle from the stored link id
+								$linkDetails = $this->get_link_by_id($link->getValue());
+								$linkTitle = $linkDetails->linkTitle;
+								// replaces the link id with replacement code
+								$this->shortcodes->replaceShortCodeWithHTML($i, '<a href="http://' . $linkTitle . '">' . $linkTitle . '</a>');
+								break;
+				}
+				$i++;
+        }
+		
+		return ($this->shortcodes->getAdaptedString());
+	}
 	
 	// gets all the details from the `links` table with a specific id
 	function get_link_by_id($id)

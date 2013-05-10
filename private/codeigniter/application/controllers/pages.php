@@ -7,7 +7,7 @@ class Pages extends CI_Controller {
 		parent::__construct();
 	}
 	
-	// initial testing to print out page name
+	// initial testing to display page name
 	public function index($page_name)
 	{
 	 	echo $page_name;
@@ -62,13 +62,14 @@ class Pages extends CI_Controller {
 		return $this->Pages_model->update();
 	}
 	
-	// prints out success on uploading an image and the image name
+	// displays success on uploading an image and the image name
 	public function upload_image()
 	{
 		echo '{"success":true, "name": "' . $_GET['name'] . '"}';
 	}
 	
 }
+
 
 /* End of file pages.php */
 /* Location: ./application/controllers/pages.php */
