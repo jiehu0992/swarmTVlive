@@ -38,20 +38,8 @@ class Elements extends CI_Controller {
 		// gets the CONTENTS as a string
 		$contents = $this->Elements_model->return_contents();
 		
-		echo "elements.php:add\n\n";
-		
-		echo "\$contents =\n";
-		var_dump($contents);
-		echo "\n\n";
-		
 		// pieces the CONTENTS back together with the link ids instead of any link titles
 		$processed_contents = $this->Links_model->process_codes($contents, "forDb", $pages_title, $elements_id);
-		
-		echo "elements.php:add\n\n";
-		
-		echo "\$processed_contents =\n";
-		var_dump($processed_contents);
-		echo "\n\n";
 			
 		//updates the CONTENTS
 		$this->Elements_model->update_contents($elements_id, $processed_contents);
