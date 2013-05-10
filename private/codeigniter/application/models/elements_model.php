@@ -341,7 +341,19 @@ class Elements_model extends CI_Model {
                         
                         $pages_title = $this->Pages_model->get_title($element->pages_id);
                         
+                        echo "elements_model.php:create_update:text: \$pages_title =\n";
+                        var_dump($pages_title);
+                        echo "\n\n";
+                        
+                        echo "elements_model.php:create_update:text: \$element->contents =\n";
+                        var_dump($element->contents);
+                        echo "\n\n";
+                        
                         $processed_contents = $this->Links_model->process_codes($element->contents, "forWeb", $pages_title, $elements_id);
+                        
+                        echo "elements_model.php:create_update:text: \$processed_contents =\n";
+                        var_dump($processed_contents);
+                        echo "\n\n";
                         
                         $elementInHtml = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div>';
                         $jsonArray = json_encode($element);
