@@ -53,7 +53,7 @@ class Elements_model extends CI_Model {
             $elements_id = $elements[$i]['id'];
 
 			// piece the contents back together with the html links embedded
-            $processed_contents = $this->Links_model->process_codes($contents, "forWeb", $pages_title, $elements_id);
+            $processed_contents = $this->Links_model->return_to_links($contents, $pages_title, $elements_id);
             
 			//update the description
 			$elements[$i]['contents'] = $processed_contents;
@@ -415,7 +415,7 @@ class Elements_model extends CI_Model {
 			$this->Links_model->delete_links_by_element_id($id);
 			
             // processes the text for any links again
-			$contents = $this->Links_model->process_codes($post_data['contents'], "forDb", $pages_title, $id);
+			$contents = $this->Links_model->process_codes($post_data['contents'], $pages_title, $id);
             
             // posts the new data with the coded links
 			$post_data['contents'] = $contents;

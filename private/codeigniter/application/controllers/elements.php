@@ -39,7 +39,7 @@ class Elements extends CI_Controller {
 		$contents = $this->Elements_model->return_contents();
 		
 		// pieces the CONTENTS back together with the link ids instead of any link titles
-		$processed_contents = $this->Links_model->process_codes($contents, "forDb", $pages_title, $elements_id);
+		$processed_contents = $this->Links_model->process_codes($contents, $pages_title, $elements_id);
 			
 		//updates the CONTENTS
 		$this->Elements_model->update_contents($elements_id, $processed_contents);
