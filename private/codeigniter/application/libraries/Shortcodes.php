@@ -58,7 +58,14 @@ class Shortcodes{
 		$scInfoReversed = array_reverse($shortcode_info[0]);
 		$shortcode_info[0] = $scInfoReversed;
 		
+		echo "shortcodes.php:process_string\n";
+		
+		echo "\$shortcode_info[0] =\n";
+		var_dump($shortcode_info[0]);
+		echo "\n\n";
+		
 		// loop through the results of the regex and process shortcodes
+		$this->shortcodes = array();
 		foreach($shortcode_info[0] as $info)
 		{
 			$sc = new Shortcode($info[0], $info[1]);
@@ -256,12 +263,19 @@ class Shortcode
 		    $this->key = $key_val_pair[0];
 		    $this->value = $key_val_pair[1];	
 	    }else{
-		    $http = strpos($this->raw, 'http');
+		    $http = strpos($this->raw, 'http://');
+			
+			echo "shortcodes.php:process_raw_shortcode";
+			echo "\$http =\n";
+			var_dump($http);
+			echo "\n\n";
 		    
-		    if($http === false){
+		    if($http == 0){
 			    $this->key = 'internal';
 		    }else{
 			    $this->key = 'external';
+			    $this->value = substr($this->raw, strlen($this->raw)-7);
+				
 		    }
 		    $this->value = $this->raw;
 	    }
