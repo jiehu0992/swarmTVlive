@@ -102,6 +102,17 @@ class Links_model extends CI_Model {
 		// creates an object with all the details about any shortcodes in the specified string
 		$linksObj = $this->shortcodes->process_string($string);
 		
+		
+		echo "links_model.php:process_codes\n";
+		
+		echo "\$string =\n";
+		var_dump($string);
+		echo "\n\n";
+		
+		echo "\$linksObj =\n";
+		var_dump($linksObj);
+		echo "\n\n";
+		
 		// compiles the common data string
 		$data = array(
 			'elementsId' => $elements_id,
@@ -121,6 +132,10 @@ class Links_model extends CI_Model {
 												
 												$data["linkTitle"] = $link->getValue();
 												
+												echo "\$data['linkTitle'] =\n";
+												var_dump($data["linkTitle"]);
+												echo "\n\n";
+												
 												// adds the link details to the database if the shortcode is a link
 												if($this->db->insert('links', $data))
 												{
@@ -128,10 +143,20 @@ class Links_model extends CI_Model {
 														$this->shortcodes->replaceShortCodeWithHTML($i, "[[internal::".$this->db->insert_id()."]]");
 												}
 												
+												echo "\$this->shortcodes->getAdaptedString() =\n";
+												var_dump($this->shortcodes->getAdaptedString());
+												echo "\n\n";
+												
 												break;
 										case "external":
 												
+												echo "links_model.php:process_codes:forDb:external\n";
+												
 												$data["linkTitle"] = $link->getValue();
+												
+												echo "\$data['linkTitle'] =\n";
+												var_dump($data["linkTitle"]);
+												echo "\n\n";
 												
 												$data["linkTitle"] = $link->getValue();
 												// adds the link details to the database if the shortcode is a link
@@ -141,6 +166,10 @@ class Links_model extends CI_Model {
 														$this->shortcodes->replaceShortCodeWithHTML($i, "[[external::".$this->db->insert_id()."]]");
 												}
 												
+												echo "\$this->shortcodes->getAdaptedString() =\n";
+												var_dump($this->shortcodes->getAdaptedString());
+												echo "\n\n";
+												
 												break;
 								}
 								break;
@@ -148,8 +177,22 @@ class Links_model extends CI_Model {
 								switch ($link->getKey()) {
 										case "internal":
 												
+												echo "links_model.php:process_codes:forWeb:internal\n";
+												
+												echo "\$link->getValue() =\n";
+												var_dump($link->getValue());
+												echo "\n\n";
+												
+												echo "\$link =\n";
+												var_dump($link);
+												echo "\n\n";
+												
 												// gets the linkTitle from the stored link id
 												$linkDetails = $this->get_link_by_id($link->getValue());
+												
+												echo "\$linkDetails =\n";
+												var_dump($linkDetails);
+												echo "\n\n";
 												
 												$linkTitle = $linkDetails->linkTitle;
 												//$linkTitle = $link->getValue();
@@ -158,8 +201,22 @@ class Links_model extends CI_Model {
 												break;
 										case "external":
 												
+												echo "links_model.php:process_codes:forWeb:external\n";
+												
+												echo "\$link->getValue() =\n";
+												var_dump($link->getValue());
+												echo "\n\n";
+												
+												echo "\$link =\n";
+												var_dump($link);
+												echo "\n\n";
+												
 												// gets the linkTitle from the stored link id
 												$linkDetails = $this->get_link_by_id($link->getValue());
+												
+												echo "\$linkDetails =\n";
+												var_dump($linkDetails);
+												echo "\n\n";
 												
 												$linkTitle = $linkDetails->linkTitle;
 												//$linkTitle = $link->getValue();
