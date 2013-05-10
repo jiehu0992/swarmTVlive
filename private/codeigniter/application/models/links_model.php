@@ -111,13 +111,10 @@ class Links_model extends CI_Model {
 		$i=0;
 		foreach($linksObj as $link)
         {
-				echo "links_model:process_codes: \$i=".$i."\n\n";
 				switch ($forWhat){
 						case "forDb":
 								switch ($link->getKey()) {
 										case "internal":
-												
-												echo "links_model.php:process_codes:forDb:internal\n";
 												
 												$data["linkTitle"] = $link->getValue();
 												
