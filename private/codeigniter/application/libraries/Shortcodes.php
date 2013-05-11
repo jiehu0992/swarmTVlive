@@ -120,40 +120,10 @@ class Shortcodes{
 	 * @access	public
 	 * @return	n/a
 	 */
-	public function replaceShortCodeWithHTML($index, $html)
+	public function replaceShortCode($index, $replacement)
 	{
-		
-		$length = strlen($html);
-		$original_length = $this->shortcodes[$index]->getLength();
-		
-		// get the difference in the length of the short code to the new html
-		$diff = $length - ($original_length);
-		
-		//loop through all the short codes and update their start and end position
-		for ($i = 0; $i < sizeof($this->shortcodes); $i++)
-		{
-			if(($i != $index) && ($this->shortcodes[$i]->getStart() >$this->shortcodes[$index]->getStart()))
-			{
-				$this->shortcodes[$i]->moveBy($diff);
-			}
-		}
-		
-		// update the adapted string with the change
-		$this->adapted_string = substr_replace($this->adapted_string, $html, $this->shortcodes[$index]->getStart()-2, $this->shortcodes[$index]->getLength()+4);
-	}
-	// --------------------------------------------------------------------
-
-	/**
-	 * adapts a duplicate of the original shortcode with the replacement for the shortcode
-	 * @param 	array details of shortcode & the replacement text
-	 * @access	public
-	 * @return	n/a
-	 */
-	public function replaceShortCode($shortcode, $replacement)
-	{
-		// updates the adapted string with the replacement specified
-		$this->adapted_string = substr_replace($this->adapted_string, $replacement, $shortcode['start']-2, $shortcode['length']+4);
-		
+		// replaces the shortcode which starts at its start -2, and ends at its length +4 (to includes its brackets) with the specified replacement string
+		$this->adapted_string = substr_replace($this->adapted_string, $replacement, $this->shortcodes[$index]->getStart()-2, $this->shortcodes[$index]->getLength()+4);
 	}
 	
 	// -------------------------------------------------------------------- 

@@ -98,7 +98,9 @@
 			if( $(this).hasClass('text') )
 			{
                 // updates text to editable state
-                //var content_container = $(this).find('.text-content');
+                var jsonIndex = $(this).find('div').attr('jsonindex');
+                var content_container = $(this).find('.text-content');
+                $(content_container).html(page_elements_json[jsonIndex]['editableContents']); 
                 
 				// make content editable and disable drag
 				$(this).find('.text-content').attr('contenteditable','true');
@@ -106,14 +108,11 @@
 				$(this).draggable({ disabled: true });
 				
 				// listen for when the user shifts focus out of the box
-				//$(this).bind('focusout', function(updateTextElementContent)
 				$(this).focusout(function(updateTextElementContent)
 				{
                     $(this).find('.delete_button').fadeOut();
 					// removes the event
 					$(this).unbind('focusout', updateTextElementContent);
-				
-					// undo changes to element for editing
 					
 					// gets the content
 					var content_container = $(this).find('.text-content');
@@ -126,24 +125,10 @@
 					var link_id = $(this).attr('id');
 					
 					// makes a replica of content
-					var cloned_content = $(content_container).clone();
-					
-					// gets the a list of all html links
-					var links = $(cloned_content).find('a');
-					
-					// replaces links with their shortcodes
-					$.each( links, function( key, value ) {
-						var page_title = $(this).html();
-						$(this).replaceWith('[[' + page_title + ']]');
-					});
-					
-					// get the new content
 					var new_contents = $(content_container).html();
-                        console.debug(new_contents);
-					// send to database
-					updateElement(link_id, 'text-content', new_contents);
-					// update the element with the links
-					$(content_container).html(processShortCodes(new_contents));
+                    
+                    // sends edit to database
+    				updateElement(link_id, 'text-content', new_contents);
 					
 				});
 			}
@@ -382,7 +367,7 @@
 	function initText(elm, index)
 	{
 		// display the content not the description
-		$(elm).append('<div class="text-content">' + page_elements_json[index].contents + '</div>');
+		$(elm).append('<div class="text-content" jsonindex="'+index+'">' + page_elements_json[index].contents + '</div>');
 	}
 	
 	// ----------------------------------------------- IMAGE
@@ -447,50 +432,24 @@
 				break; 
 		}
 		
-		// Ajax the values to the pages controller 
-		//alert('elementData=' + JSON.stringify(page_elements[$pageElementsArray])); 
+		// Ajax the values to the pages controller  
 		$.ajax({
 			url		: base_url + 'index.php/elements/update',
 			data	: changes,
 			type	: 'POST',
 			success	: function(data, status)
 			{
-				//DO NOTHING
+				window.location.href = window.location.href;
 			}
 		});
 	}
 	
 	// creates a div and sets its innerHTML to input specified, return length of nodes created
-	function htmlDecode(input){
+	function htmlDecode(input)
+    {
 	  var e = document.createElement('div');
 	  e.innerHTML = input;
 	  return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
-	}
-	
-	// creates the display content with links
-	function processShortCodes(string){
-
-		while(string.indexOf('[[') > 0)
-		{
-			// get the beginning and end of the shortcode declaration
-			var openCodeIndex = string.indexOf('[[');
-			var closeCodeIndex = string.indexOf(']]') + 2;
-			
-			// get the shortcode content
-			var link = string.substr(openCodeIndex + 2, (closeCodeIndex) - (openCodeIndex+4));
-			//var linkURI = encodeURIComponent(string.substr(openCodeIndex + 2, (closeCodeIndex) - (openCodeIndex+4)));
-			var linkURI = string.substr(openCodeIndex + 2, (closeCodeIndex) - (openCodeIndex+4));
-			
-			var leftOfShortCode = string.slice(0,openCodeIndex);	
-			var rightOfShortCode = string.slice(closeCodeIndex);
-		
-			var linkHTML = '<a href="' + linkURI + '">' + linkURI + '</a>';
-			
-			string = leftOfShortCode + linkHTML + rightOfShortCode;
-		
-		}
-		
-		return string;
 	}
 	
 	// removes any selection
