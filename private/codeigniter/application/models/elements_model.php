@@ -51,12 +51,24 @@ class Elements_model extends CI_Model {
             $pages_id = $elements[$i]['pages_id'];
             $pages_title = $this->Pages_model->get_title($pages_id);
             $elements_id = $elements[$i]['id'];
+            $dbContents = $elements[$i]['contents'];
 
 			// piece the contents back together with the html links embedded
             $processed_contents = $this->Links_model->process_codes($contents, "forWeb", $pages_title, $elements_id);
             
+        echo "elements_model.php:get_all_elements: \$processed_contents =\n";
+        var_dump($processed_contents);
+        echo "\n\n";
+        
+            $editable_contents = $this->Links_model->process_codes($dbContents, "forEditing", $pages_title, $elements_id);
+            
+        echo "elements_model.php:get_all_elements: \$editable_contents =\n";
+        var_dump($editable_contents);
+        echo "\n\n";
+            
 			//update the description
 			$elements[$i]['contents'] = $processed_contents;
+            $elements[$i]['editableContents'] = $editable_contents;
     	}
     	return $elements;
     }
