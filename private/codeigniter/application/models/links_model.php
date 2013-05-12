@@ -11,50 +11,6 @@ class Links_model extends CI_Model {
         $this->load->helper('url');
 		$this->load->library('Shortcodes');
     }
-    
-    
-    // Returns an associative array with all the links in an array
-	//it is called "links" and it stores the Link_id and also the position in the string where it starts
-	// and the parts either side of the links in an array.
-	//This one is called "parts" and it splits the text into every substring, split by the links themselves (including the double brackets)
-	function parse_string_for_links($string)
-	{
-		$pattern = "/(?<=\[\[)[\w :-@]+(?=\]\])/"; // [[ ... ]] regex
-		
-		$links = null;							// array to store results of regex					
-		$cursor = 0;							// cursor to keep track of the substring start position
-		$parts = array();						// to store the parts either side of the links
-			
-		// finds all the links in $string
-		// executes the regex on string and populate $links array storing the offset with the match
-		preg_match_all ( $pattern, $string, $links, PREG_OFFSET_CAPTURE );
-	
-		// loops through each link saving the string to the right of it to the parts array
-		foreach($links[0] as $link)
-		{
-			// calculates the length of the substring
-			$length = $link[1] - $cursor;
-			
-			// creates a substring from the starting cursor 
-			$part = substr($string, $cursor, $length);
-			
-			// adds the string to the parts array
-			array_push($parts, $part);
-			
-			// updates the cursor position
-			$cursor = $link[1] + strlen($link[0]); 
-		}
-		
-		// collects the last substring from the end of the string
-		$part = substr($string, $cursor, strlen($string));
-		array_push($parts, $part);
-		
-		// create an associative array of the results and return it
-		$result['links'] = $links[0];
-		$result['parts'] = $parts;
-		
-		return $result;
-	}
 	
 	// saves the new links to the database
 	function add_links($link_info, $page_title, $element_id)
@@ -97,7 +53,8 @@ class Links_model extends CI_Model {
 	
 	// swaps the link Titles for link ids from the `links` table
 	function process_codes($string, $forWhat, $pages_title, $elements_id)
-	{	
+	{
+		
 		$this->load->library('Shortcodes');
 		// creates an object with all the details about any shortcodes in the specified string
 		$linksObj = $this->shortcodes->process_string($string);

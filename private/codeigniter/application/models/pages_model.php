@@ -112,6 +112,37 @@ class Pages_model extends CI_Model {
 		}
    }
    
+   // gets the page title of a page with a specified id
+   function get_page_from_element($elementId)
+   {
+   		$this->db->where('id', $elementId);
+   		$this->db->select('pages_id');
+   		$query = $this->db->get('elements');
+		
+		if ($query->num_rows() > 0)
+		{
+			$row = $query->row(); 
+			$pageId = $row->pages_id;
+		} else
+		{
+			return null;
+		}
+		
+   		$this->db->where('id', $pageId);
+   		$this->db->select('title');
+   		$query = $this->db->get('pages');
+		
+		if ($query->num_rows() > 0)
+		{
+			$row = $query->row(); 
+			return $row->title;
+		} else
+		{
+			return null;
+		}
+		
+   }
+   
    // creates a page with a specified title
    public function insert_page($page_title)
    {
