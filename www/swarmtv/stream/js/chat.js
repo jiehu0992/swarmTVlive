@@ -88,6 +88,25 @@ function sendChat(message, nickname)
 }
 
 
+//send the message
+function updateUsers(nickname)
+{
+  $.ajax({
+		type: "POST",
+		url: "php/process.php",
+		data: {  
+				 'function': 'users',
+				 'nickname': nickname,
+				 'file': file
+			  },
+		dataType: "json",
+		success: function(data){
+		  //alert(data);
+		},
+	 });
+}
+
+
 // ask user for name with popup prompt    
 var name = prompt("Enter your chat name:", "Guest");
 	
@@ -98,6 +117,8 @@ var name = prompt("Enter your chat name:", "Guest");
 	
 	// strip tags
 	name = name.replace(/(<([^>]+)>)/ig,"");
+	
+	updateUsers(name);
 	
 	// display name on page
 	$("#username").html("<span>" + name + "</span>");
@@ -117,37 +138,36 @@ $(function() {
 		//all keys including return.  
 		if (key >= 33) {
 		
-		 var maxLength = $(this).attr("maxlength");  
-		 var length = this.value.length;  
-		 
-		 // don't allow new content if length is maxed out
-		 if (length >= maxLength) {  
-			 event.preventDefault();  
-		 }  
-	}  
+			var maxLength = $(this).attr("maxlength");  
+			var length = this.value.length;  
+			
+			// don't allow new content if length is maxed out
+			if (length >= maxLength) {  
+				event.preventDefault();  
+			}  
+		}  
 																																															});
-// watch textarea for release of key press
-$('#send').keyup(function(e) {	
-				 
-	//on enter key			 
-	if (e.keyCode == 13) { 
-	
-		var text = $(this).val();
-		var maxLength = $(this).attr("maxlength");  
-		var length = text.length; 
-		 
-		// send 
-		if (length <= maxLength + 1) { 
-		 
-			chat.send(text, name);	
-			$(this).val("");
-			
-		} else {
+	// watch textarea for release of key press
+	$('#send').keyup(function(e) {	
+					 
+		//on enter key			 
+		if (e.keyCode == 13) { 
 		
-			$(this).val(text.substring(0, maxLength));
+			var text = $(this).val();
+			var maxLength = $(this).attr("maxlength");  
+			var length = text.length; 
+			 
+			// send 
+			if (length <= maxLength + 1) { 
+			 
+				chat.send(text, name);	
+				$(this).val("");
+				
+			} else {
 			
-		}	
-	}
-});
-		
+				$(this).val(text.substring(0, maxLength));
+				
+			}	
+		}
 	});
+});

@@ -36,9 +36,10 @@ class Elements_model extends CI_Model {
 		$this->load->library('upload', $config);
     }
     
-    // get all of the elements for a page
+    // gets all of the elements for a specific page
     function get_all_elements($page_id)
     {
+		$this->load->model('Pages_model');
     	$query = $this->db->get_where('elements', array('pages_id' => $page_id));
     	
     	// loop through each element and update the description
@@ -47,19 +48,24 @@ class Elements_model extends CI_Model {
     	for ($i = 0; $i < sizeof($elements); $i++)
     	{	
 			$contents = $elements[$i]['contents'];
+            $pages_id = $elements[$i]['pages_id'];
+            $pages_title = $this->Pages_model->get_title($pages_id);
+            $elements_id = $elements[$i]['id'];
+            $dbContents = $elements[$i]['contents'];
 
-			// break up the parts of the contents
-			$break_apart_contents = $this->Links_model->parse_string_for_links($contents);
-		
 			// piece the contents back together with the html links embedded
-			$processed_contents = $this->Links_model->insert_links($break_apart_contents);
-			
+            $processed_contents = $this->Links_model->process_codes($contents, "forWeb", $pages_title, $elements_id);
+        
+            $editable_contents = $this->Links_model->process_codes($dbContents, "forEditing", $pages_title, $elements_id);
+            
 			//update the description
 			$elements[$i]['contents'] = $processed_contents;
+            $elements[$i]['editableContents'] = $editable_contents;
     	}
     	return $elements;
     }
     
+    // gets a specific element by its id
     function get_element_by_id($id)
     {
     	$this->db->where('id', $id);
@@ -67,7 +73,7 @@ class Elements_model extends CI_Model {
     	return $query->row();
     }
 
-	// validate the file using magic-bytes
+	// validates the file using magic-bytes
 	function validate_file()
 	{
 		$file = $_FILES['file'];
@@ -109,7 +115,9 @@ class Elements_model extends CI_Model {
 		return true;			// the file validates
 	}
 	
-	function move_file()
+	
+    // places the uploaded file into the correct directory
+    function move_file()
 	{	 
 		// Consider creating a folder every new month so that elements are easier to find? 
 		// construct the location from the data
@@ -142,7 +150,7 @@ class Elements_model extends CI_Model {
                 $createOgvVersion = "ffmpeg2theora /var/www/swarmtv/assets/audio/".$full_name;
                 
                 $execute = shell_exec($createOgvVersion);
-                $renameOgvToOga = "mv ".$unique_name.".ogv ".$unique_name.".oga";
+                $renameOgvToOga = "mv /var/www/swarmtv/assets/audio/".$unique_name.".ogv /var/www/swarmtv/assets/audio/".$unique_name.".oga";
                 $execute = shell_exec($renameOgvToOga);
                 break;
             case 'video':
@@ -169,7 +177,7 @@ class Elements_model extends CI_Model {
                 //get width & height from the file
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4 -vstats 2>&1";
                 $output = shell_exec ( $movieDetails );
-                $result = preg_match( '/ [0-9]+x[0-9]+ /', $output, $matches );  
+                $result = preg_match( '/ [0-9]+x[0-9]+[, ]/', $output, $matches );  
                 if (isset ( $matches[0] )) {  
                     $vals = (explode ( 'x', $matches[0] ));  
                     $width = $vals[0] ? trim($vals[0]) : null;  
@@ -226,15 +234,17 @@ class Elements_model extends CI_Model {
 		return true;
 	}
 	
-	/*
-	backgroundColor, color, content, filename, fontFamily, fontSize, height, width, timeline, 
-	opacity, attribution, description, keywords, license, pages_id, textAlign, type, x, y, z
-	*/
-	function validate_data()
+	
+	// checks how the fancy box was used and load up the data array for future use
+	function validate_element_data()
 	{
+        /* backgroundColor, color, content, filename, fontFamily, fontSize, height, width, timeline, 
+	opacity, attribution, description, keywords, license, pages_id, textAlign, type, x, y, z*/
 		// Check the basic data - then filter the rest later
 		// filter main text
 		$post_data = $this->input->post(NULL, TRUE); // return all post data filtered XSS - SCRIPT SAFE
+        
+        //if the description was used (i.e. not a text element)...
 		if (array_key_exists('description', $post_data))
 		{
 			$description = $post_data['description'];
@@ -245,6 +255,7 @@ class Elements_model extends CI_Model {
             }
 		}
 		
+        //if the contents was used (i.e. a text element)..
 		if (array_key_exists('contents', $post_data))
 		{
 			$contents = $post_data['contents'];
@@ -273,7 +284,6 @@ class Elements_model extends CI_Model {
 			$x = $post_data['x'];
 			$y = $post_data['y'];
 			
-			//echo $x . ' ' . $y;
 			// check x and y are integers
 			if (filter_var($x, FILTER_VALIDATE_INT) && filter_var($x, FILTER_VALIDATE_INT))
 			{
@@ -290,7 +300,8 @@ class Elements_model extends CI_Model {
 		return true;
 	}
 	
-	function add_element_to_database()
+	// inserts element into the database
+    function add_element_to_database()
 	{
 		if (!$this->db->insert('elements', $this->data))
 		{
@@ -308,7 +319,8 @@ class Elements_model extends CI_Model {
 		
 	}
 	
-	function update_description($id, $description)
+	// updates the database with the new description
+    function update_description($id, $description)
 	{
 		$data = array( 'description' => $description);
 
@@ -317,7 +329,8 @@ class Elements_model extends CI_Model {
 		
 	}
 	
-	function create_update($action, $elements_id)
+	// constructs the data for the update
+    function create_update($action, $elements_id)
 	{
 		//get element data from elements_id provided
 		$this->load->model('Elements_model');
@@ -325,13 +338,15 @@ class Elements_model extends CI_Model {
         $justName = substr(($element->filename), 0,strrpos(($element->filename),'.'));
         switch ($element->type) {
                     case 'text':
-                        //set description as the element displayed and then json array
-                        //restore links in content
+                        //sets description as the element displayed and then json array
+                        //restores links in content
                         $this->load->model('Links_model');
-                        // break up the parts of the contents as an array
-                        $break_apart_contents = $this->Links_model->parse_string_for_links($element->contents);
-                        // piece the content back together with the html links embedded
-                        $processed_contents = $this->Links_model->insert_links($break_apart_contents);
+                        $this->load->model('Pages_model');
+                        
+                        $pages_title = $this->Pages_model->get_title($element->pages_id);
+                        
+                        $processed_contents = $this->Links_model->process_codes($element->contents, "forWeb", $pages_title, $elements_id);
+                        
                         $elementInHtml = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div>';
                         $jsonArray = json_encode($element);
                         break;
@@ -360,34 +375,37 @@ class Elements_model extends CI_Model {
             'elements_id' => $elements_id,
             'pages_id' => $element->pages_id
 		);
+        
+        // TO DO: do a search to see if the same entry has already been inserted into the updates table (why does it insert three entries, sometimes?)
 		
 		//insert new record into updates table
 		$this->db->insert('updates', $updates_data);
         
 	}
 	
-	function update_contents($id, $contents)
+	// updates the database with an id's contents
+    function update_contents($id, $contents)
 	{
 		$data = array( 'contents' => $contents);
-        
         
         $this->db->where('id', $id);
         $this->db->update('elements', $data);
 		
 	}
 	
-	// clean up your mess mr parker... no file left behind
-	private function remove_orthan_file()
+	// deletes the global filename from the assets folder
+    private function remove_orthan_file()
 	{
+        // clean up your mess mr parker... no file left behind
 		unlink('assets/' . $this->type . '/' . $filename);	
 	}
 	
-	// 
+	// updates an element in the `element` table and creates a new update in the `updates` table
 	public function update_element()
 	{
         //If anything is updated get the post data
 		$post_data = $this->input->post(NULL, TRUE); // return all post data filtered XSS - SCRIPT SAFE
-		//find the id of the element
+		//finds the id of the element
    		$id = $this->input->post('id');
 
 		if ($this->input->post('contents'))
@@ -396,16 +414,16 @@ class Elements_model extends CI_Model {
 			$this->load->model('Links_model');
 			$this->load->model('Pages_model');
 			
-            //get the page title
+            // gets the page title
 			$pages_title = $this->Pages_model->get_title($id);
 			
-            //delete all the links in the links database belonging to this element
+            // deletes all the links in the links database belonging to this element
 			$this->Links_model->delete_links_by_element_id($id);
 			
-            //process the text for any links again
-			$contents = $this->Links_model->process_links($post_data['contents'], $pages_title, $id);
+            // processes the text for any links again
+			$contents = $this->Links_model->process_codes($post_data['contents'], "forDb", $pages_title, $id);
             
-            //post the new data with the coded links
+            // posts the new data with the coded links
 			$post_data['contents'] = $contents;
 		
 		}
@@ -416,7 +434,7 @@ class Elements_model extends CI_Model {
         $affected_rows = $this->db->affected_rows();
         
         if ($this->input->post('contents')){
-            //create the new record in table 'updates'
+            //create a new record in table 'updates'
             $this->load->model('Elements_model');
             $update_elements_id = $id;
             $update_action = 'revised';
@@ -426,7 +444,8 @@ class Elements_model extends CI_Model {
 		return $affected_rows;
    	}
    
-	public function return_description()
+	// returns the description field if set, if not: "false"
+    public function return_description()
 	{
 		if (isset($this->data['description']))
 		{
@@ -437,7 +456,8 @@ class Elements_model extends CI_Model {
 		}
 	}
 	
-	public function return_contents()
+	// returns the contents field if set, if not: "false"
+    public function return_contents()
 	{
 		if (isset($this->data['contents']))
 		{
@@ -448,15 +468,17 @@ class Elements_model extends CI_Model {
 		}
 	}
 	
-	public function return_pages_id()
+	// returns the current page_id
+    public function return_pages_id()
 	{
 		return $this->data['pages_id'];
 	}
 	
-	public function delete($id)
+	// deletes the element with specific id in `elements` table, creates it in the `deleted elements` table, and creates a new update in `updates` table
+    public function delete($id)
 	{
 		$element = $this->get_element_by_id($id);
-		
+        
 		// delete all links for this element
 		$this->load->model('Links_model');
         $this->Links_model->delete_links_by_element_id($id);
@@ -477,20 +499,4 @@ class Elements_model extends CI_Model {
 		
 	}
     
-    public function get_clip_details($id)
-    {
-        $this->load->database();
-        $this->load->helper('url');
-        
-    	$query = $this->db->get_where('elements', array('id' =>$id), 1);
-        
-		if ($query->num_rows() > 0)
-		{ 
-   			return $query->row();
-   		}else
-   		{
-   			return false;
-   		}
-        
-    }
 }

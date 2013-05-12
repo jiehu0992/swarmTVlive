@@ -11,7 +11,7 @@ class Updates_model extends CI_Model {
     }
     
     // get all postings  
-    function getUpdates($limit = 10)  
+    function getUpdates()  
     {  
         $this->db->order_by('pubDate', 'desc');
 		return $this->db->get('updates', $limit);  
@@ -25,7 +25,7 @@ class Updates_model extends CI_Model {
 		$this->db->distinct();
 		$this->db->select('page AS pagesTitle');
 		$this->db->order_by("pubDate", "desc");
-		$this->db->limit(50);
+		//$this->db->limit(500);
 		$query = $this->db->get('updates');
 		$result = $query->result_array();
 		return $result;

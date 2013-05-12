@@ -7,12 +7,13 @@ class Clip extends CI_Controller {
 		parent::__construct();
 	}
 	
+	// plays a video clip with a specific id according to its stored timeline details
 	public function play($id, $width, $height)
 	{		
 		$this->load->helper('url');
 		$this->load->model('Elements_model');
 		
-		$record = $this->Elements_model->get_clip_details($id);
+		$record = $this->Elements_model->get_element_by_id($id);
 		
 		$data['id'] = $record->id;
 		$data['description'] = $record->description;
@@ -35,12 +36,13 @@ class Clip extends CI_Controller {
 		
 	}
 	
+	// sets a thumbnail from a video at a specific position
 	public function setThumbnail($id, $currentPos)
 	{		
 		$this->load->helper('url');
 		$this->load->model('Elements_model');
 		
-		$record = $this->Elements_model->get_clip_details($id);
+		$record = $this->Elements_model->get_element_by_id($id);
 		
 		$filename = $record->filename;
 		$filename = substr($filename, 0, -4);
@@ -68,6 +70,7 @@ class Clip extends CI_Controller {
 	}
 	
 	
+	// updates the clips stored timeline and caption
 	public function update($id, $altText, $inPoint, $outPoint, $duration)
 	{		
 		$this->load->helper('url');
@@ -91,3 +94,6 @@ class Clip extends CI_Controller {
 }
 
 ?>
+
+/* End of file clip.php */
+/* Location: ./application/controllers/clip.php
