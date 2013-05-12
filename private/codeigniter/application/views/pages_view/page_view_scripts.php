@@ -33,19 +33,6 @@
 			clearSelection();
 		});
 		
-		// Works around linking with special chars
-		$('.text-content a').click(function(e){
-			
-			var location = $(this).attr('href');
-			
-			if(location.indexOf('http://') > 0)
-			{
-                alert("location =\n"+location.indexOf('http://'));
-				e.preventDefault();
-				//window.location.href = base_url + "index.php/pages/view/" +location;
-			}
-		});/**/
-		
 		// submits Ajax for updating page info 
 		$('#page_info_submit').click(function(e){
 			// Stop the page from navigating away from this page
@@ -110,26 +97,24 @@
 				// listen for when the user shifts focus out of the box
 				$(this).focusout(function(updateTextElementContent)
 				{
-                    $(this).find('.delete_button').fadeOut();
-					// removes the event
-					$(this).unbind('focusout', updateTextElementContent);
-					
-					// gets the content
-					var content_container = $(this).find('.text-content');
-					
+                     
 					// activates the drag and deactivate the content editable
 					$(content_container).removeAttr('contenteditable');
-					$(this).draggable({ disabled: false });	
+					$(this).draggable({ disabled: false });
 					
-					// gets the id of the container
+					// gets the content, creates a replica and fetches the id of the container
+					var content_container = $(this).find('.text-content');
 					var link_id = $(this).attr('id');
-					
-					// makes a replica of content
 					var new_contents = $(content_container).html();
                     
-                    // sends edit to database
-    				updateElement(link_id, 'text-content', new_contents);
-					
+                    // sends edit to database, but waits half a second so that the delete button can be checked
+                    setTimeout(function(){
+                        updateElement(link_id, 'text-content', new_contents);
+                        
+                        $(this).find('.delete_button').fadeOut();
+                        // removes the event
+                        $(this).unbind('focusout', updateTextElementContent);
+                    },500);
 				});
 			}
 		});
@@ -195,16 +180,18 @@
 			e.preventDefault();
 			
 			var element_id = $(this).attr('href');
-		
-			$.ajax({
-				url		: base_url + 'index.php/elements/delete/' + element_id,
-				type	: 'GET',
-				success	: function(data, status)
-				{
-					location.reload();
-                    
-				} 
-			});
+            var r=confirm("Are you sure you want to delete this?");
+            if (r==true)
+            {
+                $.ajax({
+                    url		: base_url + 'index.php/elements/delete/' + element_id,
+                    type	: 'GET',
+                    success	: function(data, status)
+                    {
+                        location.reload();
+                    } 
+                });
+            }
 		});
 		
 		// updates preview if file is selected

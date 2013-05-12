@@ -122,7 +122,7 @@ class Links_model extends CI_Model {
 												if($this->db->insert('links', $data))
 												{
 														// replaces the link title with the replacement code
-														$this->shortcodes->replaceShortCode($i, "[[internal::".$this->db->insert_id()."]]");
+														$this->shortcodes->replaceShortCode($i, "[[".$this->db->insert_id()."]]");
 												}
 												
 												break;
@@ -135,7 +135,7 @@ class Links_model extends CI_Model {
 												if($this->db->insert('links', $data))
 												{
 														// replaces the link title with the replacement code
-														$this->shortcodes->replaceShortCode($i, "[[external::".$this->db->insert_id()."]]");
+														$this->shortcodes->replaceShortCode($i, "[[".$this->db->insert_id()."]]");
 												}
 												
 												break;
