@@ -240,12 +240,12 @@
 							edgeString = edgeString + '"' + links[i].title + '":{';
 							//search through all the links tree for the page to create the connections
 							for (var j = 0; j < links[i].link_tree.length; j++) {
-								edge = links[i].link_tree[j].pagesTitle;
+								edge = links[i].link_tree[j].linkTitle;
 								
 								//check to see that all nodes are in the pages found array
 								for(var k=0;k<pagesFound.length;k++) {
 									if(edge == pagesFound[k]) {
-										edgeString = edgeString + '"' + links[i].link_tree[j].pagesTitle + '":{},'
+										edgeString = edgeString + '"' + links[i].link_tree[j].linkTitle + '":{},'
 									}
 								}
 							}
