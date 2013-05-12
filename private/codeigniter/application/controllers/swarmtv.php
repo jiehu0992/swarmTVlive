@@ -17,6 +17,9 @@ class Swarmtv extends CI_Controller {
 		
 		// get pages that have something to do with the filter specified
 		$pages = $this->Pages_model->get_filtered_pages($filter);
+		
+		$listview = $this->Pages_model->get_filtered_list($filter);
+
 
 		if ($pages === false) {
 			//if none are found, then retrieve all the pages
@@ -37,17 +40,10 @@ class Swarmtv extends CI_Controller {
 		}
 		
 		//add in Recent Changes
-		/*array_push($pages, array('title'=>'Recent Changes'));
-		//create articiial link tree for Recent Chanages
-		$recentChangesPages = $this->Updates_model->get_links_from_RSS();
-		$pages[sizeof($pages)-1]['link_tree'] = $recentChangesPages;
-		//add in Stream Page
-		array_push($pages, array('title'=>'Stream'));
-		$streamPages = array(array("pagesTitle" => "home"));
-		$pages[sizeof($pages)-1]['link_tree'] = $streamPages;*/
 		$pages = json_encode($pages);
 		$data['links'] = $pages;
 		$data['filter'] = $filter;
+		$data['listview'] = $listview;
 		
 		$this->load->view('swarm_home', $data);
 	}

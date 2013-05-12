@@ -183,7 +183,7 @@ class Links_model extends CI_Model {
 	function return_links_for_page($page_title)
 	{
 		$this->db->select('linkTitle');
-		$this->db->where('pageTitle', $page_title);
+		$this->db->where('UPPER(pageTitle)', strtoupper($page_title));
 		$query = $this->db->get('links');
 		$result = $query->result_array();
 		return $result;

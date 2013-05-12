@@ -63,16 +63,18 @@ class Pages_model extends CI_Model {
 			$sql = $sql . "ON pages.title=links.pageTitle ";
 			$sql = $sql . "LEFT JOIN elements ";
 			$sql = $sql . "ON pages.id=elements.pages_id ";
-			$sql = $sql . "WHERE (CONVERT(elements.description USING utf8) LIKE '%" . $string ."%' ";
-			$sql = $sql . "OR CONVERT(elements.contents USING utf8) LIKE '%" . $string ."%' ";
-			$sql = $sql . "OR CONVERT(elements.keywords USING utf8) LIKE '%" . $string ."%' ";
-			$sql = $sql . "OR CONVERT(links.linkTitle USING utf8) LIKE '%" . $string ."%' ";
-			$sql = $sql . "OR CONVERT(pages.description USING utf8) LIKE '%" . $string ."%' ";
-			$sql = $sql . "OR CONVERT(pages.keywords USING utf8) LIKE '%" . $string ."%' ";
-			$sql = $sql . "OR CONVERT(pages.title USING utf8) LIKE '%" . $string ."%')";
+			$sql = $sql . "WHERE (UPPER(elements.description) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(elements.contents) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(elements.keywords) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(links.linkTitle) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(pages.description) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(pages.keywords) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(pages.title) LIKE '%" . strtoupper($string) ."%') ";
+			$sql = $sql . "ORDER BY pages.title";
 			
 		} else {
 			$sql = "SELECT pages.title FROM pages";
+			$sql = $sql . " ORDER BY pages.title";
 		}
 		
    		$result = $this->db->query($sql);
@@ -84,6 +86,42 @@ class Pages_model extends CI_Model {
    		{
    			return false;
    		}
+   }
+   
+   // gets all the pages in an array that have something to do with a specified string
+   function get_filtered_list($string)
+   {
+		if ($string != "") {
+			//build up SQL statement that finds any page title that has something to do with the filtered string, including links!
+			$sql = "SELECT DISTINCT pages.title ";
+			$sql = $sql . "FROM pages ";
+			$sql = $sql . "LEFT JOIN links ";
+			$sql = $sql . "ON pages.title=links.pageTitle ";
+			$sql = $sql . "LEFT JOIN elements ";
+			$sql = $sql . "ON pages.id=elements.pages_id ";
+			$sql = $sql . "WHERE (UPPER(elements.description) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(elements.contents) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(elements.keywords) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(links.linkTitle) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(pages.description) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(pages.keywords) LIKE '%" . strtoupper($string) ."%' ";
+			$sql = $sql . "OR UPPER(pages.title) LIKE '%" . strtoupper($string) ."%') ";
+			$sql = $sql . "ORDER BY pages.title";
+			
+		} else {
+			$sql = "SELECT pages.title FROM pages";
+			$sql = $sql . " ORDER BY pages.title";
+		}
+		
+   		$result = $this->db->query($sql);
+   		
+
+		$listview = '';
+		foreach ($result->result() as $row)
+		{
+    		$listview = $listview . '<a href="' . base_url("index.php/pages/view/" . $row->title ) . '">' . $row->title . '</a>&nbsp;|&nbsp;';
+		}
+		return $listview;
    }
    
    // returns a json array of all details to do with a specified page
