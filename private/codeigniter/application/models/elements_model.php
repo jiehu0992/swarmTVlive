@@ -406,29 +406,29 @@ class Elements_model extends CI_Model {
         //If anything is updated get the post data
 		$post_data = $this->input->post(NULL, TRUE); // return all post data filtered XSS - SCRIPT SAFE
 		//finds the id of the element
-   		$id = $this->input->post('id');
+   		$elementId = $this->input->post('id');
 
 		if ($this->input->post('contents'))
 		{
             //if it is a text element and therefore has contents ...
 			$this->load->model('Links_model');
 			$this->load->model('Pages_model');
-			
+            
             // gets the page title
-			$pages_title = $this->Pages_model->get_title($id);
+			$pages_title = $this->Pages_model->get_page_from_element($elementId);
 			
             // deletes all the links in the links database belonging to this element
-			$this->Links_model->delete_links_by_element_id($id);
+			$this->Links_model->delete_links_by_element_id($elementId);
 			
             // processes the text for any links again
-			$contents = $this->Links_model->process_codes($post_data['contents'], "forDb", $pages_title, $id);
+			$contents = $this->Links_model->process_codes($post_data['contents'], "forDb", $pages_title, $elementId);
             
             // posts the new data with the coded links
 			$post_data['contents'] = $contents;
 		
 		}
 		
-		$this->db->where('id', $id);
+		$this->db->where('id', $elementId);
 		$this->db->update('elements', $post_data);
         
         $affected_rows = $this->db->affected_rows();
@@ -436,7 +436,7 @@ class Elements_model extends CI_Model {
         if ($this->input->post('contents')){
             //create a new record in table 'updates'
             $this->load->model('Elements_model');
-            $update_elements_id = $id;
+            $update_elements_id = $elementId;
             $update_action = 'revised';
             $this->Elements_model->create_update($update_action, $update_elements_id);
         }
