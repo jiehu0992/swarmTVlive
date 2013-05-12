@@ -479,6 +479,12 @@ class Elements_model extends CI_Model {
 	{
 		$element = $this->get_element_by_id($id);
 		
+        echo "<---elements_model.php:delete--->";
+        
+		echo "\$element =\n";
+		var_dump($element);
+		echo "\n\n";
+        
 		// delete all links for this element
 		$this->load->model('Links_model');
         $this->Links_model->delete_links_by_element_id($id);
