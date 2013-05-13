@@ -96,6 +96,7 @@ class Links_model extends CI_Model {
 												}
 												
 												break;
+												
 								}
 								break;
 						case "forWeb":
@@ -119,6 +120,39 @@ class Links_model extends CI_Model {
 												//$linkTitle = $link->getValue();
 												// replaces the link id with replacement code
 												$this->shortcodes->replaceShortCode($i, '<a href="http://' . $linkTitle . '">' . $linkTitle . '</a>');
+												break;
+										case "bold":
+												$this->shortcodes->replaceShortCode($i, '<b><div>' . $link->getValue() . '</div></b>');
+												break;
+										case "italic":
+												$this->shortcodes->replaceShortCode($i, '<i><div>' . $link->getValue() . '</div></i>');
+												break;
+										case "bold italic":
+												$this->shortcodes->replaceShortCode($i, '<b><i><div>' . $link->getValue() . '</div></i></b>');
+												break;
+										case "left":
+												$this->shortcodes->replaceShortCode($i, '<div style="text-align:left">' . $link->getValue() . '</div>');
+												break;
+										case "right":
+												$this->shortcodes->replaceShortCode($i, '<div style="text-align:right">' . $link->getValue() . '</div>');
+												break;
+										case "highlight":
+												$this->shortcodes->replaceShortCode($i, '<span style="background-color:#ffff66; color:#000";>' . $link->getValue() . '</span>');
+												break;
+										case "email":
+												$this->shortcodes->replaceShortCode($i, '<a href='.chr(39).'mailto:' . $link->getValue() . chr(39).'>'.$link->getValue().'</a>');
+												break;
+										case "youtube":
+												$this->shortcodes->replaceShortCode($i, '<iframe width="320" height="300" src="http://www.youtube.com/embed/'.$link->getValue().'" frameborder="0" allowfullscreen></iframe>');
+												break;
+										case "vimeo":
+												$this->shortcodes->replaceShortCode($i, '<iframe src="http://player.vimeo.com/video/'.$link->getValue().'" width="320" height="320" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
+												break;
+										case "livestream":
+												$this->shortcodes->replaceShortCode($i, '<iframe width="320" height="320" src="http://cdn.livestream.com/embed/'.$link->getValue().'?layout=4&amp;height=300&amp;width=320&amp;autoplay=false" style="border:0;outline:0" frameborder="0" scrolling="no"></iframe>');
+												break;
+										case "stream":
+												$this->shortcodes->replaceShortCode($i, '<iframe src="http://www.ucfmediacentre.co.uk/wowzainterface/client/'.$link->getValue().'.html" width="320" height="300" frameborder="0" allowtransparency="true" noresize="noresize" scrolling="no"></iframe>');
 												break;
 								}
 								break;
