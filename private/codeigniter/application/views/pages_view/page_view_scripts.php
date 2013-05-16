@@ -65,7 +65,7 @@
 			'autoDimensions':true,
 			'showCloseButton':false,
 		});
-		
+	
 		// triggers the element fancy box on double click
 		$('#background').dblclick(function(e){
 			$("a#add_element_form_trigger").trigger('click');
@@ -278,6 +278,10 @@
 			{
 				case 'text':
 					initText(elm, i);
+                    // see if shortcodes has introduced an iframe or object, and if so chsange the width of the text div to accommodate
+                    if ($(elm).children().children().children().attr('width')){
+                        $(elm).width(parseInt($(elm).children().children().children().attr('width'))+20);
+                    };
 					break;
 				case 'image':
 					initImage(elm, i);
@@ -298,7 +302,7 @@
 			}).draggable({cancel : 'object'});
 			
 			// *** GLOBAL VARIABLES CAUSING HAVOC WITH THIS FUNCTION
-			// if the file type is not audio then add resize 
+			// if the file type is neither audio nor video then add resize 
 			if (page_elements_json[i].type !== 'audio' && page_elements_json[i].type !== 'video')
 			{
 				$(elm).resizable({
