@@ -295,7 +295,7 @@
 				stop: function(event, ui) {
 					updateElement(ui.helper[0].id , 'position');
 				}
-			});
+			}).draggable({cancel : 'object'});
 			
 			// *** GLOBAL VARIABLES CAUSING HAVOC WITH THIS FUNCTION
 			// if the file type is not audio then add resize 
