@@ -94,6 +94,3 @@ class Clip extends CI_Controller {
 }
 
 ?>
-
-/* End of file clip.php */
-/* Location: ./application/controllers/clip.php
