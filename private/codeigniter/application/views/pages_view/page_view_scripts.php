@@ -278,7 +278,7 @@
 			{
 				case 'text':
 					initText(elm, i);
-                    // see if shortcodes has introduced an iframe or object, and if so chsange the width of the text div to accommodate
+                    // see if shortcodes has introduced an iframe or object, and if so change the width of the text div to accommodate
                     if ($(elm).children().children().children().attr('width')){
                         $(elm).width(parseInt($(elm).children().children().children().attr('width'))+20);
                     };

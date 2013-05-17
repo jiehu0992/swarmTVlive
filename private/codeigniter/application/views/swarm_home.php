@@ -31,16 +31,33 @@
             min-height:100%;
             min-width:100%;
         }
+
+		A:link {
+		  color:#c90;
+		  font-weight:bold;
+		  text-decoration:none;
+		}
+		
+		A:visited {
+		  color:#960;
+		  font-weight:bold;
+		  text-decoration:none;
+		}
+		
+		A:hover {
+		  color:#fc3;
+		  font-weight:bold;text-decoration:none;
+		}
         </style>
     </head>
     
     <body>
         <div style="padding:20px;">
-            <form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
-                <input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
-                <input type="submit" value="Search Filter">
-            </form>	
-			<p id="search_results" > <?php echo $searchResults; ?> </p><br />
+            <a href="../Pages/View/Home">Home</a>&nbsp;|&nbsp;<a href="../Pages/View/RecentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../Pages/View/Help">Help</a>
+			<form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
+                <br /><input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
+                <input type="submit" value="Search Filter"><span id="search_results" > (<?php echo $searchResults; ?>) </span>
+            </form></div><br /><br />
 			<div id="oldBrowser" style="display:none" width="600px">This website is a project designed to work with <strong>HTML5</strong>, so please download a modern browser if you can (its worth the wait - honest!). If you haven't got IT permissions to do this, try Chrome portable (<a href="http://portableapps.com/apps/internet/google_chrome_portable">Chrome Portable</a>). You should be able to use that, OK. Otherwise, go straight to the home page here: <a href="http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/home">Home</a>, and have a play around there. Thanks very much!<br /><br /><?php echo $listview; ?></div>
         <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="350"></canvas>
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
