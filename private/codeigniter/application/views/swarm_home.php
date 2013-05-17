@@ -53,7 +53,7 @@
     
     <body>
         <div style="padding:20px;">
-            <a href="../Pages/View/Home">Home</a>&nbsp;|&nbsp;<a href="../Pages/View/RecentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../Pages/View/Help">Help</a>
+            <a href="../pages/view/Home">Home</a>&nbsp;|&nbsp;<a href="../pages/view/RecentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../pages/view/Help">Help</a>
 			<form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
                 <br /><input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
                 <input type="submit" value="Search Filter"><span id="search_results" > (<?php echo $searchResults; ?>) </span>
