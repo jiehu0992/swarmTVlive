@@ -40,7 +40,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="#">AIR:Pressure 2013</a>
+          <a class="brand" href="#">ISEA 2013</a>
 		  <a id="main_home_button" href="../index.php/swarmtv">&nbsp;</a>
           <div class="nav-collapse collapse">
             <p class="navbar-text pull-right">
@@ -76,7 +76,7 @@
             <h2>Live Video</h2>
             <iframe src="http://www.ucfmediacentre.co.uk/wowzainterface/client/live.html" width="700" height="500" frameborder="0" allowtransparency="true" noresize="noresize" scrolling="no"></iframe>
             
-		<p><b> Do not change the settings! </b>  Click <b>Play</b> to connect to the stream<br /> - The stream won't be active until - 9:00am 15th April 2013</p>            
+		<p><b> Do not change the settings! </b>  Click <b>Play</b> to connect to the stream<br /> - The stream won't be active until - 10:00am (UK time) 10th June 2013</p>            
           </div>
           </div>
           </div>
