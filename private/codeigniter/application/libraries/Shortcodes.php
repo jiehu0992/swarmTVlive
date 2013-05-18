@@ -225,19 +225,21 @@ class Shortcode
 	    if (sizeof($key_val_pair) > 1)
 	    {
 		    $this->key = $key_val_pair[0];
-		    $this->value = $key_val_pair[1];	
-	    }else{
-		    $http = strpos($this->raw, 'http://');
-		    
-		    if($http == 0){
-			    $this->key = 'internal';
-		    }else{
-			    $this->key = 'external';
-			    $this->value = substr($this->raw, strlen($this->raw)-7);
-				
-		    }
-		    $this->value = $this->raw;
-	    }
+		    $this->value = $key_val_pair[1];
+	    } else {
+		    if (strpos($this->raw, "www.")===0)
+			{
+				$this->key = 'external';
+				$this->value = $this->raw;
+			} else if (strpos($this->raw, "http://") === 0)
+			{
+				$this->key = 'external';
+				$this->value = substr($this->raw, 7);
+			} else {
+				$this->key = 'internal';
+				$this->value = $this->raw;
+			}
+		}
 	}
 	
 	// --------------------------------------------------------------------

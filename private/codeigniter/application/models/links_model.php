@@ -79,20 +79,18 @@ class Links_model extends CI_Model {
 												if($this->db->insert('links', $data))
 												{
 														// replaces the link title with the replacement code
-														$this->shortcodes->replaceShortCode($i, "[[".$this->db->insert_id()."]]");
+														$this->shortcodes->replaceShortCode($i, "[[internal::".$this->db->insert_id()."]]");
 												}
 												
 												break;
 										case "external":
 												
 												$data["linkTitle"] = $link->getValue();
-												
-												$data["linkTitle"] = $link->getValue();
 												// adds the link details to the database if the shortcode is a link
 												if($this->db->insert('links', $data))
 												{
 														// replaces the link title with the replacement code
-														$this->shortcodes->replaceShortCode($i, "[[".$this->db->insert_id()."]]");
+														$this->shortcodes->replaceShortCode($i, "[[external::".$this->db->insert_id()."]]");
 												}
 												
 												break;
@@ -115,7 +113,6 @@ class Links_model extends CI_Model {
 												
 												// gets the linkTitle from the stored link id
 												$linkDetails = $this->get_link_by_id($link->getValue());
-												
 												$linkTitle = $linkDetails->linkTitle;
 												//$linkTitle = $link->getValue();
 												// replaces the link id with replacement code
@@ -172,14 +169,14 @@ class Links_model extends CI_Model {
 												$linkDetails = $this->get_link_by_id($link->getValue());
 												$linkTitle = $linkDetails->linkTitle;
 												// replaces the link id with replacement code
-												$this->shortcodes->replaceShortCode($i, '[[' . $linkTitle . ']]');
+												$this->shortcodes->replaceShortCode($i, '[[internal::' . $linkTitle . ']]');
 												break;
 										case "external":
 												// gets the linkTitle from the stored link id
 												$linkDetails = $this->get_link_by_id($link->getValue());
 												$linkTitle = $linkDetails->linkTitle;
 												// replaces the link id with replacement code
-												$this->shortcodes->replaceShortCode($i, '[[http://' . $linkTitle . ']]');
+												$this->shortcodes->replaceShortCode($i, '[[external::' . $linkTitle . ']]');
 												break;
 								}
 								break;
@@ -188,6 +185,7 @@ class Links_model extends CI_Model {
         }
 		
 		return ($this->shortcodes->getAdaptedString());
+		
 	}
 	
 	// gets all the details from the `links` table with a specific id
