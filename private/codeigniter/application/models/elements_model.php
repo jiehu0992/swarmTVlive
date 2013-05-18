@@ -334,6 +334,9 @@ class Elements_model extends CI_Model {
 	{   
         //get element data from elements_id provided
 		$this->load->model('Elements_model');
+		$this->load->model('Updates_model');
+        $lastUpdate = $this->Updates_model->get_last_element_update($elements_id);
+        
 		$element = $this->get_element_by_id($elements_id);
         $justName = substr(($element->filename), 0,strrpos(($element->filename),'.'));
         switch ($element->type) {
@@ -363,23 +366,27 @@ class Elements_model extends CI_Model {
                         $jasonArray = json_encode($element);
                         break;
 		}
-		$this->load->model('Pages_model');
-		$pages_title = $this->Pages_model->get_title($element->pages_id);
-		
-		//create array to insert into updates table
-		$updates_data = array(
-            'page' => $pages_title,
-            'summary' =>  $element->type . " " . $action . " on page: " . $pages_title,
-            'elementInHtml' => $elementInHtml,
-            'jsonArray' => json_encode($element),
-            'elements_id' => $elements_id,
-            'pages_id' => $element->pages_id
-		);
         
-        // TO DO: do a search to see if the same entry has already been inserted into the updates table (why does it insert three entries, sometimes?)
-		
-		//insert new record into updates table
-        $this->db->insert('updates', $updates_data);
+        // checks to see if the same entry has already been inserted into the updates table
+        if($lastUpdate === $elementInHtml) {
+            // Its the same!
+        } else {
+            $this->load->model('Pages_model');
+            $pages_title = $this->Pages_model->get_title($element->pages_id);
+            
+            //create array to insert into updates table
+            $updates_data = array(
+                'page' => $pages_title,
+                'summary' =>  $element->type . " " . $action . " on page: " . $pages_title,
+                'elementInHtml' => $elementInHtml,
+                'jsonArray' => json_encode($element),
+                'elements_id' => $elements_id,
+                'pages_id' => $element->pages_id
+            );
+            
+            //insert new record into updates table
+            $this->db->insert('updates', $updates_data);
+        }
         
 	}
 	

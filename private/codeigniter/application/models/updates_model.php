@@ -31,5 +31,17 @@ class Updates_model extends CI_Model {
 		$result = $query->result_array();
 		return $result;
 	}
+	
+	//return last update from the current RSS feed
+	function get_last_element_update($element_id)
+	{
+		$this->db->order_by("pubDate", "desc");
+		$query = $this->db->get_where('updates', array('elements_id' => $element_id), 1);
+		foreach ($query->result() as $row)
+		{
+			$HTMLInfo = $row->elementInHtml;
+		}
+		return $HTMLInfo;
+	}
 
 }
