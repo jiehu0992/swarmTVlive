@@ -331,8 +331,8 @@ class Elements_model extends CI_Model {
 	
 	// constructs the data for the update
     function create_update($action, $elements_id)
-	{
-		//get element data from elements_id provided
+	{   
+        //get element data from elements_id provided
 		$this->load->model('Elements_model');
 		$element = $this->get_element_by_id($elements_id);
         $justName = substr(($element->filename), 0,strrpos(($element->filename),'.'));
@@ -369,7 +369,7 @@ class Elements_model extends CI_Model {
 		//create array to insert into updates table
 		$updates_data = array(
             'page' => $pages_title,
-            'summary' =>  $element->type . " " . $action,
+            'summary' =>  $element->type . " " . $action . " on page: " . $pages_title,
             'elementInHtml' => $elementInHtml,
             'jsonArray' => json_encode($element),
             'elements_id' => $elements_id,
@@ -379,7 +379,7 @@ class Elements_model extends CI_Model {
         // TO DO: do a search to see if the same entry has already been inserted into the updates table (why does it insert three entries, sometimes?)
 		
 		//insert new record into updates table
-		$this->db->insert('updates', $updates_data);
+        $this->db->insert('updates', $updates_data);
         
 	}
 	
@@ -486,12 +486,17 @@ class Elements_model extends CI_Model {
 		// create a new element in the deleted_elements **** make sure to add the old ID field
 		//unlink($element->id);?? What does this do ??
         unset($element->id);
-		$this->db->insert('deleted_elements', $element);
+        echo "elements_model.php:delete(\$id):\$this->db->insert('deleted_elements', \$element) =\n";
+		echo $this->db->insert('deleted_elements', $element);
+        echo "\n\n";
+		//$this->db->insert('deleted_elements', $element);
 		
 		//create new record for updates table before it is deleted
 		$update_elements_id = $id;
 		$update_action = 'deleted';
-		$this->create_update($update_action, $update_elements_id);
+        echo "elements_model.php:delete(\$id):\$this->create_update(\$update_action, \$update_elements_id) =\n";
+		echo $this->create_update($update_action, $update_elements_id);
+        echo "\n\n";
         
 		// delete element
 		$this->db->delete('elements', array('id' => $id));
