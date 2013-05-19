@@ -26,7 +26,6 @@ class Updates_model extends CI_Model {
 		$this->db->distinct();
 		$this->db->select('page AS pagesTitle');
 		$this->db->order_by("pubDate", "desc");
-		//$this->db->limit(500);
 		$query = $this->db->get('updates');
 		$result = $query->result_array();
 		return $result;
@@ -37,6 +36,7 @@ class Updates_model extends CI_Model {
 	{
 		$this->db->order_by("pubDate", "desc");
 		$query = $this->db->get_where('updates', array('elements_id' => $element_id), 1);
+		$HTMLInfo = "";
 		foreach ($query->result() as $row)
 		{
 			$HTMLInfo = $row->elementInHtml;
