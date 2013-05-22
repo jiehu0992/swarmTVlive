@@ -2,13 +2,13 @@
 
 class Swarmtv extends CI_Controller {
 
-	public function index()
+	public function index($group)
 	{
 		$this->load->helper('url');
-		redirect('/swarmtv/map', 'location');	
+		redirect('/swarmtv/map/'.$group, 'location');	
 	}
 
-	public function map()
+	public function map($group)
 	{
 		$this->load->model('Links_model');
 		$this->load->model('Pages_model');
@@ -16,9 +16,8 @@ class Swarmtv extends CI_Controller {
 		$filter = $this->input->get('filter');
 		
 		// get pages that have something to do with the filter specified
-		$pages = $this->Pages_model->get_filtered_pages($filter);
-		
-		$listview = $this->Pages_model->get_filtered_list($filter);
+		$pages = $this->Pages_model->get_filtered_pages($group, $filter);
+		$listview = $this->Pages_model->get_filtered_list($group, $filter);
 
 
 		if ($pages === false) {
@@ -29,7 +28,11 @@ class Swarmtv extends CI_Controller {
 		}
 		
 		$numberOfResults= count($pages);
-		$data['searchResults'] = $numberOfResults." pages found";
+		if ($numberOfResults===1){
+			$data['searchResults'] = $numberOfResults." page found";
+		} else {
+			$data['searchResults'] = $numberOfResults." pages found";
+		}		
 		
 		for ($i = 0; $i < sizeof($pages); $i++) {
 			//create a list of links that come from these pages
@@ -43,6 +46,7 @@ class Swarmtv extends CI_Controller {
 		$pages = json_encode($pages);
 		$data['links'] = $pages;
 		$data['filter'] = $filter;
+		$data['group'] = $group;
 		$data['listview'] = $listview;
 		
 		$this->load->view('swarm_home', $data);

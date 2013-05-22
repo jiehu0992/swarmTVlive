@@ -225,7 +225,11 @@ class Shortcode
 	    if (sizeof($key_val_pair) > 1)
 	    {
 		    $this->key = $key_val_pair[0];
-		    $this->value = $key_val_pair[1];
+			if(sizeof($key_val_pair) === 3){
+			  $this->value = $key_val_pair[1]."::".$key_val_pair[2];
+			} else {
+			  $this->value = $key_val_pair[1];
+			}
 	    } else {
 		    if (strpos($this->raw, "www.")===0)
 			{

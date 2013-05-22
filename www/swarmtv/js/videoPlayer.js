@@ -3,16 +3,16 @@ $(document).ready(function() {
 	// Set up link thumbnails
 	$('a.videoLink').each(function(){
 		
-		var thumbnailFilePath = '../../../assets/videoposters/' + $(this).attr('videofile') + '.jpg';
+		var thumbnailFilePath = '../../../../assets/videoposters/' + $(this).attr('videofile') + '.jpg';
 		var videoCaption = unescape($(this).attr('videocaption'));
 		$(this).css('background-image', 'url('+thumbnailFilePath+')');
 		$(this).css('background-repeat', 'no-repeat');
 		$(this).css('background-position', 'center');
-		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="../../../img/play_icon.png" />');
+		$(this).html('<div class="caption">'+videoCaption+'</div><img class="play" src="../../../../img/play_icon.png" />');
 		fancyWidth=eval($(this).attr('videowidth'))+26;
 		fancyHeight=eval($(this).attr('videoheight'))+82;
 		
-		var URLString = '../../../index.php/clip/play/';
+		var URLString = '../../../../index.php/clip/play/';
 		URLString = URLString+$(this).parent().attr('id')+'/';
 		URLString = URLString+fancyWidth+'/';
 		URLString = URLString+fancyHeight;

@@ -4,6 +4,7 @@
 	foreach($res_feed as $item):
 		//get page name
 		$url = $item->get_link();
+		
 		$directories = explode('/', $url);
 		$page = $directories[sizeof($directories)-1];
 		

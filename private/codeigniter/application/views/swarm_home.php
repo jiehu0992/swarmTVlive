@@ -53,12 +53,13 @@
     
     <body>
         <div style="padding:20px;">
-            <a href="../pages/view/Home">Home</a>&nbsp;|&nbsp;<a href="../pages/view/RecentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../pages/view/Help">Help</a>
+            <a href="../../pages/view/<?php echo $group; ?>/Home">Home</a>&nbsp;|&nbsp;<a href="../../RecentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../../pages/view/<?php echo $group; ?>/Shortcodes">Shortcodes</a>&nbsp;|&nbsp;<a href="../../pages/view/<?php echo $group; ?>/Help">Help</a>
 			<form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
                 <br /><input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
+				<input type="hidden" value="<?php echo $group; ?>" name="group" />
                 <input type="submit" value="Search Filter"><span id="search_results" > (<?php echo $searchResults; ?>) </span>
             </form></div><br /><br />
-			<div id="oldBrowser" style="display:none" width="600px">This website is a project designed to work with <strong>HTML5</strong>, so please download a modern browser if you can (its worth the wait - honest!). If you haven't got IT permissions to do this, try Chrome portable (<a href="http://portableapps.com/apps/internet/google_chrome_portable">Chrome Portable</a>). You should be able to use that, OK. Otherwise, go straight to the home page here: <a href="http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/home">Home</a>, and have a play around there. Thanks very much!<br /><br /><?php echo $listview; ?></div>
+			<div id="oldBrowser" style="display:none" width="600px">This website is a project designed to work with <strong>HTML5</strong>, so please download a modern browser if you can (its worth the wait - honest!). If you haven't got IT permissions to do this, try Chrome portable (<a href="http://portableapps.com/apps/internet/google_chrome_portable">Chrome Portable</a>). You should be able to use that, OK. Otherwise, go straight to the home page here: <a href="http://ucfmediacentre.co.uk/swarmtv/index.php/pages/view/<?php echo $group; ?>/home">Home</a>, and have a play around there. Thanks very much!<br /><br /><?php echo $listview; ?></div>
         <canvas class="" style="opacity: 1; display: inline;" id="the-swarm" width="1680" height="350"></canvas>
         <img id="bg" src="<?php echo base_url(); ?>img/default_background.jpg" style="display:none;" />
         <script src="<?php echo base_url(); ?>libraries/arbor/lib/arbor.js"></script>
@@ -276,7 +277,7 @@
 						}
 						//build up the node string with title & link
 						nodeString = nodeString + '"' + links[i].title;
-						nodeString = nodeString + '":{"link":"<?php echo base_url(); ?>index.php/pages/view/' + links[i].title + '", ';
+						nodeString = nodeString + '":{"link":"<?php echo base_url(); ?>index.php/pages/view/'+ '<?php echo $group; ?>/' + links[i].title + '", ';
 						//create a stroke colour but leave it blank for now
 						nodeString = nodeString + '"stroke":""},';
 						

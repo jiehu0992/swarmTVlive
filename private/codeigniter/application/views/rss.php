@@ -11,7 +11,7 @@
 	  <item>  
 	       <title><?php echo ucfirst($update->summary) ?></title>
 	       <guid><?php echo base_url() . 'index.php/update/view/' . $update->id ?></guid>
-	       <link><?php echo base_url() . 'index.php/pages/view/' . $update->page ?></link>   
+	       <link><?php echo base_url() . 'index.php/pages/view/' . $update->group . '/' . $update->page ?></link>   
 	       <pubDate><?php echo date('r', strtotime($update->pubDate)); ?></pubDate>
 	       <description><![CDATA[ <?php echo $update->jsonArray; ?> ]]></description> 
 	       <content:encoded><![CDATA[<?php echo $update->elementInHtml ?>]]></content:encoded>

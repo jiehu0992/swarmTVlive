@@ -15,18 +15,18 @@ class Pages extends CI_Controller {
 	
 	
 	// set up the page in HTML
-	public function view($page_title)
+	public function view($group, $page_title)
 	{
 		$this->load->helper('url');
 		
 		//test to see if page requested is recent changes, if so go there
 		if (strtoupper(urldecode($page_title)) === "RECENT CHANGES" | strtoupper ($page_title) === "RECENTCHANGES") {
-			redirect('/recentChanges', 'location');
+			redirect('/'.$group.'/recentChanges', 'location');
 		}
 		
 		// get the page information from the db.php
 		$this->load->model('Pages_model');
-		$page_details= $this->Pages_model->get_page(URLdecode($page_title));
+		$page_details= $this->Pages_model->get_page($group, URLdecode($page_title));
 		$data['page_info'] = $page_details;
 		
 		if($page_details) 
@@ -48,8 +48,8 @@ class Pages extends CI_Controller {
 		}else
 		{
 			//Page was not found, so create a new one
-			$page_id=$this->Pages_model->insert_page($page_title);
-			redirect('/pages/view/'.$page_title, 'location');
+			$page_id=$this->Pages_model->insert_page($group, $page_title);
+			redirect('/pages/view/'.$group.'/'.$page_title, 'location');
 			
 		}
 	}
@@ -59,6 +59,7 @@ class Pages extends CI_Controller {
 	{
 		$this->load->model('Pages_model');
 		return $this->Pages_model->update();
+		//redirect('/pages/view/'.$group.'/'.$page_title, 'location');
 	}
 	
 	// displays success on uploading an image and the image name

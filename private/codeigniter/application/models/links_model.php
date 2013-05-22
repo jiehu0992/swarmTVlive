@@ -105,7 +105,6 @@ class Links_model extends CI_Model {
 												$linkDetails = $this->get_link_by_id($link->getValue());
 												
 												$linkTitle = $linkDetails->linkTitle;
-												//$linkTitle = $link->getValue();
 												// replaces the link id with replacement code
 												$this->shortcodes->replaceShortCode($i, '<a href="' . $linkTitle . '">' . $linkTitle . '</a>');
 												break;
@@ -159,6 +158,12 @@ class Links_model extends CI_Model {
 												break;
 										case "veetle":
 												$this->shortcodes->replaceShortCode($i, '<iframe scrolling="no" frameborder="0" allowTransparency="true" style="border:none; overflow:hidden; width:320px; height:240px;" src="http://veetle.com/index.php/widget/index/CF05C791F0E4E3A659900B1D42B8C0ED/f6127861df5b559fbc917a700c9a9981/true/default/false"></iframe>');
+												break;
+										case "shortcode":
+												$this->shortcodes->replaceShortCode($i, '[['.$link->getValue().']]');
+												break;
+										case "swarm":
+												$this->shortcodes->replaceShortCode($i, '<a href="' . base_url() . 'index.php/pages/view/' . $link->getValue() . '/Home">' . $link->getValue() . '::Home</a>');
 												break;
 								}
 								break;

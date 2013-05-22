@@ -17,14 +17,13 @@
 		// sets dblclick to open page_info fancy box
 		$('#page_title_wrapper').dblclick(function(e){
             $("#page_info_form_trigger").trigger('click');
-			
 			$('textarea').focus();
 			clearSelection();
 		});
         
         
 		// sets dblclick to open element fancy box
-        $('#page_title_wrapper').dblclick(function(e){
+        $('#add_element_form_wrapper').dblclick(function(e){
 			$("a#add_element_form_trigger").trigger('click');
 			
 			$('input[name="x"]').val(e.pageX);
@@ -34,22 +33,25 @@
 		});
 		
 		// submits Ajax for updating page info 
-		$('#page_info_submit').click(function(e){
+		$('#submit_page_info').click(function(e){
 			// Stop the page from navigating away from this page
 			e.preventDefault();		
 			
-			// get the values from the form
+            // get the values from the form
 			var idVal = $('input[name="id"]').val();
-			var descriptionVal = $('textarea[name="description"]').val();
-			var keywordsVal = $('textarea[name="keywords"]').val();
-			var publicVal = $('select[name="public"]').val();
+			var titleVal = $('input[name="title"]').val();
+            var descriptionVal = $('textarea[name="description"]').val();
+			var groupVal = $('input[name="group"]').val();
+			var keywordsVal = $('input[name="keywords"]').val();
+			var publicVal = $('input[name="public"]').val();
 			
-			// Post the values to the pages controller  
-			$.post(base_url + "index.php/pages/update", { id: idVal , description: descriptionVal, keywords: keywordsVal, public: publicVal },
+			// Post the values to the pages controller
+            $.post(base_url + "index.php/pages/update", { id: idVal , group: groupVal , title: titleVal , description: descriptionVal, keywords: keywordsVal, public: publicVal },
 				function(data) {
-				// User feed back
-				alert("Data Loaded: " + data);
+				// Refresh page
+                window.location.href = base_url+"index.php/pages/view/"+groupVal+"/"+titleVal;
 			});
+            
 		});
 		
 		// inits element fancy box
@@ -389,7 +391,7 @@
         var video_html = '<a class="videoLink" videofile="' + filename_NoExt[0];
 		video_html = video_html + '" videowidth="640" videoheight="'+(Math.round((640/page_elements_json[index].width)*page_elements_json[index].height)+65)+'"';
 		video_html = video_html + ' videocaption="' + page_elements_json[index].description + '"></a>';
-        video_html = video_html + '<p><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';
+        video_html = video_html + '<p style="text-align:center;";><strong>Download Video: </strong><a href="' + base_url + 'assets/video/' + filename_NoExt[0] + '.mp4">MP4</a></p>';
         var video_element = $(video_html);
 		
 		$(elm).append(video_element);

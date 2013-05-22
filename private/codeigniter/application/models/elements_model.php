@@ -173,6 +173,7 @@ class Elements_model extends CI_Model {
                 //Public server URLs
                 $videoDirectory = "/var/www/swarmtv/assets/video/";
                 $videopostersDirectory = "/var/www/swarmtv/assets/videoposters/";
+                $sizeString = "";
                 
                 //get width & height from the file
                 $movieDetails = "/usr/local/bin/ffmpeg -i " . $videoDirectory . $filename . ".mp4 -vstats 2>&1";
@@ -347,6 +348,7 @@ class Elements_model extends CI_Model {
                         $this->load->model('Pages_model');
                         
                         $pages_title = $this->Pages_model->get_title($element->pages_id);
+                        $pages_group = $this->Pages_model->get_group($element->pages_id);
                         
                         $processed_contents = $this->Links_model->process_codes($element->contents, "forWeb", $pages_title, $elements_id);
                         
@@ -377,6 +379,7 @@ class Elements_model extends CI_Model {
             //create array to insert into updates table
             $updates_data = array(
                 'page' => $pages_title,
+                'group' => $pages_group,
                 'summary' =>  $element->type . " " . $action . " on page: " . $pages_title,
                 'elementInHtml' => $elementInHtml,
                 'jsonArray' => json_encode($element),
