@@ -129,6 +129,12 @@ class Links_model extends CI_Model {
 										case "left":
 												$this->shortcodes->replaceShortCode($i, '<div style="text-align:left">' . $link->getValue() . '</div>');
 												break;
+										case "centre":
+												$this->shortcodes->replaceShortCode($i, '<div style="text-align:center">' . $link->getValue() . '</div>');
+												break;
+										case "center":
+												$this->shortcodes->replaceShortCode($i, '<div style="text-align:center">' . $link->getValue() . '</div>');
+												break;
 										case "right":
 												$this->shortcodes->replaceShortCode($i, '<div style="text-align:right">' . $link->getValue() . '</div>');
 												break;
