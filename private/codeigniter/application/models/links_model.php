@@ -118,13 +118,13 @@ class Links_model extends CI_Model {
 												$this->shortcodes->replaceShortCode($i, '<a href="http://' . $linkTitle . '">' . $linkTitle . '</a>');
 												break;
 										case "bold":
-												$this->shortcodes->replaceShortCode($i, '<b><div>' . $link->getValue() . '</div></b>');
+												$this->shortcodes->replaceShortCode($i, '<b><span>' . $link->getValue() . '</span></b>');
 												break;
 										case "italic":
-												$this->shortcodes->replaceShortCode($i, '<i><div>' . $link->getValue() . '</div></i>');
+												$this->shortcodes->replaceShortCode($i, '<i><span>' . $link->getValue() . '</span></i>');
 												break;
 										case "bold italic":
-												$this->shortcodes->replaceShortCode($i, '<b><i><div>' . $link->getValue() . '</div></i></b>');
+												$this->shortcodes->replaceShortCode($i, '<b><i><span>' . $link->getValue() . '</span></i></b>');
 												break;
 										case "left":
 												$this->shortcodes->replaceShortCode($i, '<div style="text-align:left">' . $link->getValue() . '</div>');
