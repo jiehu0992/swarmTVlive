@@ -350,7 +350,7 @@ class Elements_model extends CI_Model {
                         $pages_title = $this->Pages_model->get_title($element->pages_id);
                         $pages_group = $this->Pages_model->get_group($element->pages_id);
                         
-                        $processed_contents = $this->Links_model->process_codes($element->contents, "forWeb", $pages_title, $elements_id);
+                        $processed_contents = $this->Links_model->process_codes($element->contents, "forEditing", $pages_title, $elements_id);
                         
                         $elementInHtml = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div>';
                         $jsonArray = json_encode($element);
