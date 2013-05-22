@@ -53,7 +53,7 @@
     
     <body>
         <div style="padding:20px;">
-            <a href="../../pages/view/<?php echo $group; ?>/Home">Home</a>&nbsp;|&nbsp;<a href="../../RecentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../../pages/view/<?php echo $group; ?>/Shortcodes">Shortcodes</a>&nbsp;|&nbsp;<a href="../../pages/view/<?php echo $group; ?>/Help">Help</a>
+            <a href="../../pages/view/<?php echo $group; ?>/Home">Home</a>&nbsp;|&nbsp;<a href="../../recentChanges">Recent Changes</a>&nbsp;|&nbsp;<a href="http://ucfmediacentre.co.uk/swarmtv/stream/">Live Stream</a>&nbsp;|&nbsp;<a href="../../pages/view/<?php echo $group; ?>/Shortcodes">Shortcodes</a>&nbsp;|&nbsp;<a href="../../pages/view/<?php echo $group; ?>/Help">Help</a>
 			<form action="" method="get" enctype="multipart/form-data" class="hidden" id="filter_form">
                 <br /><input name="filter" value="<?php echo $filter; ?>" onchange="submit();" />
 				<input type="hidden" value="<?php echo $group; ?>" name="group" />
