@@ -151,7 +151,7 @@ class Links_model extends CI_Model {
 												$this->shortcodes->replaceShortCode($i, '<iframe src="http://player.vimeo.com/video/'.$link->getValue().'" width="320" height="320" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
 												break;
 										case "livestream":
-												$this->shortcodes->replaceShortCode($i, '<iframe width="320" height="320" src="http://cdn.livestream.com/embed/'.$link->getValue().'?layout=4&amp;height=300&amp;width=320&amp;autoplay=false" style="border:0;outline:0" frameborder="0" scrolling="no"></iframe>');
+												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe width="320" height="320" src="http://cdn.livestream.com/embed/'.$link->getValue().'?layout=4&amp;height=300&amp;width=320&amp;autoplay=false" style="border:0;outline:0" frameborder="0" scrolling="no"></iframe></div>');
 												break;
 										case "stream43":
 												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="'.base_url().'stream/client/live43.html" width="670" height="534" frameborder="0" allowtransparency="true" noresize="noresize" scrolling="no"></iframe></div>');
@@ -170,6 +170,12 @@ class Links_model extends CI_Model {
 												break;
 										case "swarm":
 												$this->shortcodes->replaceShortCode($i, '<a href="' . base_url() . 'index.php/pages/view/' . $link->getValue() . '/Home">' . $link->getValue() . '::Home</a>');
+												break;
+										case "twitter":
+												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><a href="https://twitter.com/' . $link->getValue() . '" class="twitter-follow-button" data-show-count="false">Follow @' . $link->getValue() . '</a></div><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?"http":"https";if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document, "script", "twitter-wjs");</script>');
+												break;
+										case "tweetimage":
+												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><img width="437" height="328" title="View image on Twitter" alt="View image on Twitter" data-src-2x="https://pbs.twimg.com/media/' . $link->getValue() . ':large" src="https://pbs.twimg.com/media/' . $link->getValue() . ':large"></div>');
 												break;
 								}
 								break;
