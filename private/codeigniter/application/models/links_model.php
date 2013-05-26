@@ -145,7 +145,7 @@ class Links_model extends CI_Model {
 												$this->shortcodes->replaceShortCode($i, '<a href='.chr(39).'mailto:' . $link->getValue() . chr(39).'>'.$link->getValue().'</a>');
 												break;
 										case "youtube":
-												$this->shortcodes->replaceShortCode($i, '<iframe width="320" height="300" src="http://www.youtube.com/embed/'.$link->getValue().'" frameborder="0" allowfullscreen></iframe>');
+												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe width="320" height="300" src="http://www.youtube.com/embed/'.$link->getValue().'" frameborder="0" allowfullscreen></iframe></div>');
 												break;
 										case "vimeo":
 												$this->shortcodes->replaceShortCode($i, '<iframe src="http://player.vimeo.com/video/'.$link->getValue().'" width="320" height="320" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>');
@@ -177,6 +177,12 @@ class Links_model extends CI_Model {
 										case "tweetimage":
 												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><img width="437" height="328" title="View image on Twitter" alt="View image on Twitter" data-src-2x="https://pbs.twimg.com/media/' . $link->getValue() . ':large" src="https://pbs.twimg.com/media/' . $link->getValue() . ':large"></div>');
 												break;
+										case "facebookvideo":
+												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="https://www.facebook.com/video/embed?video_id=' . $link->getValue() . '" width="568" height="320" frameborder="0"></iframe></div>');
+												break;
+										
+										
+										
 								}
 								break;
 						case "forEditing":
