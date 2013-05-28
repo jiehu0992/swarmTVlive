@@ -180,9 +180,6 @@ class Links_model extends CI_Model {
 										case "facebookvideo":
 												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="https://www.facebook.com/video/embed?video_id=' . $link->getValue() . '" width="568" height="320" frameborder="0"></iframe></div>');
 												break;
-										
-										
-										
 								}
 								break;
 						case "forEditing":
