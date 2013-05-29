@@ -40,7 +40,7 @@
 		<div>
 			<div id="recentChanges"><strong>RSS feed: http://ucfmediacentre.co.uk/swarmtv/index.php/feed</strong><br /><br /><?php echo $changesList; ?></div>
 		</div>
-		<a id="main_home_button" href="<?php echo base_url(); ?>index.php/swarmtv">&nbsp;</a>
+		<a id="main_home_button" href="<?php echo base_url(); ?>index.php/swarmtv/map/isea">&nbsp;</a>
 
         <script src="<?php echo base_url(); ?>js/plugins.js"></script>
         <script src="<?php echo base_url(); ?>js/main.js"></script>
