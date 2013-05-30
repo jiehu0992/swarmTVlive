@@ -15,13 +15,18 @@ class Pages extends CI_Controller {
 	
 	
 	// set up the page in HTML
-	public function view($group, $page_title)
+	public function view($group, $page_title = NULL)
 	{
 		$this->load->helper('url');
 		
 		//test to see if page requested is recent changes, if so go there
 		if (strtoupper(urldecode($page_title)) === "RECENT CHANGES" | strtoupper ($page_title) === "RECENTCHANGES") {
 			redirect('/'.$group.'/recentChanges', 'location');
+		}
+		
+		if ($page_title === NULL){
+				$page_title = $group;
+				$group = "1";
 		}
 		
 		// get the page information from the db.php
