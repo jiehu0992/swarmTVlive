@@ -26,7 +26,7 @@ class Pages extends CI_Controller {
 		
 		if ($page_title === NULL){
 				$page_title = $group;
-				$group = "1";
+				$group = "main";
 		}
 		
 		// get the page information from the db.php
