@@ -27,6 +27,7 @@ class Pages extends CI_Controller {
 		if ($page_title === NULL){
 				$page_title = $group;
 				$group = "main";
+				redirect('/pages/view/'.$group.'/'.$page_title, 'location');
 		}
 		
 		// get the page information from the db.php
