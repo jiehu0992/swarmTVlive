@@ -336,20 +336,20 @@ class Elements_model extends CI_Model {
         //get element data from elements_id provided
 		$this->load->model('Elements_model');
 		$this->load->model('Updates_model');
+        $this->load->model('Links_model');
+        $this->load->model('Pages_model');
         $lastUpdate = $this->Updates_model->get_last_element_update($elements_id);
         
 		$element = $this->get_element_by_id($elements_id);
+        
         $justName = substr(($element->filename), 0,strrpos(($element->filename),'.'));
+        
+        $pages_title = $this->Pages_model->get_title($element->pages_id);
+        $pages_group = $this->Pages_model->get_group($element->pages_id);
         switch ($element->type) {
                     case 'text':
                         //sets description as the element displayed and then json array
                         //restores links in content
-                        $this->load->model('Links_model');
-                        $this->load->model('Pages_model');
-                        
-                        $pages_title = $this->Pages_model->get_title($element->pages_id);
-                        $pages_group = $this->Pages_model->get_group($element->pages_id);
-                        
                         $processed_contents = $this->Links_model->process_codes($element->contents, "forEditing", $pages_title, $elements_id);
                         
                         $elementInHtml = '<div style="color: rgb(204, 204, 204); font-size: '.$element->fontSize.'px; font-family: Arial; height: auto; opacity: 1; text-align: center; width: '.$element->width.'px; ">'.$processed_contents.'</div>';
@@ -488,6 +488,7 @@ class Elements_model extends CI_Model {
     public function delete($id)
 	{
 		$element = $this->get_element_by_id($id);
+    
         
 		// delete all links for this element
 		$this->load->model('Links_model');
@@ -496,17 +497,13 @@ class Elements_model extends CI_Model {
 		// create a new element in the deleted_elements **** make sure to add the old ID field
 		//unlink($element->id);?? What does this do ??
         unset($element->id);
-        echo "elements_model.php:delete(\$id):\$this->db->insert('deleted_elements', \$element) =\n";
-		echo $this->db->insert('deleted_elements', $element);
-        echo "\n\n";
+        $this->db->insert('deleted_elements', $element);
 		//$this->db->insert('deleted_elements', $element);
 		
 		//create new record for updates table before it is deleted
 		$update_elements_id = $id;
 		$update_action = 'deleted';
-        echo "elements_model.php:delete(\$id):\$this->create_update(\$update_action, \$update_elements_id) =\n";
-		echo $this->create_update($update_action, $update_elements_id);
-        echo "\n\n";
+		$this->create_update($update_action, $update_elements_id);
         
 		// delete element
 		$this->db->delete('elements', array('id' => $id));

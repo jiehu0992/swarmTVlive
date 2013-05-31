@@ -117,7 +117,7 @@
                         $(this).find('.delete_button').fadeOut();
                         // removes the event
                         $(this).unbind('focusout', updateTextElementContent);
-                    },500);
+                    },250);
 				});
 			}
 		});
