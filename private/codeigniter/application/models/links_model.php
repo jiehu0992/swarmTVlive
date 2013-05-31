@@ -180,9 +180,17 @@ class Links_model extends CI_Model {
 										case "facebookvideo":
 												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="https://www.facebook.com/video/embed?video_id=' . $link->getValue() . '" width="568" height="320" frameborder="0"></iframe></div>');
 												break;
+										//case "facebooklike":
+												//$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $link->getValue() . '&amp;width=292&amp;height=590&amp;show_faces=true&amp;colorscheme=dark&amp;stream=true&amp;show_border=true&amp;header=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:590px;" allowTransparency="true"></iframe></div>');
+												//break;
+										
 										case "facebooklike":
-												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2F' . $link->getValue() . '&amp;width=292&amp;height=590&amp;show_faces=true&amp;colorscheme=dark&amp;stream=true&amp;show_border=true&amp;header=true" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:292px; height:590px;" allowTransparency="true"></iframe></div>');
+												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2F' . $link->getValue() . '&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=true&amp;font&amp;colorscheme=dark&amp;action=like&amp;height=80" scrolling="no" width="450" height="80" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe></div>');
 												break;
+										
+
+
+										
 								}
 								break;
 						case "forEditing":

@@ -15,7 +15,8 @@
 		initElements();
         
 		// sets dblclick to open page_info fancy box
-		$('#page_title_wrapper').dblclick(function(e){
+        //disabled dblclick so that website is newbie friendly!!
+		$('#page_title_wrapper0').dblclick(function(e){
             $("#page_info_form_trigger").trigger('click');
 			$('textarea').focus();
 			clearSelection();
