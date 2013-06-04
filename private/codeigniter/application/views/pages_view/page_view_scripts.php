@@ -433,7 +433,9 @@
 			type	: 'POST',
 			success	: function(data, status)
 			{
-				window.location.href = window.location.href;
+				if (change=="text-content"){
+                    window.location.href = window.location.href;
+                }
 			}
 		});
 	}
