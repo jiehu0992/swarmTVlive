@@ -184,8 +184,8 @@ class Links_model extends CI_Model {
 												$this->shortcodes->replaceShortCode($i, '<div style="padding:10px;"><iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2F' . $link->getValue() . '&amp;send=false&amp;layout=standard&amp;width=450&amp;show_faces=true&amp;font&amp;colorscheme=dark&amp;action=like&amp;height=80" scrolling="no" width="450" height="80" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe></div>');
 												break;
 										
-
-
+										
+										
 										
 								}
 								break;
